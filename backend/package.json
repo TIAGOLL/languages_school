@@ -1,0 +1,23 @@
+{
+  "name": "tinnyimportssystem_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "build": "nodemon src/server.js --exec babel-node",
+    "start": "nodemon dist/server.js"
+  },
+  "author": "Tiago Emanuel de Lima",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.4.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.2",
+    "sucrase": "^3.34.0"
+  }
+}
