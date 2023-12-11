@@ -47,9 +47,6 @@ dependencies:
   tailwindcss:
     specifier: ^3.3.6
     version: 3.3.6
-  validation-br:
-    specifier: ^1.4.4
-    version: 1.4.4
 
 devDependencies:
   '@types/react':
@@ -3251,10 +3248,6 @@ packages:
 
   /util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
-    dev: false
-
-  /validation-br@1.4.4:
-    resolution: {integrity: sha512-7CPzlwWQO3coCMciH4GbyMBK3h1tNG+ZrY6R97IyUZC1WS0GCYlH2j6pQCIdhZdZOpe/nwv7px1+F2k0RWvaWQ==}
     dev: false
 
   /vite@5.0.4:

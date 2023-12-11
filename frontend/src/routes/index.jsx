@@ -31,6 +31,7 @@ function RoutesApp() {
 
       <Route path="/admin/dashboard" element={<AdmRoutes><Dashboard /></AdmRoutes>} />
 
+      <Route path="/admin/profile" element={<AdmRoutes>< /></AdmRoutes>} />
     </Routes>
   );
 }
