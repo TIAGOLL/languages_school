@@ -1,9 +1,12 @@
-import express from "express";
+var express = require("express");
+var cors = require('cors')
 
-import { router } from "./routes";
+var { router } = require("./routes");
 
 const app = express();
 
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(router);

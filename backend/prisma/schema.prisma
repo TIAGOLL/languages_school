@@ -5,30 +5,123 @@ generator client {
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  relationMode = "foreignKeys"
 }
 
 model books {
-  id Int @id
+  id       Int        @id @default(autoincrement())
+  name     String     @db.VarChar(45)
+  lessons  lessons[]
+  students students[]
+}
+
+model cities {
+  id            Int             @id
+  name          String?         @db.VarChar(95)
+  states_id     Int
+  states        states          @relation(fields: [states_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_cities_states1")
+  professionals professionals[]
+  students      students[]
+
+  @@index([states_id], map: "fk_cities_states1_idx")
 }
 
 model classes {
   id Int @id
 }
 
-model lessons {
-  id Int @id
+model countries {
+  id     Int      @id
+  name   String?  @db.VarChar(95)
+  states states[]
 }
 
-model occupation {
-  id Int @id
+model lessons {
+  id       Int     @id @default(autoincrement())
+  number   String  @db.VarChar(45)
+  title    String  @db.VarChar(45)
+  books_id Int
+  books    books   @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_lessons_books1")
+  tasks    tasks[]
+
+  @@index([books_id], map: "fk_lessons_books1_idx")
+}
+
+model occupations {
+  id            Int             @id
+  name          String          @db.VarChar(45)
+  professionals professionals[]
 }
 
 model professionals {
-  cpf  BigInt  @id
-  name String? @db.VarChar(45)
+  cpf            String      @db.VarChar(11)
+  name           String?     @db.VarChar(90)
+  firstName      String      @db.VarChar(45)
+  lastName       String      @db.VarChar(45)
+  phone          String      @db.VarChar(11)
+  email          String      @db.VarChar(100)
+  gender         String      @db.VarChar(1)
+  dateOfBirth    DateTime    @db.Date
+  createdAt      DateTime    @default(now()) @db.DateTime(0)
+  updatedAt      DateTime?   @default(now()) @db.DateTime(0)
+  active         Boolean     @default(dbgenerated("b'1'")) @db.Bit(1)
+  admin          Boolean     @default(dbgenerated("b'0'")) @db.Bit(1)
+  occupations_id Int
+  cities_id      Int
+  cities         cities      @relation(fields: [cities_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_professionals_cities1")
+  occupations    occupations @relation(fields: [occupations_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_professionals_occupations1")
+
+  @@id([cpf, occupations_id, cities_id])
+  @@index([cities_id], map: "fk_professionals_cities1_idx")
+  @@index([occupations_id], map: "fk_professionals_occupations1_idx")
+}
+
+model states {
+  id           Int       @id
+  abbr         String?   @db.VarChar(2)
+  name         String?   @db.VarChar(45)
+  countries_id Int
+  cities       cities[]
+  countries    countries @relation(fields: [countries_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_states_countries1")
+
+  @@index([countries_id], map: "fk_states_countries1_idx")
 }
 
 model students {
-  cpf String @id @db.VarChar(45)
+  id          Int       @default(autoincrement()) @unique
+  email       String    @db.VarChar(45)
+  name        String?   @db.VarChar(45)
+  firstName   String    @db.VarChar(45)
+  lastName    String    @db.VarChar(45)
+  cpf         String    @db.VarChar(11)
+  phone       String    @db.VarChar(11)
+  gender      String    @db.VarChar(1)
+  dateOfBirth DateTime  @db.Date
+  createdAt   DateTime  @default(now()) @db.DateTime(0)
+  createdBy   String?   @db.VarChar(45)
+  updatedAt   DateTime? @default(now()) @db.DateTime(0)
+  updatedBy   String?   @db.VarChar(45)
+  active      Boolean   @default(dbgenerated("b'1'")) @db.Bit(1)
+  books_id    Int
+  cities_id   Int
+  books       books     @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_books")
+  cities      cities    @relation(fields: [cities_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_cities1")
+  tasks       tasks[]
+
+  @@id([id, books_id, cities_id])
+  @@index([books_id], map: "fk_students_books_idx")
+  @@index([cities_id], map: "fk_students_cities1_idx")
+}
+
+model tasks {
+  id          Int
+  students_id Int
+  lessons_id  Int
+  taskscol    String?  @db.VarChar(45)
+  lessons     lessons  @relation(fields: [lessons_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tasks_lessons1")
+  students    students @relation(fields: [students_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tasks_students1")
+
+  @@id([id, students_id, lessons_id])
+  @@index([lessons_id], map: "fk_tasks_lessons1_idx")
+  @@index([students_id], map: "fk_tasks_students1_idx")
 }

@@ -12,9 +12,8 @@ export const activePage = createSlice({
   },
 });
 
-
 export const { ChangePage } = activePage.actions;
 
-export const selectPage = state => state.page;
+export const selectPage = (state) => state.page;
 
 export default activePage.reducer;

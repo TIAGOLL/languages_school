@@ -1,63 +1,86 @@
-import { useState, createContext, useEffect } from 'react';
-import { auth, db } from '../services/auth';
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-
-import { useNavigate } from 'react-router-dom'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { createContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { auth, db } from '../services/BDConnection';
 
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-
   useEffect(() => {
     async function loadUser() {
-      const storageUser = localStorage.getItem('@ticketsPRO')
+      const storageUser = localStorage.getItem('@ticketsPRO');
 
       if (storageUser) {
-        setUser(JSON.parse(storageUser))
+        setUser(JSON.parse(storageUser));
         setLoading(false);
       }
 
-
       setLoading(false);
-
     }
 
     loadUser();
-  }, [])
+  }, []);
 
+  async function signInWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider)
+      .then(async (value) => {
+        const data = {
+          uid: value.user.uid,
+          name: value.user.displayName.split(' ')[0],
+          avatarUrl: value.user.photoURL,
+          email: value.user.email,
+          admin: false,
+        };
+        setUser(data);
+        storageUser(data);
+        setLoadingAuth(false);
+        navigate('/book');
+        toast.success('Bem vindo de volta!');
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.code === 'auth/too-many-requests') {
+          toast.error('Muitas tentativas, tente novamente mais tarde!');
+          return;
+        }
+        if (error.code === 'auth/popup-closed-by-user') {
+          toast.error('Operação cancelada pelo usuário!');
+        }
+      })
+  }
 
-
-
-  async function signInWithEmail(email, password) {
-    setLoadingAuth(true);
-
+  async function loginWithAdmin(email, password) {
+    setLoading(true);
     await signInWithEmailAndPassword(auth, email, password)
       .then(async (value) => {
         console.log(value)
         let uid = value.user.uid;
 
-        const docRef = doc(db, "users", uid);
+        const docRef = doc(db, "admins", uid);
         const docSnap = await getDoc(docRef)
 
         let data = {
           uid: uid,
           name: docSnap.data().nome.split(' ')[0],
           email: value.user.email,
-          avatarUrl: docSnap.data().avatarUrl
+          avatarUrl: docSnap.data().avatarUrl,
+          admin: true,
         }
 
         setUser(data);
         storageUser(data);
-        setLoadingAuth(false);
-        navigate("/dashboard")
+        setLoading(false);
+        navigate('/admin/professionals');
         toast.success('Bem vindo de volta!')
       })
       .catch((error) => {
@@ -78,44 +101,18 @@ function AuthProvider({ children }) {
       })
   }
 
-
-  async function signInWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    let result = await signInWithPopup(auth, provider)
-      .then(async (value) => {
-        let data = {
-          uid: value.user.uid,
-          name: value.user.displayName.split(' ')[0],
-          avatarUrl: value.user.photoURL,
-        }
-
-        setUser(data);
-        storageUser(data);
-        setLoadingAuth(false);
-        navigate("/dashboard")
-        toast.success('Bem vindo de volta!')
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoadingAuth(false);
-        if (error.code === 'auth/too-many-requests') {
-          toast.error('Muitas tentativas, tente novamente mais tarde!')
-          return
-        }
-      })
-  }
-
-  // Cadastrar um novo user
   async function signUp(email, password, name) {
     setLoadingAuth(true);
 
     await createUserWithEmailAndPassword(auth, email, password)
       .then(async (value) => {
-        let uid = value.user.uid
-
-        await setDoc(doc(db, "users", uid), {
+        let uid = value.user.uid;
+        console.log(value)
+        await setDoc(doc(db, "admins", uid), {
+          uid: uid,
           nome: name,
-          avatarUrl: null
+          avatarUrl: value.user.photoURL,
+          email: value.user.email,
         })
           .then(() => {
 
@@ -123,20 +120,47 @@ function AuthProvider({ children }) {
               uid: uid,
               nome: name,
               email: value.user.email,
-              avatarUrl: null
+              avatarUrl: value.user.photoURL,
             };
 
             setUser(data);
             storageUser(data);
             setLoadingAuth(false);
-            navigate("/dashboard")
-
+            navigate("/admin")
+          })
+          .catch((error) => {
+            console.log(error);
+            setLoadingAuth(false);
           })
 
 
       })
       .catch((error) => {
         console.log(error);
+        if (error.code === 'auth/email-already-in-use') {
+          toast.error('Email já cadastrado!')
+          return
+        }
+        if (error.code === 'auth/invalid-email') {
+          toast.error('Email inválido!')
+          return
+        }
+        if (error.code === 'auth/invalid-password') {
+          toast.error('Senha inválida!')
+          return
+        }
+        if (error.code === 'auth/weak-password') {
+          toast.error('Sua senha deve possuir no mínimo 6 caracteres!')
+          return
+        }
+        if (error.code === 'auth/too-many-requests') {
+          toast.error('Muitas tentativas, tente novamente mais tarde!')
+          return
+        }
+        if (error.code === 'permission-denied') {
+          toast.error('Você não tem permissão para realizar esta operação!')
+          return
+        }
         setLoadingAuth(false);
       })
 
@@ -144,33 +168,27 @@ function AuthProvider({ children }) {
 
 
   function storageUser(data) {
-    localStorage.setItem('@ticketsPRO', JSON.stringify(data))
-  }
-
-  async function logout() {
-    await signOut(auth);
-    localStorage.removeItem('@ticketsPRO');
-    setUser(null);
+    localStorage.setItem('@ticketsPRO', JSON.stringify(data));
   }
 
   return (
     <AuthContext.Provider
       value={{
         signed: !!user,
+        signedAdmin: user?.admin,
         user,
-        signInWithGoogle,
-        signInWithEmail,
         signUp,
-        logout,
+        signInWithGoogle,
         loadingAuth,
         loading,
         storageUser,
-        setUser
+        setUser,
+        loginWithAdmin,
       }}
     >
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export default AuthProvider;
