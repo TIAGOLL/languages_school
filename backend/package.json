@@ -1,0 +1,26 @@
+{
+  "name": "tinnyimportssystem_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "dev": "tsx src/server.js",
+    "build": "tsup src",
+    "start": "node dist/server.js"
+  },
+  "author": "Tiago Emanuel de Lima",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^5.4.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "prisma": "^5.7.0"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "tsx": "^3.13.0"
+  }
+}
