@@ -102,7 +102,7 @@ function AdmStudents() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="w-full mt-10">
-              <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-6/12 mb-10'>
+              <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-8/12 mb-10'>
                 <Input placeholder="Nome" {...register('name')} />
                 <Input placeholder="email" {...register('email')} />
                 <Input placeholder="book" {...register('book')} />

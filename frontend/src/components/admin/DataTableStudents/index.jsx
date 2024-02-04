@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
+import { TabsTrigger } from '@/components/ui/tabs';
 
 function DataTableStudents() {
 
@@ -47,8 +48,10 @@ function DataTableStudents() {
                 <TableCell>{student.books.name}</TableCell>
                 <TableCell>
                   <Button variant="link">
-                    <Pencil className='w-4 h-4 mr-2' />
-                    Editar
+                    <a href={`/admin/students?tab=update&email=${student.email}`}>
+                      <Pencil className='w-4 h-4 mr-2' />
+                      Editar
+                    </a>
                   </Button>
                 </TableCell>
               </TableRow>

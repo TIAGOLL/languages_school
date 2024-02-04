@@ -41,10 +41,32 @@ model classes {
   @@index([students_id], map: "fk_classes_students1_idx")
 }
 
+model classrooms {
+  id                      Int                       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  books_id                Int
+  courses_id              Int
+  professionals_id        String                    @db.VarChar(200)
+  classes                 classes[]
+  books                   books                     @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classes_books1")
+  courses                 courses                   @relation(fields: [courses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classes_courses1")
+  professionals           professionals             @relation(fields: [professionals_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classrooms_professionals1")
+  students_has_classrooms students_has_classrooms[]
+
+  @@index([books_id], map: "fk_classes_books1_idx")
+  @@index([courses_id], map: "fk_classes_courses1_idx")
+  @@index([professionals_id], map: "fk_classrooms_professionals1_idx")
+}
+
 model countries {
   id     Int      @id
   name   String?  @db.VarChar(95)
   states states[]
+}
+
+model courses {
+  id         Int          @id
+  name       String       @db.VarChar(45)
+  classrooms classrooms[]
 }
 
 model professionals {
@@ -59,8 +81,8 @@ model professionals {
   date_of_birth DateTime     @db.Date
   created_at    DateTime     @default(now()) @db.DateTime(0)
   updated_at    DateTime?    @default(now()) @db.DateTime(0)
-  active        Boolean      @default(dbgenerated("b'1'")) @db.Bit(1)
-  admin         Boolean      @default(dbgenerated("b'0'")) @db.Bit(1)
+  active        Boolean      @default(dbgenerated("(b'1')")) @db.Bit(1)
+  admin         Boolean      @default(dbgenerated("(b'0')")) @db.Bit(1)
   cities_id     Int
   role_id       Int
   avatar_url    String?      @db.VarChar(200)
@@ -70,6 +92,12 @@ model professionals {
 
   @@index([cities_id], map: "fk_professionals_cities1_idx")
   @@index([role_id], map: "fk_professionals_role1_idx")
+}
+
+model role {
+  id            Int             @id
+  name          String          @db.VarChar(45)
+  professionals professionals[]
 }
 
 model states {
@@ -98,8 +126,8 @@ model students {
   avatar_url              String?                   @db.VarChar(500)
   updated_at              DateTime?                 @default(now()) @db.DateTime(0)
   updated_by              String?                   @db.VarChar(45)
-  admin                   Boolean?                  @default(dbgenerated("b'0'")) @db.Bit(1)
-  active                  Boolean                   @default(dbgenerated("b'1'")) @db.Bit(1)
+  admin                   Boolean?                  @default(dbgenerated("(b'0')")) @db.Bit(1)
+  active                  Boolean                   @default(dbgenerated("(b'1')")) @db.Bit(1)
   cities_id               Int
   books_id                Int
   classes                 classes[]
@@ -107,36 +135,8 @@ model students {
   cities                  cities                    @relation(fields: [cities_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_cities1")
   students_has_classrooms students_has_classrooms[]
 
-  @@index([cities_id], map: "fk_students_cities1_idx")
   @@index([books_id], map: "fk_students_books1_idx")
-}
-
-model classrooms {
-  id                      Int                       @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  books_id                Int
-  courses_id              Int
-  professionals_id        String                    @db.VarChar(200)
-  classes                 classes[]
-  books                   books                     @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classes_books1")
-  courses                 courses                   @relation(fields: [courses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classes_courses1")
-  professionals           professionals             @relation(fields: [professionals_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classrooms_professionals1")
-  students_has_classrooms students_has_classrooms[]
-
-  @@index([books_id], map: "fk_classes_books1_idx")
-  @@index([courses_id], map: "fk_classes_courses1_idx")
-  @@index([professionals_id], map: "fk_classrooms_professionals1_idx")
-}
-
-model courses {
-  id         Int          @id
-  name       String       @db.VarChar(45)
-  classrooms classrooms[]
-}
-
-model role {
-  id            Int             @id
-  name          String          @db.VarChar(45)
-  professionals professionals[]
+  @@index([cities_id], map: "fk_students_cities1_idx")
 }
 
 model students_has_classrooms {
