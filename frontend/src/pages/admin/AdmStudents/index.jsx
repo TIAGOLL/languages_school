@@ -1,4 +1,4 @@
-import { Eye, PlusCircle, Replace, Search, X } from 'lucide-react';
+import { Eye, PlusCircle, Replace, Search, X, Check } from 'lucide-react';
 import AdmSideBar from '../../../components/admin/AdmSideBar/index';
 import { Button } from '@/components/ui/button';
 import DataTableStudents from '../../../components/admin/DataTableStudents';
@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import FormCreateStudents from '../../../components/admin/FormCreateStudents';
+import { useEffect, useState } from 'react';
 
 const StudentsFilterSchema = z.object({
   name: z.string().optional(),
@@ -27,6 +28,7 @@ function AdmStudents() {
   const name = searchParams.get('name')
   const email = searchParams.get('email')
   const book = searchParams.get('book')
+  const activeTab = searchParams.get('tab')
 
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(StudentsFilterSchema),
@@ -75,30 +77,41 @@ function AdmStudents() {
     })
   }
 
+  function handleTab(e) {
+    cleanParams()
+    setSearchParams(state => {
+      state.set('tab', e)
+      return state
+    })
+  }
+
+  useEffect(() => {
+    if (!activeTab) {
+      setSearchParams(state => {
+        state.set('tab', 'all')
+        return state
+      })
+    }
+  }, [activeTab, setSearchParams])
+
   return (
     <div className="h-full w-full">
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs defaultValue="all" className="w-[80%] mt-5 justify-center items-center flex flex-col">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[80%] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
-              <TabsTrigger value="all">
-                <Button variant="link">
-                  <Eye className='w-4 h-4 mr-2' />
-                  Ver todos
-                </Button>
+              <TabsTrigger value="all" className="h-12">
+                <Eye className='w-4 h-4 mr-2' />
+                Ver todos
               </TabsTrigger>
-              <TabsTrigger value="create">
-                <Button variant="link">
-                  <PlusCircle className='w-4 h-4 mr-2' />
-                  Cadastrar
-                </Button>
+              <TabsTrigger value="create" className="h-12">
+                <PlusCircle className='w-4 h-4 mr-2' />
+                Cadastrar
               </TabsTrigger>
-              <TabsTrigger value="update" disabled>
-                <Button variant="link">
-                  <Replace className='w-4 h-4 mr-2' />
-                  Atualizar
-                </Button>
+              <TabsTrigger value="update" disabled={activeTab != 'update'} className="h-12">
+                <Replace className='w-4 h-4 mr-2' />
+                Atualizar
               </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="w-full mt-10">

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const api = {
   auth: {
@@ -8,7 +9,7 @@ const api = {
           import.meta.env.VITE_REACT_BASE_API_URL
         }/students/load/infoforauth/${id}`
       );
-      return response.data.student;
+      return response.data.user;
     },
   },
   students: {
@@ -35,6 +36,24 @@ const api = {
         }
       );
       return response.data.students;
+    },
+
+    CreateStudent: async (data) => {
+      const response = await axios.post(
+        `${import.meta.env.VITE_REACT_BASE_API_URL}/students/create`,
+        data
+      );
+      console.log(response);
+      return response.data;
+    },
+  },
+
+  books: {
+    GetBooks: async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_REACT_BASE_API_URL}/books/load/all`
+      );
+      return response.data;
     },
   },
 

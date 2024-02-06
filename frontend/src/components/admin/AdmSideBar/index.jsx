@@ -27,6 +27,9 @@ function AdmSideBar() {
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <SheetClose asChild >
+            <a className='w-full flex' href="/admin/dashboard"><Button className="w-full" variant="outline">Dashboard</Button></a>
+          </SheetClose>
+          <SheetClose asChild >
             <a className='w-full flex' href="/admin/students"><Button className="w-full" variant="outline">Estudantes</Button></a>
           </SheetClose>
           <SheetClose asChild >

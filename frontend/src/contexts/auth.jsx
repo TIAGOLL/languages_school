@@ -43,7 +43,6 @@ function AuthProvider({ children }) {
       .then(async (value) => {
         const id = value.user.uid;
         const user = await api.auth.GetInfoForAuth(id)
-
         let data = {
           name: user.first_name,
           email: value.user.email,
