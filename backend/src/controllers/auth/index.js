@@ -14,7 +14,6 @@ export const auth = {
           select: {
             first_name: true,
             avatar_url: true,
-            admin: true,
           },
         })
         .catch((err) => {
@@ -42,9 +41,8 @@ export const auth = {
             message: "Erro ao buscar informações do usuário",
           });
         }));
-
     return res.status(200).json({
-      student: { ...user, admin: user.admin == 1 },
+      user: { ...user, admin: user?.admin ? 1 : 0 },
       message: "Dados carregados com sucesso",
     });
   },

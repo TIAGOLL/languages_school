@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import FormCreateStudents from '../../../components/admin/FormCreateStudents';
 import { useEffect, useState } from 'react';
+import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
 
 const StudentsFilterSchema = z.object({
   name: z.string().optional(),
@@ -136,9 +137,7 @@ function AdmStudents() {
               <FormCreateStudents />
             </TabsContent>
             <TabsContent value="update">
-              <div className="justify-center flex p-10">
-                {/* update */}
-              </div>
+              <FormUpdateStudents />
             </TabsContent>
           </Tabs>
         </div>

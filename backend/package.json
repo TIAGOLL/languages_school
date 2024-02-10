@@ -14,10 +14,11 @@
   "author": "Tiago Emanuel de Lima",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.4.2",
+    "@prisma/client": "^5.9.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "prisma": "^5.7.0"
+    "firebase": "^10.8.0",
+    "prisma": "^5.9.1"
   },
   "devDependencies": {
     "tsup": "^7.2.0",

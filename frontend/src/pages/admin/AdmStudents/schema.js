@@ -30,4 +30,5 @@ export const studentSchema = z.object({
     .max(8, "O CEP deve ter 8 digitos")
     .min(8, "O CEP deve ter 8 digitos")
     .trim(),
+  id: z.string().optional(),
 });

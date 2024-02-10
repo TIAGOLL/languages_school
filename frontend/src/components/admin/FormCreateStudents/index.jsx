@@ -6,13 +6,13 @@ import { CalendarIcon, Check, ChevronsUpDown, PlusCircle } from 'lucide-react';
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover"
 import { cn } from './../../../lib/utils';
-import { useCreateStudent } from '../../../pages/admin/AdmStudents/useCreateStudent';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, } from "@/components/ui/command"
 import { useState } from 'react';
+import { useStudent } from '../../../pages/admin/AdmStudents/useStudent';
 
 function FormCreateStudents() {
 
-  const { register, handleSubmit, errors, watch, setValue, createStudent, books, isLoading } = useCreateStudent();
+  const { register, handleSubmit, errors, watch, setValue, createStudent, books, isLoading } = useStudent();
 
   const [open, setOpen] = useState(false);
   const [filterBook, setFilterBook] = useState('')

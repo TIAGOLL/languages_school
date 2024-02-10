@@ -22,6 +22,15 @@ const api = {
       return response.data;
     },
 
+    GetStudentByEmail: async (email) => {
+      const response = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_BASE_API_URL
+        }/students/load/studentbyemail/${email}`
+      );
+      return response.data;
+    },
+
     GetActiveStudents: async (name, email, book) => {
       const response = await axios.get(
         `${
@@ -43,7 +52,14 @@ const api = {
         `${import.meta.env.VITE_REACT_BASE_API_URL}/students/create`,
         data
       );
-      console.log(response);
+      return response.data;
+    },
+
+    UpdateStudent: async (data) => {
+      const response = await axios.put(
+        `${import.meta.env.VITE_REACT_BASE_API_URL}/students/update`,
+        data
+      );
       return response.data;
     },
   },
