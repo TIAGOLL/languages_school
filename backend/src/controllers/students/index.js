@@ -68,6 +68,7 @@ export const students = {
       street,
       district,
       complement,
+      zipCode,
     } = req.body;
 
     const uid = await createUserWithEmailAndPassword(auth, email, password)
@@ -99,6 +100,7 @@ export const students = {
                 street: street,
                 district: district,
                 complement: complement,
+                zip_code: zipCode,
               },
             },
           },
@@ -131,6 +133,7 @@ export const students = {
       street,
       district,
       complement,
+      zipCode,
     } = req.body;
 
     const student = await prisma.students.update({
@@ -145,16 +148,17 @@ export const students = {
         date_of_birth: dateOfBirth,
         gender: gender,
         adresses: {
-          connectOrCreate: {
+          update: {
             where: {
               students_id: id,
             },
-            create: {
+            data: {
               city: city,
               state: state,
               street: street,
               district: district,
               complement: complement,
+              zip_code: zipCode,
             },
           },
         },

@@ -4,7 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
 import { Menu, Power } from "lucide-react"
 import { AuthContext } from '../../../contexts/auth';
 import { useContext } from 'react';
-
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 
 function AdmSideBar() {
@@ -19,11 +21,33 @@ function AdmSideBar() {
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader className="flex flex-col w-full justify-center items-center !text-center">
-          <Avatar>
-            <AvatarImage src={user.avatarUrl} alt="Avatar" />
-            <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>
-          </Avatar>
-          <SheetTitle>{user.name}</SheetTitle>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button>
+                <Avatar>
+                  <AvatarImage src={user.avatarUrl} alt="Avatar" />
+                  <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>
+                </Avatar>
+                <SheetTitle>{user.name}</SheetTitle>
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Editar perfil</DialogTitle>
+                <DialogDescription>
+                  Escolha sua foto para o quadro de funcionários
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Input type="file" className="col-span-3" />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit">Salvar alterações</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </SheetHeader>
         <div className="grid gap-4 py-4">
           <SheetClose asChild >

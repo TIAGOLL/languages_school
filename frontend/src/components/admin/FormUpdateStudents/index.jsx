@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
-import { Input } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
-import { Popover } from '@/components/ui/popover';
-import { PopoverTrigger } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { cn } from './../../../lib/utils';
-import { CalendarIcon, PlusCircle } from 'lucide-react';
-import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
-import { PopoverContent } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+  import { useEffect, useState } from "react";
+  import { Input } from '@/components/ui/input';
+  import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
+  import { Popover } from '@/components/ui/popover';
+  import { PopoverTrigger } from '@/components/ui/popover';
+  import { Button } from '@/components/ui/button';
+  import { cn } from './../../../lib/utils';
+  import { CalendarIcon, PlusCircle } from 'lucide-react';
+  import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
+  import { PopoverContent } from '@/components/ui/popover';
+  import { Calendar } from '@/components/ui/calendar';
+  import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+  import { Label } from '@/components/ui/label';
 
 
 function FormUpdateStudents() {
@@ -205,29 +206,6 @@ function FormUpdateStudents() {
     </div>
   );
 }
-// import { addMonths, addYears, isSameMonth, isSameYear } from 'date-fns';
-// import { Calendar } from '@/components/ui/calendar';
-// import { useState } from 'react';
-// import { DayPicker } from 'react-day-picker';
-import { Label } from '@/components/ui/label';
 
-// export default function App() {
-//   const today = new Date();
-//   const nextYear = addYears(new Date(), 1);
-//   const [year, setYear] = useState(nextYear);
-
-//   const footer = (
-//     <button
-//       disabled={isSameYear(today, year)}
-//       onClick={() => setYear(today)}
-//     >
-//       Go to Today
-//     </button>
-//   );
-
-//   console.log(year);
-
-//   return <DayPicker month={year} footer={footer} />;
-// }
 export default FormUpdateStudents;
 

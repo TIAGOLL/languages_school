@@ -41,7 +41,7 @@ export const useStudent = () => {
       .CreateStudent(data)
       .then((res) => {
         toast.success(res.message);
-        navigate("/admin/students?tab=all");
+        navigate("/admin/students");
       })
       .catch((error) => {
         console.error(error);

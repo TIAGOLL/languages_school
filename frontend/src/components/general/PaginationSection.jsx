@@ -1,12 +1,6 @@
-import { Pagination } from '@/components/ui/pagination';
-import { PaginationItem } from '@/components/ui/pagination';
-import { PaginationNext } from '@/components/ui/pagination';
-import { PaginationPrevious } from '@/components/ui/pagination';
-import { PaginationContent } from '@/components/ui/pagination';
-import { PaginationEllipsis } from '@/components/ui/pagination';
-import { PaginationLink } from '@/components/ui/pagination';
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { PaginationItem, PaginationLink, PaginationContent, PaginationPrevious, PaginationNext, Pagination, PaginationEllipsis } from '@/components/ui/pagination';
 
 
 function PaginationSection({
@@ -71,11 +65,10 @@ function PaginationSection({
         key={idx}
         className={currentPage == page ? "bg-neutral-100 rounded-md" : ""}
       >
-        {console.log(page)}
         <PaginationLink onClick={() => setSearchParams((state) => {
           state.set('page', page)
           return state
-        })} href="#">
+        })} className="hover:cursor-pointer">
           {page}
         </PaginationLink>
       </ PaginationItem>
@@ -115,13 +108,11 @@ function PaginationSection({
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious onClick={handlePrevPage} href='#' />
+            <PaginationPrevious onClick={handlePrevPage} className="hover:cursor-pointer" />
           </PaginationItem>
-
           {renderPages()}
-
           <PaginationItem>
-            <PaginationNext onClick={handleNextPage} href='#' />
+            <PaginationNext onClick={handleNextPage} className="hover:cursor-pointer" />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

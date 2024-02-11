@@ -79,8 +79,8 @@ model professionals {
   date_of_birth DateTime     @db.Date
   created_at    DateTime     @default(now()) @db.DateTime(0)
   updated_at    DateTime?    @default(now()) @db.DateTime(0)
-  active        Boolean      @default(dbgenerated("b'1'")) @db.Bit(1)
-  admin         Boolean      @default(dbgenerated("b'0'")) @db.Bit(1)
+  active        Boolean      @default(dbgenerated("(b'1')")) @db.Bit(1)
+  admin         Boolean      @default(dbgenerated("(b'0')")) @db.Bit(1)
   role_id       Int
   avatar_url    String?      @db.VarChar(200)
   classrooms    classrooms[]
@@ -115,13 +115,13 @@ model students {
   cpf                     String                    @db.VarChar(11)
   phone                   String                    @db.VarChar(11)
   gender                  String                    @db.VarChar(1)
-  date_of_birth           DateTime                  @db.Date
+  date_of_birth           DateTime                  @db.DateTime(0)
   created_at              DateTime                  @default(now()) @db.DateTime(0)
   created_by              String?                   @db.VarChar(45)
   avatar_url              String?                   @db.VarChar(500)
   updated_at              DateTime?                 @default(now()) @db.DateTime(0)
   updated_by              String?                   @db.VarChar(45)
-  active                  Boolean                   @default(dbgenerated("b'1'")) @db.Bit(1)
+  active                  Boolean                   @default(dbgenerated("(b'1')")) @db.Bit(1)
   books_id                Int
   adresses                adresses?
   classes                 classes[]
