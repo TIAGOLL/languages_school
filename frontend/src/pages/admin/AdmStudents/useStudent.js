@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../services/api";
 import { studentSchema } from "./schema";
+import { auth } from "../../../services/auth";
 
 export const useStudent = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const useStudent = () => {
   }
 
   async function createStudent(data) {
+    console.log(data);
     await api.students
       .CreateStudent(data)
       .then((res) => {

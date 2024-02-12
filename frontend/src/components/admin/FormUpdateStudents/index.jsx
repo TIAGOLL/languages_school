@@ -1,16 +1,16 @@
-  import { useEffect, useState } from "react";
-  import { Input } from '@/components/ui/input';
-  import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
-  import { Popover } from '@/components/ui/popover';
-  import { PopoverTrigger } from '@/components/ui/popover';
-  import { Button } from '@/components/ui/button';
-  import { cn } from './../../../lib/utils';
-  import { CalendarIcon, PlusCircle } from 'lucide-react';
-  import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
-  import { PopoverContent } from '@/components/ui/popover';
-  import { Calendar } from '@/components/ui/calendar';
-  import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
-  import { Label } from '@/components/ui/label';
+import { useEffect, useState } from "react";
+import { Input } from '@/components/ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
+import { Popover } from '@/components/ui/popover';
+import { PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { cn } from './../../../lib/utils';
+import { CalendarIcon, PlusCircle } from 'lucide-react';
+import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
+import { PopoverContent } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+import { Label } from '@/components/ui/label';
 
 
 function FormUpdateStudents() {
@@ -189,7 +189,10 @@ function FormUpdateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>Email</Label>
-          <Input placeholder="Email" {...register('email')} disabled />
+          <div className='grid grid-cols-2'>
+            <Input placeholder="Email" {...register('email')} disabled className="rounded-r-none" />
+            <Input placeholder="@school.com" disabled className="rounded-l-none" />
+          </div>
           {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
         </div>
         <div className='col-span-4'>

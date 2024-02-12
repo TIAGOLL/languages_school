@@ -6,7 +6,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
 import PaginationSection from '../../general/PaginationSection';
-import { useEffect } from 'react';
 
 function DataTableStudents() {
 

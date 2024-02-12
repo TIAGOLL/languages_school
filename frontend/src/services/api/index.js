@@ -1,4 +1,6 @@
 import axios from "axios";
+import { storage } from "../auth";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 
 const api = {
@@ -73,7 +75,36 @@ const api = {
     },
   },
 
-  professionals: {},
+  professionals: {
+    uploadPhoto: async (id, photo) => {
+      const uploadRef = ref(storage, `photos/professionals/${id}`);
+
+      await uploadBytes(uploadRef, photo)
+        .then((snapshot) => {
+          getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+            await axios
+              .post(
+                `${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`,{
+                  id: id,
+                  avatar_url: downloadURL,
+                }
+              )
+              .then((res) => {
+                console.log(res.data);
+                toast.success(res.data.message);
+              })
+              .catch((err) => {
+                console.log(err.message);
+                toast.error("Erro ao criar produto");
+              });
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+          toast.error("Erro ao atualizar!");
+        });
+    },
+  },
 
   courses: {},
 

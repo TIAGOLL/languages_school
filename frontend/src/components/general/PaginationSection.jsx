@@ -7,15 +7,15 @@ function PaginationSection({
   data,
 }) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const currentPage = searchParams.get('page')
-  const perPage = searchParams.get('per_page')
+  const currentPage = searchParams.get('page') || 1
+  const perPage = searchParams.get('per_page') || 10
 
 
   const totalPosts = data?.length;
 
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalPosts / perPage); i++) {
-    pageNumbers.push(i);
+    pageNumbers?.push(i);
   }
 
   const maxPageNum = 5
@@ -63,7 +63,7 @@ function PaginationSection({
     const renderedPages = activePages.map((page, idx) => (
       < PaginationItem
         key={idx}
-        className={currentPage == page ? "bg-neutral-100 rounded-md" : ""}
+        className={currentPage == page ? "rounded-md" : ""}
       >
         <PaginationLink onClick={() => setSearchParams((state) => {
           state.set('page', page)

@@ -43,7 +43,6 @@
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.3",
     "react-toastify": "^10.0.4",
-    "svg-loaders-react": "^2.2.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"

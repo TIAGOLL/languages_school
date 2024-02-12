@@ -45,6 +45,8 @@ function AdmStudents() {
       state.delete('name')
       state.delete('email')
       state.delete('book')
+      state.delete('per_page')
+      state.delete('page')
       return state
     })
   }
@@ -79,17 +81,25 @@ function AdmStudents() {
   }
 
   function handleTab(e) {
-    cleanParams()
     setSearchParams(state => {
       state.set('tab', e)
       return state
     })
+    cleanParams()
   }
 
   useEffect(() => {
     if (!activeTab) {
       setSearchParams(state => {
         state.set('tab', 'all')
+        return state
+      })
+    }
+    if (activeTab == 'all') {
+      setSearchParams(state => {
+        state.set('tab', 'all')
+        state.set('per_page', 10)
+        state.set('page', 1)
         return state
       })
     }

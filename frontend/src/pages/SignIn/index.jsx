@@ -5,9 +5,8 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { useContext, useState } from "react"
 import { AuthContext } from "../../contexts/auth"
-import { LogIn, LockIcon } from "lucide-react"
+import { LogIn, LockIcon, LoaderIcon } from "lucide-react"
 import { Mail } from "lucide-react"
-import { Oval } from 'svg-loaders-react';
 
 
 
@@ -27,8 +26,8 @@ function SignIn() {
   }
 
   return (
-    <div className="w-screen h-screen justify-center items-center flex bg-slate-100 bg-cover bg-no-repeat" >
-      <Tabs defaultValue="account" className="w-[400px]">
+    <div className="w-screen h-screen justify-center items-center flex bg-slate-100 dark:bg-slate-600 bg-cover bg-no-repeat" >
+      <Tabs defaultValue="account" className="w-3/12">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
           <TabsTrigger value="password">Esqueci a senha</TabsTrigger>
@@ -63,7 +62,7 @@ function SignIn() {
             <CardFooter>
               <Button variant="default" onClick={e => Login(e)}>
                 Logar
-                {loadingAuth ? <Oval className=" w-4 h-4 ml-2" /> : <LogIn className="w-4 h-4 ml-2" />}
+                {loadingAuth ? <LoaderIcon className="w-4 h-4 ml-2 animate-spin" /> : <LogIn className="w-4 h-4 ml-2" />}
               </Button>
             </CardFooter>
           </Card>

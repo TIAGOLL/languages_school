@@ -1,15 +1,29 @@
+import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet"
-import { Avatar, AvatarFallback, AvatarImage, } from "@/components/ui/avatar"
-import { Menu, Power } from "lucide-react"
-import { AuthContext } from '../../../contexts/auth';
-import { useContext } from 'react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
+import { Menu, Power } from "lucide-react";
+import { useContext } from 'react';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../../../contexts/auth';
+import api from '../../../services/api';
 
 
 function AdmSideBar() {
+
+  function handleProfessionalPhoto(e) {
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+      const id = JSON.parse(localStorage.getItem("@ticketsPRO")).id;
+      if (image.type === 'image/jpeg' || image.type === 'image/png' || image.type === 'image/webp') {
+        api.professionals.uploadPhoto(id, image)
+      } else {
+        toast.error("Envie uma imagem do tipo PNG, JPEG ou WEBP", { icon: "📌" });
+        return;
+      }
+    }
+  }
 
   const { logout } = useContext(AuthContext);
   const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
@@ -40,7 +54,7 @@ function AdmSideBar() {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
-                  <Input type="file" className="col-span-3" />
+                  <Input accept="image/*" type="file" onChange={e => handleProfessionalPhoto(e)} className="col-span-3" />
                 </div>
               </div>
               <DialogFooter>
