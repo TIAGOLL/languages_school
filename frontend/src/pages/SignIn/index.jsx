@@ -27,7 +27,7 @@ function SignIn() {
 
   return (
     <div className="w-screen h-screen justify-center items-center flex bg-slate-100 dark:bg-slate-600 bg-cover bg-no-repeat" >
-      <Tabs defaultValue="account" className="w-3/12">
+      <Tabs defaultValue="account" className="w-[500px] sm:max-w-[425px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
           <TabsTrigger value="password">Esqueci a senha</TabsTrigger>

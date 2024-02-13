@@ -4,29 +4,44 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
 import { Menu, Power } from "lucide-react";
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../../contexts/auth';
 import api from '../../../services/api';
+import { Label } from '@/components/ui/label';
 
 
 function AdmSideBar() {
 
-  function handleProfessionalPhoto(e) {
+  const { logout } = useContext(AuthContext);
+  const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
+  const [professionalPhotoUrl, setProfessionalPhotoUrl] = useState(user.avatarUrl);
+  const [professionalPhoto, setProfessionalPhoto] = useState(null);
+
+  async function handleProfessionalPhoto(e) {
     if (e.target.files[0]) {
       const image = e.target.files[0];
-      const id = JSON.parse(localStorage.getItem("@ticketsPRO")).id;
       if (image.type === 'image/jpeg' || image.type === 'image/png' || image.type === 'image/webp') {
-        api.professionals.uploadPhoto(id, image)
+        setProfessionalPhoto(image)
+        setProfessionalPhotoUrl(URL.createObjectURL(image))
       } else {
-        toast.error("Envie uma imagem do tipo PNG, JPEG ou WEBP", { icon: "📌" });
+        toast.error("Envie uma imagem do tipo PNG ou JPEG")
+        setProfessionalPhoto(null);
         return;
       }
     }
   }
 
-  const { logout } = useContext(AuthContext);
-  const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
+  async function saveProfessionalPhoto() {
+    await api.professionals.uploadPhoto(user.id, professionalPhoto)
+      .then(() => {
+        toast.success("Foto salva com sucesso")
+      })
+      .catch(error => {
+        toast.error(`Erro ao salvar foto [${error.message}]`)
+      })
+  }
+
 
   return (
     <Sheet>
@@ -39,7 +54,7 @@ function AdmSideBar() {
             <DialogTrigger asChild>
               <button>
                 <Avatar>
-                  <AvatarImage src={user.avatarUrl} alt="Avatar" />
+                  <AvatarImage src={professionalPhotoUrl} alt="Avatar" />
                   <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>
                 </Avatar>
                 <SheetTitle>{user.name}</SheetTitle>
@@ -51,14 +66,19 @@ function AdmSideBar() {
                 <DialogDescription>
                   Escolha sua foto para o quadro de funcionários
                 </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Input accept="image/*" type="file" onChange={e => handleProfessionalPhoto(e)} className="col-span-3" />
+                <div className="flex w-full justify-center">
+                  <Avatar className="w-48 h-48 grid-rows-2">
+                    <AvatarImage src={professionalPhotoUrl} alt="Avatar" />
+                    <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>
+                  </Avatar>
                 </div>
+              </DialogHeader>
+              <div className="grid grid-cols-3 items-center gap-4 py-4">
+                <Label htmlFor="photo">Escolha sua foto</Label>
+                <Input accept="image/*" id="photo" type="file" className="col-span-2" onChange={e => handleProfessionalPhoto(e)} />
               </div>
               <DialogFooter>
-                <Button type="submit">Salvar alterações</Button>
+                <Button onClick={() => saveProfessionalPhoto()}>Salvar alterações</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -83,7 +103,7 @@ function AdmSideBar() {
           </SheetClose>
         </SheetFooter>
       </SheetContent>
-    </Sheet>
+    </Sheet >
   );
 }
 

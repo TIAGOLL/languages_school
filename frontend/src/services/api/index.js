@@ -78,13 +78,17 @@ const api = {
   professionals: {
     uploadPhoto: async (id, photo) => {
       const uploadRef = ref(storage, `photos/professionals/${id}`);
-
+      console.log(id);
       await uploadBytes(uploadRef, photo)
         .then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+            console.log("File available at", downloadURL);
             await axios
               .post(
-                `${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`,{
+                `${
+                  import.meta.env.VITE_REACT_BASE_API_URL
+                }/professionals/updateurlphoto`,
+                {
                   id: id,
                   avatar_url: downloadURL,
                 }
