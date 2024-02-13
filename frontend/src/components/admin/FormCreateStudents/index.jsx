@@ -171,7 +171,9 @@ function FormCreateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>Senha</Label>
-          <Input placeholder="Senha" type="text" value={firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)} {...register('password')} readOnly />
+          <Input placeholder="Senha" type="text" onValueChange={() => {
+            setValue('password', (firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)))
+          }} value={firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)} {...register('password')} readOnly />
         </div>
 
         <Button type="submit" variant="default">
