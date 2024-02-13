@@ -5,15 +5,13 @@ import { PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from './../../../lib/utils';
 import { CalendarIcon, PlusCircle } from 'lucide-react';
-import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
+import { format, isSameMonth, setYear as setYearFns } from "date-fns"
 import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
 import { Label } from '@/components/ui/label';
-import { useSearchParams } from 'react-router-dom';
 
 function FormCreateStudents() {
-  const [searchParams, setSearchParams] = useSearchParams()
 
 
   const { books, watch, handleSubmit, errors, register, setValue, createStudent, datesForCalendar } = useStudent()
@@ -178,7 +176,7 @@ function FormCreateStudents() {
 
         <Button type="submit" variant="default">
           <PlusCircle className='w-4 h-4 mr-2' />
-          Atualizar
+          Cadastrar
         </Button>
       </form >
     </div >
