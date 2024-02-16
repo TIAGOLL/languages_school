@@ -50,7 +50,6 @@ function AuthProvider({ children }) {
           token: value.user.refreshToken,
           id: id
         }
-
         setUser(data);
         storageUser(data);
         setLoadingAuth(false);

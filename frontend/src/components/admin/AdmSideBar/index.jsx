@@ -4,44 +4,17 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
 import { Menu, Power } from "lucide-react";
-import { useContext, useState } from 'react';
-import { toast } from 'react-toastify';
+import { useContext } from 'react';
 import { AuthContext } from '../../../contexts/auth';
-import api from '../../../services/api';
 import { Label } from '@/components/ui/label';
+import { useAdmSideBar } from "./useAdmSideBar";
+import { ThemeSwitcher } from "../../ui/ThemeSwitcher";
 
 
 function AdmSideBar() {
 
   const { logout } = useContext(AuthContext);
-  const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
-  const [professionalPhotoUrl, setProfessionalPhotoUrl] = useState(user.avatarUrl);
-  const [professionalPhoto, setProfessionalPhoto] = useState(null);
-
-  async function handleProfessionalPhoto(e) {
-    if (e.target.files[0]) {
-      const image = e.target.files[0];
-      if (image.type === 'image/jpeg' || image.type === 'image/png' || image.type === 'image/webp') {
-        setProfessionalPhoto(image)
-        setProfessionalPhotoUrl(URL.createObjectURL(image))
-      } else {
-        toast.error("Envie uma imagem do tipo PNG ou JPEG")
-        setProfessionalPhoto(null);
-        return;
-      }
-    }
-  }
-
-  async function saveProfessionalPhoto() {
-    await api.professionals.uploadPhoto(user.id, professionalPhoto)
-      .then(() => {
-        toast.success("Foto salva com sucesso")
-      })
-      .catch(error => {
-        toast.error(`Erro ao salvar foto [${error.message}]`)
-      })
-  }
-
+  const { diaglogOpen, setDialogOpen, professionalPhotoUrl, user, handleProfessionalPhoto, saveProfessionalPhoto } = useAdmSideBar();
 
   return (
     <Sheet>
@@ -50,9 +23,12 @@ function AdmSideBar() {
       </SheetTrigger>
       <SheetContent side="left">
         <SheetHeader className="flex flex-col w-full justify-center items-center !text-center">
-          <Dialog>
+          <div className="absolute left-6 top-10">
+            <ThemeSwitcher />
+          </div>
+          <Dialog open={diaglogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <button>
+              <button onClick={() => setDialogOpen(true)}>
                 <Avatar>
                   <AvatarImage src={professionalPhotoUrl} alt="Avatar" />
                   <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>

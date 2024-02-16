@@ -1,13 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { useTheme } from "next-themes";
+import { Moon, Sun } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useTheme } from "next-themes"
 
-export default function ThemeSwitcher() {
-  const { setTheme } = useTheme();
+export function ThemeSwitcher() {
+  const { setTheme, theme } = useTheme()
+  async function handleTheme(e) {
+    e.preventDefault()
+    const togleTheme = theme == "light" ? "dark" : "light"
+    setTheme(togleTheme)
+  }
 
   return (
-    <div className="font-light text-zinc-400">
-      <Button onClick={() => setTheme("light")}>Light</Button> ou{" "}
-      <Button onClick={() => setTheme("dark")}>Dark</Button>
-    </div>
-  );
+    <Button variant="outline" size="icon" onClick={(e) => handleTheme(e)} >
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+    </Button >
+  )
 }

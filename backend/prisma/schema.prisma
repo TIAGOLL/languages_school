@@ -83,7 +83,6 @@ model professionals {
   admin         Boolean      @default(dbgenerated("b'0'")) @db.Bit(1)
   role_id       Int
   avatar_url    String?      @db.VarChar(200)
-  activeTheme   String?      @default("dark") @db.VarChar(45)
   classrooms    classrooms[]
   role          role         @relation(fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_professionals_role1")
 
@@ -124,7 +123,6 @@ model students {
   updated_by              String?                   @db.VarChar(45)
   active                  Boolean                   @default(dbgenerated("b'1'")) @db.Bit(1)
   books_id                Int
-  activeTheme             String?                   @default("dark") @db.VarChar(45)
   adresses                adresses?
   classes                 classes[]
   books                   books                     @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_books1")
