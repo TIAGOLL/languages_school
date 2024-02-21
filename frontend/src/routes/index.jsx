@@ -18,19 +18,11 @@ function RoutesApp() {
   return (
     <Routes>
 
-      {/* SignIn */}
+      {/* Student */}
       <Route path='/' element={<SignIn />} />
-
-      {/* Book */}
       <Route path='/book' element={<Private><Book /></Private>} />
-
-      {/* Classes */}
       <Route path='/classes' element={<Private><Classes /></Private>} />
-
-      {/* Tasks */}
       <Route path='/tasks' element={<Private><Tasks /></Private>} />
-
-      {/* MyClass */}
       <Route path='/myclass' element={<Private><MyClass /></Private>} />
 
       {/* Admin */}
