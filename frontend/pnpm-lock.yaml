@@ -32,6 +32,9 @@ dependencies:
   '@radix-ui/react-popover':
     specifier: ^1.0.7
     version: 1.0.7(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0)
+  '@radix-ui/react-progress':
+    specifier: ^1.0.3
+    version: 1.0.3(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0)
   '@radix-ui/react-select':
     specifier: ^2.0.0
     version: 2.0.0(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0)
@@ -53,6 +56,9 @@ dependencies:
   '@vitejs/plugin-react':
     specifier: ^4.2.1
     version: 4.2.1(vite@5.0.8)
+  accordion:
+    specifier: ^3.0.2
+    version: 3.0.2
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -98,9 +104,6 @@ dependencies:
   react-toastify:
     specifier: ^10.0.4
     version: 10.0.4(react-dom@18.2.0)(react@18.2.0)
-  svg-loaders-react:
-    specifier: ^2.2.1
-    version: 2.2.1
   tailwind-merge:
     specifier: ^2.2.1
     version: 2.2.1
@@ -2161,6 +2164,28 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
+  /@radix-ui/react-progress@1.0.3(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-5G6Om/tYSxjSeEdrb1VfKkfZfn/1IlPWd731h2RfPuSbIfNUgfqAwbKfJCg/PP6nuUCTrYzalwHSpSinoWoCag==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0
+      react-dom: ^16.8 || ^17.0 || ^18.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.23.9
+      '@radix-ui/react-context': 1.0.1(@types/react@18.2.43)(react@18.2.0)
+      '@radix-ui/react-primitive': 1.0.3(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0)
+      '@types/react': 18.2.43
+      '@types/react-dom': 18.2.17
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@radix-ui/react-radio-group@1.1.3(@types/react-dom@18.2.17)(@types/react@18.2.43)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-x+yELayyefNeKeTx4fjK6j99Fs6c4qKm3aY38G3swQVTN6xMpsrbigC0uHs2L//g8q4qR7qOcww8430jJmi2ag==}
     peerDependencies:
@@ -3145,6 +3170,10 @@ packages:
       vite: 5.0.8(@types/node@20.11.10)
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /accordion@3.0.2:
+    resolution: {integrity: sha512-jbQfFaw+57OBwPt7qSNHuW+RA8smmRwkWRS1Ozh6K/QxUspBgBV/LpdSzlY7vee8TomS6j3D33B9rIeH1qMwsA==}
     dev: false
 
   /acorn-jsx@5.3.2(acorn@8.11.3):
@@ -4831,10 +4860,6 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-
-  /svg-loaders-react@2.2.1:
-    resolution: {integrity: sha512-ATfg5pAMOla2GqPcwGRDrNTLlTQzl2fMvfW290j20qH7qpB61C3SQAnu+T9t8Z+V4IKKN2Bm1d/SaCv5IR1DDA==}
-    dev: false
 
   /tailwind-merge@2.2.1:
     resolution: {integrity: sha512-o+2GTLkthfa5YUt4JxPfzMIpQzZ3adD1vLVkvKE1Twl9UAhGsEbIZhHHZVRttyW177S8PDJI3bTQNaebyofK3Q==}

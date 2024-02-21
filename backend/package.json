@@ -1,15 +1,16 @@
 {
-  "name": "tinnyimportssystem_backend",
+  "name": "languages-school",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "engines": {
     "node": "18"
   },
   "scripts": {
     "dev": "tsx src/server.js",
     "build": "tsup src",
-    "start": "node dist/server.js"
+    "start": "tsx dist/server.js",
+    "vercel-build": "npx prisma db pull && npx prisma generate"
   },
   "author": "Tiago Emanuel de Lima",
   "license": "ISC",

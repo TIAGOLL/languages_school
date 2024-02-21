@@ -5,7 +5,7 @@ import { PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from './../../../lib/utils';
 import { CalendarIcon, PlusCircle } from 'lucide-react';
-import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
+import { format, isSameMonth, setYear as setYearFns } from "date-fns"
 import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
@@ -17,6 +17,7 @@ function FormCreateStudents() {
   const { books, watch, handleSubmit, errors, register, setValue, createStudent, datesForCalendar } = useStudent()
 
   const dateOfBirth = watch('dateOfBirth') ?? new Date()
+  const firstName = watch('firstName')
 
   return (
     <div className='mt-10 flex flex-col'>
@@ -96,6 +97,11 @@ function FormCreateStudents() {
                 onSelect={(value) => setValue("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
+                onMonthChange={(month) => {
+                  if (!isSameMonth(month, dateOfBirth)) {
+                    setValue('dateOfBirth', month)
+                  }
+                }}
               />
             </PopoverContent>
           </Popover>
@@ -124,7 +130,7 @@ function FormCreateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>CEP</Label>
-          <Input placeholder="CEP" {...register('zipCode')} />
+          <Input placeholder="CEP" {...register('zipCode')} maxLength={8} />
           {errors.zipCode && <p className='text-sm text-red-500'>{errors.zipCode.message}</p>}
         </div>
         <div className='col-span-4'>
@@ -157,18 +163,22 @@ function FormCreateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>Email</Label>
-          <Input placeholder="Email" {...register('email')} />
+          <div className='grid grid-cols-2'>
+            <Input placeholder="Email" {...register('email')} className="rounded-r-none" />
+            <Input placeholder="@school.com" disabled className="rounded-l-none" />
+          </div>
           {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Senha</Label>
-          <Input placeholder="Senha" type="password" {...register('password')} />
-          {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
+          <Input placeholder="Senha" type="text" onValueChange={() => {
+            setValue('password', (firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)))
+          }} value={firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)} {...register('password')} readOnly />
         </div>
 
         <Button type="submit" variant="default">
           <PlusCircle className='w-4 h-4 mr-2' />
-          Atualizar
+          Cadastrar
         </Button>
       </form >
     </div >

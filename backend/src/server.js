@@ -1,7 +1,7 @@
-var express = require("express");
-var cors = require('cors')
+import express from "express";
+var cors = require("cors");
 
-var { router } = require("./routes");
+import { router } from "./routes";
 
 const app = express();
 
@@ -11,4 +11,4 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(3030, () => console.log("Server is running on http://localhost:3030!"));
+app.listen(3030, () => console.log("Server is running!"));

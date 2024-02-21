@@ -45,6 +45,8 @@ function AdmStudents() {
       state.delete('name')
       state.delete('email')
       state.delete('book')
+      state.delete('per_page')
+      state.delete('page')
       return state
     })
   }
@@ -79,17 +81,25 @@ function AdmStudents() {
   }
 
   function handleTab(e) {
-    cleanParams()
     setSearchParams(state => {
       state.set('tab', e)
       return state
     })
+    cleanParams()
   }
 
   useEffect(() => {
     if (!activeTab) {
       setSearchParams(state => {
         state.set('tab', 'all')
+        return state
+      })
+    }
+    if (activeTab == 'all') {
+      setSearchParams(state => {
+        state.set('tab', 'all')
+        state.set('per_page', 10)
+        state.set('page', 1)
         return state
       })
     }
@@ -102,7 +112,7 @@ function AdmStudents() {
         <div className='flex w-full justify-center items-center'>
           <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[80%] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
-              <TabsTrigger value="all" className="h-12">
+              <TabsTrigger value="all" className="h-12" >
                 <Eye className='w-4 h-4 mr-2' />
                 Ver todos
               </TabsTrigger>

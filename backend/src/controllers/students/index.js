@@ -13,7 +13,7 @@ export const students = {
       },
       select: {
         books: {
-          select: { id: true },
+          select: { number: true },
         },
       },
     });
@@ -43,7 +43,7 @@ export const students = {
         books: {
           select: {
             name: true,
-            numero: true,
+            number: true,
           },
         },
       },
@@ -69,48 +69,61 @@ export const students = {
       district,
       complement,
       zipCode,
+      CreatedBy,
     } = req.body;
 
-    const uid = await createUserWithEmailAndPassword(auth, email, password)
+    const uid = await createUserWithEmailAndPassword(
+      auth,
+      email + "@school.com",
+      password
+    )
       .then(async (value) => {
         return value.user.uid;
       })
       .catch((error) => {
+        console.error(error.message);
         return res.status(500).json({ message: error.message });
       });
     if (uid) {
-      const student = await prisma.students.create({
-        data: {
-          id: uid,
-          email: email,
-          first_name: firstName,
-          last_name: lastName,
-          cpf: cpf,
-          phone: phone,
-          date_of_birth: dateOfBirth,
-          gender: gender,
-          adresses: {
-            connectOrCreate: {
-              where: {
-                students_id: uid,
+      const student = await prisma.students
+        .create({
+          data: {
+            id: uid,
+            email: email + "@school.com",
+            first_name: firstName,
+            last_name: lastName,
+            cpf: cpf,
+            phone: phone,
+            date_of_birth: dateOfBirth,
+            gender: gender,
+            created_by: CreatedBy,
+            adresses: {
+              connectOrCreate: {
+                where: {
+                  students_id: uid,
+                },
+                create: {
+                  city: city,
+                  state: state,
+                  street: street,
+                  district: district,
+                  complement: complement,
+                  zip_code: zipCode,
+                },
               },
-              create: {
-                city: city,
-                state: state,
-                street: street,
-                district: district,
-                complement: complement,
-                zip_code: zipCode,
+            },
+            books: {
+              connect: {
+                id: parseInt(book),
               },
             },
           },
-          books: {
-            connect: {
-              id: parseInt(book),
-            },
-          },
-        },
-      });
+        })
+        .catch((error) => {
+          console.error(error.message);
+
+          return res.status(500).json({ message: error.message });
+        });
       return res
         .status(200)
         .json({ response: student, message: "Estudante criado com sucesso!" });
@@ -134,6 +147,7 @@ export const students = {
       district,
       complement,
       zipCode,
+      CreatedBy,
     } = req.body;
 
     const student = await prisma.students.update({
@@ -147,6 +161,7 @@ export const students = {
         phone: phone,
         date_of_birth: dateOfBirth,
         gender: gender,
+        created_by: CreatedBy,
         adresses: {
           update: {
             where: {

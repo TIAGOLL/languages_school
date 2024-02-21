@@ -2,6 +2,7 @@ import Router from "express";
 import { auth } from "./controllers/auth/index";
 import { students } from "./controllers/students";
 import { books } from "./controllers/books";
+import { professionals } from "./controllers/professionals";
 
 const router = Router();
 
@@ -16,6 +17,7 @@ router.post("/students/create", students.CreateStudent);
 router.put("/students/update", students.UpdateStudent);
 
 // Professionals
+router.post("/professionals/updateurlphoto", professionals.updateUrlPhoto);
 
 // Books
 router.get("/books/load/all", books.GetBooks);

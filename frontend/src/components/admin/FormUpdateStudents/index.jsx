@@ -1,43 +1,23 @@
-  import { useEffect, useState } from "react";
-  import { Input } from '@/components/ui/input';
-  import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
-  import { Popover } from '@/components/ui/popover';
-  import { PopoverTrigger } from '@/components/ui/popover';
-  import { Button } from '@/components/ui/button';
-  import { cn } from './../../../lib/utils';
-  import { CalendarIcon, PlusCircle } from 'lucide-react';
-  import { addMonths, addYears, format, isSameMonth, isSameYear, setYear as setYearFns } from "date-fns"
-  import { PopoverContent } from '@/components/ui/popover';
-  import { Calendar } from '@/components/ui/calendar';
-  import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
-  import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
+import { Popover } from '@/components/ui/popover';
+import { PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { cn } from './../../../lib/utils';
+import { CalendarIcon, PlusCircle } from 'lucide-react';
+import { format, isSameMonth, setYear as setYearFns } from "date-fns"
+import { PopoverContent } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+import { Label } from '@/components/ui/label';
 
 
 function FormUpdateStudents() {
 
-  const { books, student, watch, handleSubmit, errors, register, setValue, updateStudent, datesForCalendar } = useStudent()
-
+  const { books, watch, handleSubmit, errors, register, setValue, updateStudent, datesForCalendar } = useStudent()
   const dateOfBirth = watch('dateOfBirth')
   const gender = watch('gender')
   const currentBook = watch('book')
-
-  useEffect(() => {
-    setValue("email", student?.email);
-    setValue("dateOfBirth", student?.date_of_birth);
-    setValue("firstName", student?.first_name);
-    setValue("lastName", student?.last_name);
-    setValue("cpf", student?.cpf);
-    setValue("phone", student?.phone);
-    setValue("gender", student?.gender)
-    setValue("zipCode", student?.adresses?.zip_code)
-    setValue("street", student?.adresses?.street)
-    setValue("district", student?.adresses?.district)
-    setValue("complement", student?.adresses?.complement)
-    setValue("state", student?.adresses?.state)
-    setValue("city", student?.adresses?.city)
-    setValue("book", student?.books?.id)
-    setValue("id", student?.id)
-  }, [setValue, student]);
 
   return (
     <div className='mt-10 flex flex-col'>
@@ -189,7 +169,10 @@ function FormUpdateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>Email</Label>
-          <Input placeholder="Email" {...register('email')} disabled />
+          <div className='grid grid-cols-2'>
+            <Input placeholder="Email" {...register('email')} disabled className="rounded-r-none" />
+            <Input placeholder="@school.com" disabled className="rounded-l-none" />
+          </div>
           {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
         </div>
         <div className='col-span-4'>

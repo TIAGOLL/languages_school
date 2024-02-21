@@ -11,7 +11,7 @@ datasource db {
 model books {
   id         Int          @id @default(autoincrement())
   name       String       @db.VarChar(45)
-  numero     Int
+  number     Int
   classrooms classrooms[]
   students   students[]
 }
@@ -119,7 +119,7 @@ model students {
   created_at              DateTime                  @default(now()) @db.DateTime(0)
   created_by              String?                   @db.VarChar(45)
   avatar_url              String?                   @db.VarChar(500)
-  updated_at              DateTime?                 @default(now()) @db.DateTime(0)
+  updated_at              DateTime?                 @db.DateTime(0)
   updated_by              String?                   @db.VarChar(45)
   active                  Boolean                   @default(dbgenerated("(b'1')")) @db.Bit(1)
   books_id                Int

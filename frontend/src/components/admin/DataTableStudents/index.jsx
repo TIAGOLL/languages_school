@@ -1,31 +1,13 @@
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter } from '@/components/ui/table';
-import api from '../../../services/api';
-import { useSearchParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Pencil } from 'lucide-react';
-import PaginationSection from '../../general/PaginationSection';
-import { useEffect } from 'react';
+import { useDataTableStudents } from './useDataTableStudents';
+import PaginationSection from './../../ui/PaginationSection';
 
 function DataTableStudents() {
 
-  const [searchParams, setSearchParams] = useSearchParams()
-
-  const page = searchParams.get('page')
-  const per_page = searchParams.get('per_page')
-  const name = searchParams.get('name')
-  const email = searchParams.get('email')
-  const book = searchParams.get('book')
-
-  const { data: students, isLoading } = useQuery({
-    queryKey: ['students', name, email, book],
-    queryFn: () => api.students.GetActiveStudents(name, email, book),
-  })
-
-  const lastPostIndex = page * per_page;
-  const firstPostIndex = lastPostIndex - per_page;
-  const currentPosts = students?.slice(firstPostIndex, lastPostIndex);
+  const { isLoading, currentPosts, students } = useDataTableStudents();
 
   return (
     <>

@@ -14,7 +14,7 @@ function App() {
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <RoutesApp />
             <ToastContainer autoClose={2000} transition={Flip} closeButton draggable theme='light' />
           </ThemeProvider>
