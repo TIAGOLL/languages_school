@@ -7,6 +7,7 @@ import { useContext, useState } from "react"
 import { AuthContext } from "../../contexts/auth"
 import { LogIn, LockIcon, LoaderIcon } from "lucide-react"
 import { Mail } from "lucide-react"
+import { ThemeSwitcher } from "../../components/ui/ThemeSwitcher"
 
 
 
@@ -27,6 +28,9 @@ function SignIn() {
 
   return (
     <div className="w-screen h-screen justify-center items-center flex bg-slate-100 dark:bg-slate-600 bg-cover bg-no-repeat" >
+      <div className="absolute left-10 bottom-10">
+        <ThemeSwitcher />
+      </div>
       <Tabs defaultValue="account" className="w-[500px] sm:max-w-[425px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
@@ -34,7 +38,14 @@ function SignIn() {
         </TabsList>
         <TabsContent value="account">
           <Card>
-            <div className="items-center justify-center flex flex-col mt-4"><img src="/images/logo.png" alt="Logo da loja" className="w-40" /></div>
+            <div className="items-center justify-center flex flex-col mt-4">
+              <div className="dark:hidden">
+                <img src="/images/logo.png" alt="Logo da loja" className="w-40" />
+              </div>
+              <div className="hidden dark:flex">
+                <img src="/images/logoWhite.png" alt="Logo da loja" className="w-40" />
+              </div>
+            </div>
             <CardHeader>
               <CardTitle>Login</CardTitle>
               <CardDescription>

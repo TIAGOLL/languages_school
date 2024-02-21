@@ -29,6 +29,7 @@
     "@tanstack/react-query": "^5.18.1",
     "@tanstack/react-table": "^8.11.7",
     "@vitejs/plugin-react": "^4.2.1",
+    "accordion": "^3.0.2",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

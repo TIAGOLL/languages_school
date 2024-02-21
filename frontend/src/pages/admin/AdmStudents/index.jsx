@@ -112,7 +112,7 @@ function AdmStudents() {
         <div className='flex w-full justify-center items-center'>
           <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[80%] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
-              <TabsTrigger value="all" className="h-12">
+              <TabsTrigger value="all" className="h-12" >
                 <Eye className='w-4 h-4 mr-2' />
                 Ver todos
               </TabsTrigger>
