@@ -10,6 +10,7 @@ import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
 import { Label } from '@/components/ui/label';
+import { useEffect } from 'react';
 
 
 function FormUpdateStudents() {
@@ -81,25 +82,9 @@ function FormUpdateStudents() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Select
-                onValueChange={(value) => {
-                  setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value)))
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Ano" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  {
-                    datesForCalendar()?.map((date) => (
-                      <SelectItem value={date}>{date}</SelectItem>
-                    ))
-                  }
-                </SelectContent>
-              </Select>
               <Calendar
                 mode="single"
-                selected={(new Date(dateOfBirth))}
+                selected={new Date(dateOfBirth)}
                 onSelect={(value) => setValue("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
@@ -108,6 +93,21 @@ function FormUpdateStudents() {
                     setValue('dateOfBirth', month)
                   }
                 }}
+                footer={
+                  <Select
+                    onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Ano" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      {
+                        datesForCalendar()?.map((date) => (
+                          <SelectItem value={date}>{date}</SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                }
               />
             </PopoverContent>
           </Popover>
@@ -181,7 +181,7 @@ function FormUpdateStudents() {
           {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
         </div>
 
-        <Button type="submit" variant="default">
+        <Button type="submit" variant="default" className="mt-5">
           <PlusCircle className='w-4 h-4 mr-2' />
           Atualizar
         </Button>

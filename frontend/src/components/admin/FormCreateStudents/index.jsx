@@ -76,20 +76,6 @@ function FormCreateStudents() {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
-              <Select onValueChange={(value) => {
-                setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value)))
-              }}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Ano" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  {
-                    datesForCalendar()?.map((date) => (
-                      <SelectItem value={date}>{date}</SelectItem>
-                    ))
-                  }
-                </SelectContent>
-              </Select>
               <Calendar
                 {...register('dateOfBirth')}
                 mode="single"
@@ -102,6 +88,20 @@ function FormCreateStudents() {
                     setValue('dateOfBirth', month)
                   }
                 }}
+                footer={
+                  <Select onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Ano" />
+                    </SelectTrigger>
+                    <SelectContent position="popper">
+                      {
+                        datesForCalendar()?.map((date) => (
+                          <SelectItem value={date}>{date}</SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                }
               />
             </PopoverContent>
           </Popover>
@@ -176,13 +176,12 @@ function FormCreateStudents() {
           }} value={firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)} {...register('password')} readOnly />
         </div>
 
-        <Button type="submit" variant="default">
+        <Button type="submit" variant="default" className="mt-5">
           <PlusCircle className='w-4 h-4 mr-2' />
           Cadastrar
         </Button>
       </form >
     </div >
-
   );
 }
 

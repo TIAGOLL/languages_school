@@ -4,21 +4,19 @@ import { auth } from "./../../services/auth";
 const prisma = new PrismaClient();
 
 export const students = {
-  GetBookNumber: async (req, res) => {
+  GetBook: async (req, res) => {
     const { email } = req.params;
-
-    const bookNumber = await prisma.students.findFirst({
+    const book = await prisma.students.findFirst({
       where: {
         email: email,
       },
       select: {
         books: {
-          select: { number: true },
+          select: { number: true, name: true },
         },
       },
     });
-
-    return res.status(200).json(bookNumber.books);
+    return res.status(200).json(book.books);
   },
 
   GetActiveStudents: async (req, res) => {
@@ -205,6 +203,10 @@ export const students = {
       })
       .then((value) => {
         return res.status(200).json(value);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        return res.status(500);
       });
   },
 };

@@ -1,30 +1,15 @@
-import { useEffect, useState } from "react";
 import SideBar from "../../../components/student/SideBar";
-import api from "../../../services/api";
 import BookViewer from "../../../components/student/BookViewer";
+import { useBook } from "./useBook";
 
 function Book() {
 
-  const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
-
-  const [book, setBook] = useState('');
-
-  console.log(user);
-  async function loadData() {
-    const response = await api.students.GetBookNumber(user.email);
-    console.log(response);
-    setBook(response);
-  }
-
-  useEffect(() => {
-    loadData()
-  }, []);
-
+  const { book, } = useBook();
   return (
     <div>
       <SideBar />
       <div>
-        <BookViewer number={book.id} />
+        <BookViewer book={book} />
       </div>
 
     </div >

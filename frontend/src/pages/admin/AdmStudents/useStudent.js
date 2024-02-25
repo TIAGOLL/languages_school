@@ -27,7 +27,6 @@ export const useStudent = () => {
   const email = searchParams.get("email");
 
   function datesForCalendar() {
-    console.log();
     var date = new Date();
     var end = date.getFullYear();
     var start = new Date(date.getFullYear() - 70, 0, 0).getFullYear();
@@ -39,7 +38,6 @@ export const useStudent = () => {
   }
 
   async function createStudent(data) {
-    console.log(data);
     await api.students
       .CreateStudent(data)
       .then((res) => {
