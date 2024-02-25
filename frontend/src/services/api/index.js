@@ -82,7 +82,6 @@ const api = {
       await uploadBytes(uploadRef, photo)
         .then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-            console.log("File available at", downloadURL);
             await axios
               .post(
                 `${
@@ -99,7 +98,7 @@ const api = {
               })
               .catch((err) => {
                 console.log(err.message);
-                toast.error("Erro ao criar produto");
+                toast.error("Erro ao fazer upload da foto");
               });
           });
         })
