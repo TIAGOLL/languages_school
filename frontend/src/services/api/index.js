@@ -15,11 +15,9 @@ const api = {
     },
   },
   students: {
-    GetBookNumber: async (email) => {
+    GetBook: async (email) => {
       const response = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_BASE_API_URL
-        }/students/load/booknumber/${email}`
+        `${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}`
       );
       return response.data;
     },
@@ -78,11 +76,9 @@ const api = {
   professionals: {
     uploadPhoto: async (id, photo) => {
       const uploadRef = ref(storage, `photos/professionals/${id}`);
-      console.log(id);
       await uploadBytes(uploadRef, photo)
         .then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-            console.log("File available at", downloadURL);
             await axios
               .post(
                 `${

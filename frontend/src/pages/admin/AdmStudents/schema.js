@@ -19,9 +19,12 @@ export const studentSchema = z.object({
     .max(11, "O telefone deve ter 11 digitos")
     .min(11, "O telefone deve ter 11 digitos")
     .trim(),
-  dateOfBirth: z.date().refine((data) => {
-    return data < new Date();
-  }, "A data de nascimento deve ser menor que a data atual"),
+  dateOfBirth: z
+    .date()
+    .or(z.string())
+    .refine((data) => {
+      return new Date(data) < new Date();
+    }, "A data de nascimento deve ser menor que a data atual"),
   gender: z.string().min(1, "Preencha o gênero").trim(),
   book: z.string().min(1, "Preencha o livro").trim(),
   city: z.string().min(1, "Preencha a cidade").trim(),

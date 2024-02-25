@@ -27,7 +27,7 @@ function SignIn() {
   }
 
   return (
-    <div className="w-screen h-screen justify-center items-center flex bg-slate-100 dark:bg-slate-600 bg-cover bg-no-repeat" >
+    <div className="w-screen h-screen justify-center items-center flex bg-slate-100 dark:bg-slate-600">
       <div className="absolute left-10 bottom-10">
         <ThemeSwitcher />
       </div>
