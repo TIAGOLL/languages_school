@@ -1,4 +1,4 @@
-import { Eye, PlusCircle, Replace, Search, X, Check } from 'lucide-react';
+import { Eye, PlusCircle, Replace, Search, X } from 'lucide-react';
 import AdmSideBar from '../../../components/admin/AdmSideBar/index';
 import { Button } from '@/components/ui/button';
 import DataTableStudents from '../../../components/admin/DataTableStudents';
@@ -8,23 +8,19 @@ import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
 import { useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
-import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import FormCreateStudents from '../../../components/admin/FormCreateStudents';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
-
-const StudentsFilterSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().optional(),
-  book: z.string().optional()
-})
+import { StudentsFilterSchema } from './schemas';
+import { useStudent } from './useStudent';
 
 
 function AdmStudents() {
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const { cleanParams, handleFilterStudents, cleanFilter } = useStudent();
 
   const name = searchParams.get('name')
   const email = searchParams.get('email')
@@ -40,70 +36,31 @@ function AdmStudents() {
     }
   })
 
-  function cleanParams() {
-    setSearchParams(state => {
-      state.delete('name')
-      state.delete('email')
-      state.delete('book')
-      state.delete('per_page')
-      state.delete('page')
-      return state
-    })
-  }
-
-  function handleFilterStudents({ name, email, book }) {
-    setSearchParams(state => {
-      if (name) {
-        state.set('name', name)
-      } else {
-        state.delete('name')
-      }
-      return state
-    })
-
-    setSearchParams(state => {
-      if (email) {
-        state.set('email', email)
-      } else {
-        state.delete('email')
-      }
-      return state
-    })
-
-    setSearchParams(state => {
-      if (book) {
-        state.set('book', book)
-      } else {
-        state.delete('book')
-      }
-      return state
-    })
-  }
-
   function handleTab(e) {
     setSearchParams(state => {
       state.set('tab', e)
       return state
     })
-    cleanParams()
+    cleanParams();
   }
 
   useEffect(() => {
     if (!activeTab) {
-      setSearchParams(state => {
-        state.set('tab', 'all')
-        return state
-      })
+      setSearchParams((state) => {
+        state.set("tab", "all");
+        return state;
+      });
     }
-    if (activeTab == 'all') {
-      setSearchParams(state => {
-        state.set('tab', 'all')
-        state.set('per_page', 10)
-        state.set('page', 1)
-        return state
-      })
+    if (activeTab == "all") {
+      setSearchParams((state) => {
+        state.set("tab", "all");
+        state.set("per_page", 10);
+        state.set("page", 1);
+        return state;
+      });
     }
-  }, [activeTab, setSearchParams])
+  }, [activeTab, setSearchParams]);
+
 
   return (
     <div className="h-full w-full">
@@ -136,7 +93,7 @@ function AdmStudents() {
                   Pesquisar
                 </Button>
 
-                <Button type="submit" variant="link" onClick={() => cleanParams()}>
+                <Button type="submit" variant="link" onClick={() => cleanFilter()}>
                   <X className='w-4 h-4 mr-2' />
                   Limpar filtros
                 </Button>

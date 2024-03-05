@@ -10,50 +10,50 @@ import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
 import { Label } from '@/components/ui/label';
-import { useEffect } from 'react';
 
 
 function FormUpdateStudents() {
 
-  const { books, watch, handleSubmit, errors, register, setValue, updateStudent, datesForCalendar } = useStudent()
-  const dateOfBirth = watch('dateOfBirth')
-  const gender = watch('gender')
-  const currentBook = watch('book')
+  const { books, watchUpdate, handleSubmitUpdate, errorsUpdate, registerUpdate, setValueUpdate, updateStudent, datesForCalendar, } = useStudent()
+  const dateOfBirth = watchUpdate('dateOfBirth')
+  const gender = watchUpdate('gender')
+  const currentBook = watchUpdate('book')
+
 
   return (
     <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(updateStudent)} className='grid grid-cols-8 gap-2'>
+      <form onSubmit={handleSubmitUpdate(updateStudent)} className='grid grid-cols-8 gap-2'>
         <div className='col-span-8 justify-center items-center grid'>
           <p className='font-semibold'>Perfil</p>
         </div>
         <div className='col-span-4'>
           <Label>ID</Label>
-          <Input placeholder="ID" {...register('id')} disabled />
-          {errors.id && <p className='text-sm text-red-500'>{errors.id.message}</p>}
+          <Input placeholder="ID" {...registerUpdate('id')} disabled />
+          {errorsUpdate.id && <p className='text-sm text-red-500'>{errorsUpdate.id.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Primeiro nome</Label>
-          <Input placeholder="Primeiro nome" {...register('firstName')} />
-          {errors.firstName && <p className='text-sm text-red-500'>{errors.firstName.message}</p>}
+          <Input placeholder="Primeiro nome" {...registerUpdate('firstName')} />
+          {errorsUpdate.firstName && <p className='text-sm text-red-500'>{errorsUpdate.firstName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Sobrenome</Label>
-          <Input placeholder="Sobrenome" {...register('lastName')} />
-          {errors.lastName && <p className='text-sm text-red-500'>{errors.lastName.message}</p>}
+          <Input placeholder="Sobrenome" {...registerUpdate('lastName')} />
+          {errorsUpdate.lastName && <p className='text-sm text-red-500'>{errorsUpdate.lastName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>CPF</Label>
-          <Input placeholder="CPF" {...register('cpf')} maxLength={11} />
-          {errors.cpf && <p className='text-sm text-red-500'>{errors.cpf.message}</p>}
+          <Input placeholder="CPF" {...registerUpdate('cpf')} maxLength={11} />
+          {errorsUpdate.cpf && <p className='text-sm text-red-500'>{errorsUpdate.cpf.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Telefone</Label>
-          <Input placeholder="Telefone" {...register('phone')} maxLength={11} />
-          {errors.phone && <p className='text-sm text-red-500'>{errors.phone.message}</p>}
+          <Input placeholder="Telefone" {...registerUpdate('phone')} maxLength={11} />
+          {errorsUpdate.phone && <p className='text-sm text-red-500'>{errorsUpdate.phone.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Gênero</Label>
-          <Select {...register('gender')} onValueChange={(value) => setValue('gender', value)} value={gender}>
+          <Select {...registerUpdate('gender')} onValueChange={(value) => setValueUpdate('gender', value)} value={gender}>
             <SelectTrigger>
               <SelectValue placeholder="Gênero" />
             </SelectTrigger>
@@ -64,11 +64,11 @@ function FormUpdateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.gender && <p className='text-sm text-red-500'>{errors.gender.message}</p>}
+          {errorsUpdate.gender && <p className='text-sm text-red-500'>{errorsUpdate.gender.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Data de nascimento</Label>
-          <Popover {...register('dateOfBirth')} onValueChange={(value) => setValue('dateOfBirth', value)}>
+          <Popover {...registerUpdate('dateOfBirth')} onValueChange={(value) => setValueUpdate('dateOfBirth', value)}>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
@@ -85,24 +85,24 @@ function FormUpdateStudents() {
               <Calendar
                 mode="single"
                 selected={new Date(dateOfBirth)}
-                onSelect={(value) => setValue("dateOfBirth", value)}
+                onSelect={(value) => setValueUpdate("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
                 onMonthChange={(month) => {
                   if (!isSameMonth(month, dateOfBirth)) {
-                    setValue('dateOfBirth', month)
+                    setValueUpdate('dateOfBirth', month)
                   }
                 }}
                 footer={
                   <Select
-                    onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                    onValueChange={(value) => { setValueUpdate('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Ano" />
                     </SelectTrigger>
                     <SelectContent position="popper">
                       {
                         datesForCalendar()?.map((date) => (
-                          <SelectItem value={date}>{date}</SelectItem>
+                          <SelectItem value={date} key={date}>{date}</SelectItem>
                         ))
                       }
                     </SelectContent>
@@ -111,11 +111,11 @@ function FormUpdateStudents() {
               />
             </PopoverContent>
           </Popover>
-          {errors.dateOfBirth && <p className='text-sm text-red-500'>{errors.dateOfBirth.message}</p>}
+          {errorsUpdate.dateOfBirth && <p className='text-sm text-red-500'>{errorsUpdate.dateOfBirth.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Livro</Label>
-          <Select {...register('book')} onValueChange={(value) => setValue('book', value)} value={currentBook}>
+          <Select {...registerUpdate('book')} onValueChange={(value) => setValueUpdate('book', value)} value={currentBook}>
             <SelectTrigger>
               <SelectValue placeholder="Book" />
             </SelectTrigger>
@@ -129,40 +129,45 @@ function FormUpdateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.book && <p className='text-sm text-red-500'>{errors.book.message}</p>}
+          {errorsUpdate.book && <p className='text-sm text-red-500'>{errorsUpdate.book.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>
         </div>
         <div className='col-span-4'>
           <Label>CEP</Label>
-          <Input placeholder="CEP" {...register('zipCode')} />
-          {errors.zipCode && <p className='text-sm text-red-500'>{errors.zipCode.message}</p>}
+          <Input placeholder="CEP" {...registerUpdate('zipCode')} />
+          {errorsUpdate.zipCode && <p className='text-sm text-red-500'>{errorsUpdate.zipCode.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Rua</Label>
-          <Input placeholder="Rua" {...register('street')} />
-          {errors.street && <p className='text-sm text-red-500'>{errors.street.message}</p>}
+          <Input placeholder="Rua" {...registerUpdate('street')} />
+          {errorsUpdate.street && <p className='text-sm text-red-500'>{errorsUpdate.street.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Bairro</Label>
-          <Input placeholder="Bairro" {...register('district')} />
-          {errors.district && <p className='text-sm text-red-500'>{errors.district.message}</p>}
+          <Input placeholder="Bairro" {...registerUpdate('district')} />
+          {errorsUpdate.district && <p className='text-sm text-red-500'>{errorsUpdate.district.message}</p>}
+        </div>
+        <div className='col-span-4'>
+          <Label>Número</Label>
+          <Input placeholder="Número" {...registerUpdate('number')} />
+          {errorsUpdate.number && <p className='text-sm text-red-500'>{errorsUpdate.number.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Complemento</Label>
-          <Input placeholder="Complemento" {...register('complement')} />
-          {errors.complement && <p className='text-sm text-red-500'>{errors.complement.message}</p>}
+          <Input placeholder="Complemento" {...registerUpdate('complement')} />
+          {errorsUpdate.complement && <p className='text-sm text-red-500'>{errorsUpdate.complement.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Estado</Label>
-          <Input placeholder="Estado" {...register('state')} />
-          {errors.state && <p className='text-sm text-red-500'>{errors.state.message}</p>}
+          <Input placeholder="Estado" {...registerUpdate('state')} />
+          {errorsUpdate.state && <p className='text-sm text-red-500'>{errorsUpdate.state.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Cidade</Label>
-          <Input placeholder="Cidade" {...register('city')} />
-          {errors.city && <p className='text-sm text-red-500'>{errors.city.message}</p>}
+          <Input placeholder="Cidade" {...registerUpdate('city')} />
+          {errorsUpdate.city && <p className='text-sm text-red-500'>{errorsUpdate.city.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4'>
           <p className='font-semibold'>Credenciais</p>
@@ -170,17 +175,16 @@ function FormUpdateStudents() {
         <div className='col-span-4'>
           <Label>Email</Label>
           <div className='grid grid-cols-2'>
-            <Input placeholder="Email" {...register('email')} disabled className="rounded-r-none" />
+            <Input placeholder="Email" {...registerUpdate('email')} disabled className="rounded-r-none" />
             <Input placeholder="@school.com" disabled className="rounded-l-none" />
           </div>
-          {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
+          {errorsUpdate.email && <p className='text-sm text-red-500'>{errorsUpdate.email.message}</p>}
         </div>
         <div className='col-span-4'>
-          <Label>Senha</Label>
-          <Input placeholder="Senha" type="password" {...register('password')} />
-          {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
+          <Label>Usuário</Label>
+          <Input placeholder="Usuário" {...registerUpdate('user')} disabled />
+          {errorsUpdate.user && <p className='text-sm text-red-500'>{errorsUpdate.user.message}</p>}
         </div>
-
         <Button type="submit" variant="default" className="mt-5">
           <PlusCircle className='w-4 h-4 mr-2' />
           Atualizar

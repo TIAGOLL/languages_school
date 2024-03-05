@@ -13,6 +13,7 @@ import AdmDashboard from '../pages/admin/AdmDashboard';
 import AdmStudents from '../pages/admin/AdmStudents';
 import AdmProfessionals from '../pages/admin/AdmProfessionals';
 import AdmClasses from './../pages/admin/AdmClasses/index';
+import Admin from './admin';
 
 function RoutesApp() {
   return (
@@ -34,10 +35,10 @@ function RoutesApp() {
       <Route path='/myclass' element={<Private><MyClass /></Private>} />
 
       {/* Admin */}
-      <Route path='/admin/dashboard' element={<Private><AdmDashboard /></Private>} />
-      <Route path='/admin/students' element={<Private><AdmStudents /></Private>} />
-      <Route path='/admin/professionals' element={<Private><AdmProfessionals /></Private>} />
-      <Route path='/admin/classes' element={<Private><AdmClasses /></Private>} />
+      <Route path='/admin/dashboard' element={<Admin><AdmDashboard /></Admin>} />
+      <Route path='/admin/students' element={<Admin><AdmStudents /></Admin>} />
+      <Route path='/admin/professionals' element={<Admin><AdmProfessionals /></Admin>} />
+      <Route path='/admin/classes' element={<Admin><AdmClasses /></Admin>} />
 
     </Routes>
   )

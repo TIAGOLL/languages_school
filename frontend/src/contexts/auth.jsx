@@ -37,50 +37,32 @@ function AuthProvider({ children }) {
 
 
 
-  async function signInWithEmail(email, password) {
+  async function SignIn({ user, password }) {
     setLoadingAuth(true);
-    await signInWithEmailAndPassword(auth, email, password)
-      .then(async (value) => {
-        const id = value.user.uid;
-        const user = await api.auth.GetInfoForAuth(id)
-        let data = {
-          name: user.first_name,
-          email: value.user.email,
-          avatarUrl: user.avatar_url,
-          token: value.user.refreshToken,
-          id: id
-        }
-        setUser(data);
-        storageUser(data);
-        setLoadingAuth(false);
-        if (!user.admin) navigate("/book")
-        if (user.admin) navigate("/admin/dashboard")
-        toast.success('Bem vindo de volta!')
-      })
+    const res = await api.auth.signIn(user, password)
       .catch((error) => {
         console.log(error);
         setLoadingAuth(false);
-        if (error.code === 'auth/invalid-email') {
-          toast.error('Email inválido!')
-          return
-        }
-        if (error.code === 'permission-denied') {
-          toast.error('Permissão negada!')
-          return
-        }
-        if (error.code === 'auth/invalid-login-credentials') {
-          toast.error('Email ou senha inválidos!')
-          return
-        }
-        if (error.code === 'auth/invalid-credential') {
-          toast.error('Email ou senha inválidos!')
-          return
-        }
-        if (error.code === 'auth/too-many-requests') {
-          toast.error('Muitas tentativas, tente novamente mais tarde!')
-          return
-        }
+        toast.error(res.data.message)
       })
+    if (res) {
+      const userLoged = {
+        name: res.first_name,
+        email: res.email,
+        avatarUrl: res.avatar_url,
+        id: res.id,
+        admin: res.admin ? true : false
+      }
+      setUser(userLoged);
+      storageUser(userLoged);
+      setLoadingAuth(false);
+      if (!userLoged.admin || userLoged.admin == false) navigate("/book")
+      if (userLoged.admin) navigate("/admin/dashboard")
+      toast.success('Bem vindo de volta!')
+    }
+
+
+    setLoadingAuth(false);
   }
 
   // Cadastrar um novo user
@@ -136,7 +118,7 @@ function AuthProvider({ children }) {
       value={{
         signed: !!user,
         user,
-        signInWithEmail,
+        SignIn,
         signUp,
         logout,
         loadingAuth,
