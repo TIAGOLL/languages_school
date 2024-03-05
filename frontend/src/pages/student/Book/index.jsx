@@ -1,7 +1,7 @@
 import SideBar from "../../../components/student/SideBar";
 import BookViewer from "../../../components/student/BookViewer";
 import { useBook } from "./useBook";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 function Book() {
 
   const { book, lesson, handleLesson } = useBook();
