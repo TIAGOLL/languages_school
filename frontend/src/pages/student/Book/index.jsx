@@ -4,19 +4,19 @@ import { useBook } from "./useBook";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 function Book() {
 
-  const { book, lesson } = useBook();
+  const { book, lesson, handleLesson } = useBook();
 
   return (
     <div>
       <SideBar />
-      <Select onValueChange={(value) => setValue('gender', value)} >
+      <Select onValueChange={(e) => handleLesson(e)}>
         <SelectTrigger>
           <SelectValue placeholder="Lesson" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="M">Masculino</SelectItem>
-            <SelectItem value="F">Feminino</SelectItem>
+            <SelectItem value="1">Lesson 1</SelectItem>
+            <SelectItem value="2">Lesson 2</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

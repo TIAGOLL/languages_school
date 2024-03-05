@@ -5,7 +5,6 @@ import { useEffect } from "react";
 
 export const useBook = () => {
 	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
-
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const lesson = searchParams.get("lesson");
@@ -21,5 +20,10 @@ export const useBook = () => {
 		queryFn: () => api.students.GetBook(user.email),
 	});
 
-	return { book, user, lesson };
+	function handleLesson(value) {
+		console.log(value);
+		setSearchParams({ lesson: value });
+	}
+
+	return { book, user, lesson, handleLesson };
 };

@@ -1,13 +1,13 @@
-import express from "express";
+const express = require("express");
 var cors = require("cors");
 
-import { router } from "./routes";
+const { router } = require("./routes");
 
 const app = express();
 
 app.use(
   cors({
-    origin: "*",  
+    origin: "*",
   })
 );
 app.use(express.urlencoded({ extended: false }));

@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-export const books = {
+const books = {
   GetBooks: async (req, res) => {
     const books = await prisma.books
       .findMany({
@@ -17,3 +17,5 @@ export const books = {
     return res.status(200).json(books);
   },
 };
+
+module.exports = { books };
