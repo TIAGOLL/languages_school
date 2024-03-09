@@ -9,11 +9,11 @@ function Book() {
 
   return (
     <div>
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center max-sm:justify-end">
         <div className="absolute left-0 top-1">
           <SideBar />
         </div>
-        <div className="w-full items-center justify-center flex mt-4">
+        <div className="w-full items-center justify-center flex mt-5 max-sm:w-[130px] max-sm:mr-10">
           <div className="w-[300px]">
             <Select onValueChange={(e) => handleLesson(e)} defaultValue={1}>
               <SelectTrigger>
