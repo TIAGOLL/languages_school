@@ -49,7 +49,7 @@ export const useStudent = () => {
 	}
 
 	async function createStudent(data) {
-		await api.students
+		await api.professionals
 			.CreateStudent(data)
 			.then((res) => {
 				toast.success(res.message);
@@ -62,7 +62,7 @@ export const useStudent = () => {
 	}
 
 	async function updateStudent(data) {
-		await api.students
+		await api.professionals
 			.UpdateStudent(data)
 			.then((res) => {
 				toast.success(res.message);
@@ -82,7 +82,7 @@ export const useStudent = () => {
 
 		const { data: student } = useQuery({
 			queryKey: ["student", email],
-			queryFn: () => api.students.GetStudentByEmail(email),
+			queryFn: () => api.professionals.GetStudentByEmail(email),
 		});
 
 		useEffect(() => {

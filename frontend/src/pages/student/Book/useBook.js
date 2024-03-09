@@ -21,9 +21,12 @@ export const useBook = () => {
 	});
 
 	function handleLesson(value) {
-		console.log(value);
 		setSearchParams({ lesson: value });
 	}
 
-	return { book, user, lesson, handleLesson };
+	function getQtdLessons() {
+		return searchParams.get("q");
+	}
+
+	return { book, user, lesson, handleLesson, getQtdLessons };
 };

@@ -53,7 +53,7 @@ export const studentsUpdateSchema = z.object({
 		.date()
 		.or(z.string())
 		.refine((data) => {
-			return new Date(data) < new Date();
+			return new Date(data) <= new Date();
 		}, "A data de nascimento deve ser menor que a data atual"),
 	gender: z.string().min(1, "Preencha o gênero").trim(),
 	book: z.string().min(1, "Preencha o livro").trim(),

@@ -23,7 +23,7 @@ export function UserGenerator(date, firstName) {
 }
 
 export async function VerifyUserExists(user) {
-	const studentsUsers = await api.students.GetStudentUsers();
+	const studentsUsers = await api.professionals.GetStudentUsers();
 	const professionalsUsers = await api.professionals.GetUsers();
 
 	let res = true;
@@ -42,7 +42,7 @@ export async function VerifyUserExists(user) {
 }
 
 export async function VerifyEmailExists(email) {
-	const studentEmails = await api.students.GetStudentEmails();
+	const studentEmails = await api.professionals.GetStudentEmails();
 	const professionalsEmails = await api.professionals.GetEmails();
 
 	let res = true;

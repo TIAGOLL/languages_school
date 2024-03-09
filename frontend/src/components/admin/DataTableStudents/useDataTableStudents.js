@@ -32,7 +32,7 @@ export const useDataTableStudents = () => {
 
 	const { data: students, isLoading } = useQuery({
 		queryKey: ["students", name, email, book],
-		queryFn: () => api.students.GetActiveStudents(name, email, book),
+		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
 	});
 
 	const lastPostIndex = page * per_page;

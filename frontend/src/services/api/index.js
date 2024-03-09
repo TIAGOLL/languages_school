@@ -17,10 +17,85 @@ const api = {
 				});
 		},
 	},
+
 	students: {
+		UploadPhoto: async (id, photo) => {
+			const uploadRef = ref(storage, `photos/students/${id}`);
+			await uploadBytes(uploadRef, photo)
+				.then((snapshot) => {
+					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+						await axios
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/updateurlphoto`, {
+								id: id,
+								avatar_url: downloadURL,
+							})
+							.then((res) => {
+								toast.success(res.data.message);
+							})
+							.catch((err) => {
+								console.log(err.message);
+								toast.error("Erro ao atualizar foto!");
+							});
+					});
+				})
+				.catch((error) => {
+					console.log(error.message);
+					toast.error("Erro ao atualizar foto!");
+				});
+		},
+
 		GetBook: async (email) => {
 			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}`);
 			return response.data;
+		},
+	},
+
+	books: {
+		GetBooks: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/books/load/all`);
+			return response.data;
+		},
+	},
+
+	professionals: {
+		UpdateStudentPassword: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/studentpassword`, data);
+			return response.data;
+		},
+
+		GetEmails: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/emails`);
+			return response.data;
+		},
+
+		GetUsers: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/users`);
+			return response.data;
+		},
+
+		UploadPhoto: async (id, photo) => {
+			const uploadRef = ref(storage, `photos/professionals/${id}`);
+			await uploadBytes(uploadRef, photo)
+				.then((snapshot) => {
+					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+						await axios
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`, {
+								id: id,
+								avatar_url: downloadURL,
+							})
+							.then((res) => {
+								toast.success(res.data.message);
+							})
+							.catch((err) => {
+								console.log(err.message);
+								toast.error("Erro ao atualizar foto!");
+							});
+					});
+				})
+				.catch((error) => {
+					console.log(error.message);
+					toast.error("Erro ao atualizar!");
+				});
 		},
 
 		GetStudentByEmail: async (email) => {
@@ -56,55 +131,6 @@ const api = {
 		GetStudentEmails: async () => {
 			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentemails`);
 			return response.data;
-		},
-	},
-
-	books: {
-		GetBooks: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/books/load/all`);
-			return response.data;
-		},
-	},
-
-	professionals: {
-		UpdateStudentPassword: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/studentpassword`, data);
-			return response.data;
-		},
-
-		GetEmails: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/emails`);
-			return response.data;
-		},
-
-		GetUsers: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/users`);
-			return response.data;
-		},
-
-		UploadPhoto: async (id, photo) => {
-			const uploadRef = ref(storage, `photos/professionals/${id}`);
-			await uploadBytes(uploadRef, photo)
-				.then((snapshot) => {
-					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-						await axios
-							.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`, {
-								id: id,
-								avatar_url: downloadURL,
-							})
-							.then((res) => {
-								toast.success(res.data.message);
-							})
-							.catch((err) => {
-								console.log(err.message);
-								toast.error("Erro ao criar produto");
-							});
-					});
-				})
-				.catch((error) => {
-					console.log(error.message);
-					toast.error("Erro ao atualizar!");
-				});
 		},
 	},
 
