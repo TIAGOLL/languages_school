@@ -28,7 +28,7 @@ const auth = {
           return res.status(200).send(professionals);
         }
       }
-
+      
       throw new Error("Usúario ou senha inválidos!");
     } catch (error) {
       res.status(500).send({ message: error.message, error: error });

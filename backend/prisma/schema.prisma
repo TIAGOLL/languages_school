@@ -16,15 +16,6 @@ model books {
   students   students[]
 }
 
-model cities {
-  id        Int     @id
-  name      String? @db.VarChar(95)
-  states_id Int
-  states    states  @relation(fields: [states_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_cities_states1")
-
-  @@index([states_id], map: "fk_cities_states1_idx")
-}
-
 model classrooms {
   id                      Int                       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   books_id                Int
@@ -39,12 +30,6 @@ model classrooms {
   @@index([books_id], map: "fk_classes_books1_idx")
   @@index([courses_id], map: "fk_classes_courses1_idx")
   @@index([professionals_id], map: "fk_classrooms_professionals1_idx")
-}
-
-model countries {
-  id     Int      @id
-  name   String?  @db.VarChar(95)
-  states states[]
 }
 
 model courses {
@@ -86,17 +71,6 @@ model role {
   professionals professionals[]
 }
 
-model states {
-  id           Int       @id
-  abbr         String?   @db.VarChar(2)
-  name         String?   @db.VarChar(45)
-  countries_id Int
-  cities       cities[]
-  countries    countries @relation(fields: [countries_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_states_countries1")
-
-  @@index([countries_id], map: "fk_states_countries1_idx")
-}
-
 model students {
   id                      Int                       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   email                   String                    @unique(map: "email_UNIQUE") @db.VarChar(45)
@@ -115,7 +89,7 @@ model students {
   active                  Boolean                   @default(dbgenerated("b'1'")) @db.Bit(1)
   books_id                Int
   password                String                    @db.VarChar(128)
-  user                    String                    @db.VarChar(128)
+  user                    String                    @unique(map: "user_UNIQUE") @db.VarChar(128)
   adresses_id             Int
   classes                 classes[]
   adresses                adresses                  @relation(fields: [adresses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_adresses1")
