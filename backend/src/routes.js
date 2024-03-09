@@ -11,6 +11,7 @@ router.get("/auth/signin/:user/:password", auth.SignIn);
 
 // Students
 router.get("/students/load/book/:email", students.GetBook);
+router.put("/students/updateurlphoto", students.UpdateUrlPhoto);
 
 // Professionals
 router.get(
@@ -30,7 +31,7 @@ router.put(
   professionals.UpdateStudentPassword
 );
 router.put("/professionals/update", professionals.UpdateStudent);
-router.post("/professionals/updateurlphoto", professionals.UpdateUrlPhoto);
+router.put("/professionals/updateurlphoto", professionals.UpdateUrlPhoto);
 router.post("/professionals/create", professionals.CreateStudent);
 
 // Books
