@@ -32,7 +32,7 @@ function Book() {
           </div>
         </div>
       </div >
-      <div className="mt-5">
+      <div className="mt-1">
         <BookViewer book={book} lesson={parseInt(lesson)} />
       </div>
     </div>
