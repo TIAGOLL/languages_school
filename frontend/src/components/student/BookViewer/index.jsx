@@ -3,24 +3,19 @@ import { useSearchParams } from "react-router-dom";
 
 function BookViewer({ book, lesson = 1 }) {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    switch (book?.number) {
-      case 1:
-        setSearchParams(state => {
-          state.set('q', 32)
-          return state
-        })
-        break;
-      case 2:
-        setSearchParams(state => {
-          state.set('q', 32)
-          return state
-        })
-        break;
-    }
-  }, [book?.number, setSearchParams])
+    setSearchParams(state => {
+      state.set('ql', 32)
+      return state
+    })
+    setSearchParams(state => {
+      state.set('qw', 4)
+      return state
+    })
+  }, [setSearchParams])
 
   if (book?.number == 1) {
     switch (lesson) {
@@ -247,6 +242,38 @@ function BookViewer({ book, lesson = 1 }) {
           <div className="w-scren h-[calc(100vh-80px)]">
             <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
               src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-qtq1ICY&#x2F;UtR0K2hDMCEAcnzCdCXpZg&#x2F;view?embed" />
+          </div>
+        )
+      case 33:
+        // WAK 1
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-AagXu9A&#x2F;HBRTmIUqSDVXtm6_2vrjSQ&#x2F;view?embed" />
+          </div>
+        )
+      case 34:
+        // WAK 2
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-CH9pHAQ&#x2F;hmcGmyD32NObDwzzE2sllQ&#x2F;view?embed" />
+          </div>
+        )
+      case 35:
+        // WAK 3
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-MlO6frM&#x2F;_s38JVkceghO953PH-2KMw&#x2F;view?embed" />
+          </div>
+        )
+      case 36:
+        // WAK 4
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-qiB_13Q&#x2F;CzsholtP-bx9SIngbhuojQ&#x2F;view?embed" />
           </div>
         )
 
@@ -482,6 +509,39 @@ function BookViewer({ book, lesson = 1 }) {
               src="" />
           </div>
         )
+      case 33:
+        // WAK 1
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-rrgyuQs&#x2F;9XPfm8NuZ-FfMimSzmVzBw&#x2F;view?embed" />
+          </div>
+        )
+      case 34:
+        // WAK 2
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="" />
+          </div>
+        )
+      case 35:
+        // WAK 3
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="" />
+          </div>
+        )
+      case 36:
+        // WAK 4
+        return (
+          <div className="w-scren h-[calc(100vh-80px)]">
+            <iframe className="pointer-events-auto" loading="lazy" width={"100%"} height={"100%"} allowFullScreen
+              src="" />
+          </div>
+        )
+
     }
   }
 }

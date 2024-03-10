@@ -174,10 +174,7 @@ function FormUpdateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>Email</Label>
-          <div className='grid grid-cols-2'>
-            <Input placeholder="Email" {...registerUpdate('email')} disabled className="rounded-r-none" />
-            <Input placeholder="@school.com" disabled className="rounded-l-none" />
-          </div>
+          <Input placeholder="Email" {...registerUpdate('email')} disabled className="rounded-r-none" />
           {errorsUpdate.email && <p className='text-sm text-red-500'>{errorsUpdate.email.message}</p>}
         </div>
         <div className='col-span-4'>

@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 
 function Book() {
 
-  const { book, lesson, handleLesson, getQtdLessons } = useBook();
+  const { book, lesson, handleLesson, getQtdLessons, getQtdWaks } = useBook();
 
   return (
     <div>
@@ -24,6 +24,11 @@ function Book() {
                   {
                     Array.from({ length: getQtdLessons() }, (_, i) => (
                       <SelectItem value={i + 1} key={i}>Lesson {i + 1}</SelectItem>
+                    ))
+                  }
+                  {
+                    Array.from({ length: getQtdWaks() }, (_, i) => (
+                      <SelectItem value={i + 1 + parseInt(getQtdLessons())} key={i + getQtdLessons()}>Wak {i + 1}</SelectItem>
                     ))
                   }
                 </SelectGroup>
