@@ -32,7 +32,9 @@ router.put(
 );
 router.put("/professionals/update", professionals.UpdateStudent);
 router.put("/professionals/updateurlphoto", professionals.UpdateUrlPhoto);
+router.put("/professionals/desactivestudent", professionals.DesactiveStudent);
 router.post("/professionals/create", professionals.CreateStudent);
+router.delete("/professionals/deletestudent/:id", professionals.DeleteStudent);
 
 // Books
 router.get("/books/load/all", books.GetBooks);

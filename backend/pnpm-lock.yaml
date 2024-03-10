@@ -29,7 +29,7 @@ dependencies:
 
 devDependencies:
   tsup:
-    specifier: ^7.2.0
+    specifier: ^7.3.0
     version: 7.3.0
   tsx:
     specifier: ^3.13.0

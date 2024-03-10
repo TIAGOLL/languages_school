@@ -89,7 +89,7 @@ model students {
   active                  Boolean                   @default(dbgenerated("b'1'")) @db.Bit(1)
   books_id                Int
   password                String                    @db.VarChar(128)
-  user                    String                    @unique(map: "user_UNIQUE") @db.VarChar(128)
+  user                    String                    @db.VarChar(128)
   adresses_id             Int
   classes                 classes[]
   adresses                adresses                  @relation(fields: [adresses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_adresses1")
@@ -136,4 +136,30 @@ model students_has_classrooms {
   @@id([students_id, classrooms_id])
   @@index([classrooms_id], map: "fk_students_has_classrooms_classrooms1_idx")
   @@index([students_id], map: "fk_students_has_classrooms_students1_idx")
+}
+
+model cities {
+  id        Int     @id
+  name      String? @db.VarChar(95)
+  states_id Int
+  states    states  @relation(fields: [states_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_cities_states1")
+
+  @@index([states_id], map: "fk_cities_states1_idx")
+}
+
+model countries {
+  id     Int      @id
+  name   String?  @db.VarChar(95)
+  states states[]
+}
+
+model states {
+  id           Int       @id
+  abbr         String?   @db.VarChar(2)
+  name         String?   @db.VarChar(45)
+  countries_id Int
+  cities       cities[]
+  countries    countries @relation(fields: [countries_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_states_countries1")
+
+  @@index([countries_id], map: "fk_states_countries1_idx")
 }

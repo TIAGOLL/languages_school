@@ -12,6 +12,41 @@ const professionals = {
     return res.status(200).json(emails);
   },
 
+  DesactiveStudent: async (req, res) => {
+    const { id } = req.body;
+
+    await prisma.students.update({
+      where: {
+        id: id,
+      },
+      data: {
+        active: false,
+        adresses: {
+          update: {
+            
+          },
+        },
+      },
+    });
+  },
+
+  DeleteStudent: async (req, res) => {
+    const { id } = req.params;
+
+    await prisma.students
+      .delete({
+        where: {
+          id: parseInt(id),
+        },
+        include: {
+          adresses: true,
+        },
+      })
+      .then((value) => {
+        return res.status(200).json(value);
+      });
+  },
+
   GetUsers: async (req, res) => {
     const users = await prisma.professionals.findMany({
       select: {
