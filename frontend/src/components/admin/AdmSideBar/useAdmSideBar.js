@@ -7,6 +7,7 @@ export const useAdmSideBar = () => {
 	const [professionalPhotoUrl, setProfessionalPhotoUrl] = useState(user.avatarUrl);
 	const [professionalPhoto, setProfessionalPhoto] = useState(null);
 	const [diaglogOpen, setDialogOpen] = useState(null);
+	const [sheetOpen, setSheetOpen] = useState(false);
 
 	async function handleProfessionalPhoto(e) {
 		if (e.target.files[0]) {
@@ -45,5 +46,7 @@ export const useAdmSideBar = () => {
 		setDialogOpen,
 		handleProfessionalPhoto,
 		saveProfessionalPhoto,
+		sheetOpen,
+		setSheetOpen,
 	};
 };

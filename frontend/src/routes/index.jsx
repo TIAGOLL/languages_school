@@ -14,6 +14,7 @@ import AdmStudents from '../pages/admin/AdmStudents';
 import AdmProfessionals from '../pages/admin/AdmProfessionals';
 import AdmClasses from './../pages/admin/AdmClasses/index';
 import Admin from './admin';
+import Courses from './../pages/student/Courses/index';
 
 function RoutesApp() {
   return (
@@ -22,16 +23,10 @@ function RoutesApp() {
       {/* SignIn */}
       <Route path='/' element={<SignIn />} />
 
-      {/* Book */}
+      {/* Students */}
       <Route path='/book' element={<Private><Book /></Private>} />
-
-      {/* Classes */}
       <Route path='/classes' element={<Private><Classes /></Private>} />
-
-      {/* Tasks */}
       <Route path='/tasks' element={<Private><Tasks /></Private>} />
-
-      {/* MyClass */}
       <Route path='/myclass' element={<Private><MyClass /></Private>} />
 
       {/* Admin */}
@@ -39,6 +34,7 @@ function RoutesApp() {
       <Route path='/admin/students' element={<Admin><AdmStudents /></Admin>} />
       <Route path='/admin/professionals' element={<Admin><AdmProfessionals /></Admin>} />
       <Route path='/admin/classes' element={<Admin><AdmClasses /></Admin>} />
+      <Route path='/admin/courses' element={<Admin><Courses /></Admin>} />
 
     </Routes>
   )
