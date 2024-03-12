@@ -1,53 +1,60 @@
-import { Input } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
-import { Popover } from '@/components/ui/popover';
-import { PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { cn } from './../../../lib/utils';
-import { CalendarIcon, PlusCircle } from 'lucide-react';
-import { format, isSameMonth, setYear as setYearFns } from "date-fns"
-import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { format, isSameMonth, setYear as setYearFns } from "date-fns";
+import { CalendarIcon, PlusCircle } from 'lucide-react';
+import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
+import { PasswordGenerator, UserGenerator, cn } from './../../../lib/utils';
+import { useEffect } from 'react';
 
 function FormCreateStudents() {
 
 
-  const { books, watch, handleSubmit, errors, register, setValue, createStudent, datesForCalendar } = useStudent()
+  const { books, watchCreate, handleSubmitCreate, errorsCreate, registerCreate, setValueCreate, createStudent, datesForCalendar } = useStudent()
 
-  const dateOfBirth = watch('dateOfBirth') ?? new Date()
-  const firstName = watch('firstName')
+  const dateOfBirth = watchCreate('dateOfBirth')
+  const firstName = watchCreate('firstName')
+
+  useEffect(() => {
+    setValueCreate("password", PasswordGenerator(dateOfBirth, firstName?.toLowerCase()))
+    setValueCreate("user", UserGenerator(dateOfBirth, firstName?.toLowerCase()))
+    if (!dateOfBirth) {
+      setValueCreate('dateOfBirth', new Date())
+    }
+  }, [dateOfBirth, firstName, setValueCreate])
 
   return (
     <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(createStudent)} className='grid grid-cols-8 gap-2'>
+      <form onSubmit={handleSubmitCreate(createStudent)} className='grid grid-cols-8 gap-2'>
         <div className='col-span-8 justify-center items-center grid'>
           <p className='font-semibold'>Perfil</p>
         </div>
         <div className='col-span-4'>
           <Label>Primeiro nome</Label>
-          <Input placeholder="Primeiro nome" {...register('firstName')} />
-          {errors.firstName && <p className='text-sm text-red-500'>{errors.firstName.message}</p>}
+          <Input placeholder="Primeiro nome" {...registerCreate('firstName')} />
+          {errorsCreate.firstName && <p className='text-sm text-red-500'>{errorsCreate.firstName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Sobrenome</Label>
-          <Input placeholder="Sobrenome" {...register('lastName')} />
-          {errors.lastName && <p className='text-sm text-red-500'>{errors.lastName.message}</p>}
+          <Input placeholder="Sobrenome" {...registerCreate('lastName')} />
+          {errorsCreate.lastName && <p className='text-sm text-red-500'>{errorsCreate.lastName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>CPF</Label>
-          <Input placeholder="CPF" {...register('cpf')} maxLength={11} />
-          {errors.cpf && <p className='text-sm text-red-500'>{errors.cpf.message}</p>}
+          <Input placeholder="CPF" {...registerCreate('cpf')} maxLength={11} />
+          {errorsCreate.cpf && <p className='text-sm text-red-500'>{errorsCreate.cpf.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Telefone</Label>
-          <Input placeholder="Telefone" {...register('phone')} maxLength={11} />
-          {errors.phone && <p className='text-sm text-red-500'>{errors.phone.message}</p>}
+          <Input placeholder="Telefone" {...registerCreate('phone')} maxLength={11} />
+          {errorsCreate.phone && <p className='text-sm text-red-500'>{errorsCreate.phone.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Gênero</Label>
-          <Select {...register('gender')} onValueChange={(value) => setValue('gender', value)} >
+          <Select {...registerCreate('gender')} onValueChange={(value) => setValueCreate('gender', value)} >
             <SelectTrigger>
               <SelectValue placeholder="Gênero" />
             </SelectTrigger>
@@ -58,7 +65,7 @@ function FormCreateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.gender && <p className='text-sm text-red-500'>{errors.gender.message}</p>}
+          {errorsCreate.gender && <p className='text-sm text-red-500'>{errorsCreate.gender.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Data de nascimento</Label>
@@ -77,26 +84,26 @@ function FormCreateStudents() {
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar
-                {...register('dateOfBirth')}
+                {...registerCreate('dateOfBirth')}
                 mode="single"
                 selected={(new Date(dateOfBirth))}
-                onSelect={(value) => setValue("dateOfBirth", value)}
+                onSelect={(value) => setValueCreate("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
                 onMonthChange={(month) => {
                   if (!isSameMonth(month, dateOfBirth)) {
-                    setValue('dateOfBirth', month)
+                    setValueCreate('dateOfBirth', month)
                   }
                 }}
                 footer={
-                  <Select onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                  <Select onValueChange={(value) => { setValueCreate('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Ano" />
                     </SelectTrigger>
                     <SelectContent position="popper">
                       {
                         datesForCalendar()?.map((date) => (
-                          <SelectItem value={date}>{date}</SelectItem>
+                          <SelectItem value={date} key={date}>{date}</SelectItem>
                         ))
                       }
                     </SelectContent>
@@ -105,11 +112,11 @@ function FormCreateStudents() {
               />
             </PopoverContent>
           </Popover>
-          {errors.dateOfBirth && <p className='text-sm text-red-500'>{errors.dateOfBirth.message}</p>}
+          {errorsCreate.dateOfBirth && <p className='text-sm text-red-500'>{errorsCreate.dateOfBirth.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Livro</Label>
-          <Select {...register('book')} onValueChange={(value) => setValue('book', value)}>
+          <Select {...registerCreate('book')} onValueChange={(value) => setValueCreate('book', value)}>
             <SelectTrigger>
               <SelectValue placeholder="Book" />
             </SelectTrigger>
@@ -123,40 +130,45 @@ function FormCreateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errors.book && <p className='text-sm text-red-500'>{errors.book.message}</p>}
+          {errorsCreate.book && <p className='text-sm text-red-500'>{errorsCreate.book.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>
         </div>
         <div className='col-span-4'>
           <Label>CEP</Label>
-          <Input placeholder="CEP" {...register('zipCode')} maxLength={8} />
-          {errors.zipCode && <p className='text-sm text-red-500'>{errors.zipCode.message}</p>}
+          <Input placeholder="CEP" {...registerCreate('zipCode')} maxLength={8} />
+          {errorsCreate.zipCode && <p className='text-sm text-red-500'>{errorsCreate.zipCode.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Rua</Label>
-          <Input placeholder="Rua" {...register('street')} />
-          {errors.street && <p className='text-sm text-red-500'>{errors.street.message}</p>}
+          <Input placeholder="Rua" {...registerCreate('street')} />
+          {errorsCreate.street && <p className='text-sm text-red-500'>{errorsCreate.street.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Bairro</Label>
-          <Input placeholder="Bairro" {...register('district')} />
-          {errors.district && <p className='text-sm text-red-500'>{errors.district.message}</p>}
+          <Input placeholder="Bairro" {...registerCreate('district')} />
+          {errorsCreate.district && <p className='text-sm text-red-500'>{errorsCreate.district.message}</p>}
+        </div>
+        <div className='col-span-4'>
+          <Label>Número</Label>
+          <Input placeholder="Número" {...registerCreate('number')} />
+          {errorsCreate.number && <p className='text-sm text-red-500'>{errorsCreate.number.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Complemento</Label>
-          <Input placeholder="Complemento" {...register('complement')} />
-          {errors.complement && <p className='text-sm text-red-500'>{errors.complement.message}</p>}
+          <Input placeholder="Complemento" {...registerCreate('complement')} />
+          {errorsCreate.complement && <p className='text-sm text-red-500'>{errorsCreate.complement.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Estado</Label>
-          <Input placeholder="Estado" {...register('state')} />
-          {errors.state && <p className='text-sm text-red-500'>{errors.state.message}</p>}
+          <Input placeholder="Estado" {...registerCreate('state')} />
+          {errorsCreate.state && <p className='text-sm text-red-500'>{errorsCreate.state.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Cidade</Label>
-          <Input placeholder="Cidade" {...register('city')} />
-          {errors.city && <p className='text-sm text-red-500'>{errors.city.message}</p>}
+          <Input placeholder="Cidade" {...registerCreate('city')} />
+          {errorsCreate.city && <p className='text-sm text-red-500'>{errorsCreate.city.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4'>
           <p className='font-semibold'>Credenciais</p>
@@ -164,18 +176,22 @@ function FormCreateStudents() {
         <div className='col-span-4'>
           <Label>Email</Label>
           <div className='grid grid-cols-2'>
-            <Input placeholder="Email" {...register('email')} className="rounded-r-none" />
+            <Input placeholder="Email" {...registerCreate('email')} className="rounded-r-none" />
             <Input placeholder="@school.com" disabled className="rounded-l-none" />
           </div>
-          {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
+          {errorsCreate.email && <p className='text-sm text-red-500'>{errorsCreate.email.message}</p>}
+        </div>
+        <div className='col-span-4'>
+          <div>
+            <Label>Usúario</Label>
+            <Input placeholder="Usúario" type="text" value={UserGenerator(dateOfBirth, firstName?.toLowerCase())} {...registerCreate('user')} />
+          </div>
+          {errorsCreate.user && <p className='text-sm text-red-500'>{errorsCreate.user.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Senha</Label>
-          <Input placeholder="Senha" type="text" onValueChange={() => {
-            setValue('password', (firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)))
-          }} value={firstName?.toLowerCase() + dateOfBirth?.getDate() + (dateOfBirth?.getMonth() + 1)} {...register('password')} readOnly />
+          <Input placeholder="Senha" type="text" value={PasswordGenerator(dateOfBirth, firstName?.toLowerCase())}  {...registerCreate('password')} />
         </div>
-
         <Button type="submit" variant="default" className="mt-5">
           <PlusCircle className='w-4 h-4 mr-2' />
           Cadastrar

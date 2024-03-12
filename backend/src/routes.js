@@ -1,25 +1,42 @@
-import Router from "express";
-import { auth } from "./controllers/auth/index";
-import { students } from "./controllers/students";
-import { books } from "./controllers/books";
-import { professionals } from "./controllers/professionals";
+const Router = require("express");
+const { auth } = require("./controllers/auth/index");
+const { students } = require("./controllers/students");
+const { books } = require("./controllers/books");
+const { professionals } = require("./controllers/professionals");
 
 const router = Router();
 
 // Auth
-router.get("/students/load/infoforauth/:id", auth.GetInfoForAuth);
+router.get("/auth/signin/:user/:password", auth.SignIn);
 
 // Students
 router.get("/students/load/book/:email", students.GetBook);
-router.get("/students/load/activestudents", students.GetActiveStudents);
-router.get("/students/load/studentbyemail/:email", students.GetStudentByEmail);
-router.post("/students/create", students.CreateStudent);
-router.put("/students/update", students.UpdateStudent);
+router.put("/students/updateurlphoto", students.UpdateUrlPhoto);
 
 // Professionals
-router.post("/professionals/updateurlphoto", professionals.updateUrlPhoto);
+router.get(
+  "/professionals/load/activestudents",
+  professionals.GetActiveStudents
+);
+router.get(
+  "/professionals/load/studentbyemail/:email",
+  professionals.GetStudentByEmail
+);
+router.get("/professionals/load/studentusers", professionals.GetStudentUsers);
+router.get("/professionals/load/studentemails", professionals.GetStudentEmails);
+router.get("/professionals/load/emails", professionals.GetEmails);
+router.get("/professionals/load/users", professionals.GetUsers);
+router.put(
+  "/professionals/update/studentpassword",
+  professionals.UpdateStudentPassword
+);
+router.put("/professionals/update", professionals.UpdateStudent);
+router.put("/professionals/updateurlphoto", professionals.UpdateUrlPhoto);
+router.put("/professionals/desactivestudent", professionals.DesactiveStudent);
+router.post("/professionals/create", professionals.CreateStudent);
+router.delete("/professionals/deletestudent/:id", professionals.DeleteStudent);
 
 // Books
 router.get("/books/load/all", books.GetBooks);
 
-export { router };
+module.exports = { router };

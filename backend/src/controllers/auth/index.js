@@ -1,49 +1,39 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
+const { compare, hash } = require("bcrypt");
 const prisma = new PrismaClient();
+const auth = {
+  SignIn: async (req, res) => {
+    try {
+      const { user, password } = req.params;
 
-export const auth = {
-  GetInfoForAuth: async (req, res) => {
-    const { id } = req.params;
+      const students = await prisma.students.findFirst({
+        where: { user: user },
+      });
+      const professionals = await prisma.professionals.findFirst({
+        where: { user: user },
+      });
 
-    const user =
-      (await prisma.students
-        .findFirst({
-          where: {
-            id: id,
-          },
-          select: {
-            first_name: true,
-            avatar_url: true,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-          return res.status(500).json({
-            error: err.message,
-            message: "Erro ao buscar informações do usuário",
-          });
-        })) ||
-      (await prisma.professionals
-        .findFirst({
-          where: {
-            id: id,
-          },
-          select: {
-            first_name: true,
-            avatar_url: true,
-            admin: true,
-          },
-        })
-        .catch((err) => {
-          console.log(err);
-          return res.status(500).json({
-            error: err.message,
-            message: "Erro ao buscar informações do usuário",
-          });
-        }));
-    return res.status(200).json({
-      user: { ...user, admin: user?.admin ? 1 : 0 },
-      message: "Dados carregados com sucesso",
-    });
+      if (!students && !professionals) {
+        throw new Error("Usúario não encontrado!");
+      }
+
+      if (students) {
+        if (await compare(password, students.password)) {
+          return res.status(200).send(students);
+        }
+      }
+
+      if (professionals) {
+        if (await compare(password, professionals.password)) {
+          return res.status(200).send(professionals);
+        }
+      }
+      
+      throw new Error("Usúario ou senha inválidos!");
+    } catch (error) {
+      res.status(500).send({ message: error.message, error: error });
+    }
   },
 };
+
+module.exports = { auth };
