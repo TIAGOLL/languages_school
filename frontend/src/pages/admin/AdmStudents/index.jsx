@@ -51,16 +51,16 @@ function AdmStudents() {
         return state;
       });
     }
-    if (activeTab == 'all' && searchParams.get('per_page') == null && searchParams.get('page') == null) {
-      setSearchParams(state => {
-        state.set('tab', 'all')
-        state.set('per_page', 5)
-        state.set('page', 1)
-        return state
-      })
+    if (activeTab == "all") {
+      setSearchParams((state) => {
+        state.set("tab", "all");
+        state.set("per_page", 10);
+        state.set("page", 1);
+        return state;
+      });
     }
-    console.log(searchParams.get('page'))
-  }, [activeTab, searchParams, setSearchParams])
+  }, [activeTab, setSearchParams]);
+
 
   return (
     <div className="h-full w-full">
@@ -71,7 +71,7 @@ function AdmStudents() {
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <Eye className='w-[20px] h-[20px] mr-2' />
-                Ver todosn
+                Ver todos
               </TabsTrigger>
               <TabsTrigger value="create" className="h-12">
                 <PlusCircle className='w-[20px] h-[20px] mr-2' />

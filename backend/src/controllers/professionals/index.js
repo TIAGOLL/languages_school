@@ -22,9 +22,7 @@ const professionals = {
       data: {
         active: false,
         adresses: {
-          update: {
-            
-          },
+          update: {},
         },
       },
     });
@@ -82,32 +80,36 @@ const professionals = {
   },
 
   GetActiveStudents: async (req, res) => {
-    const students = await prisma.students.findMany({
-      where: {
-        active: true,
-        books: {
+    console.log(req.query);
+    const students = await prisma.students
+      .findMany({
+        where: {
+          active: true,
+          books: {
+            name: {
+              contains: req.query.book,
+            },
+          },
           name: {
-            contains: req.query.book,
+            contains: req.query.name,
+          },
+          email: {
+            contains: req.query.email,
           },
         },
-        name: {
-          contains: req.query.name,
-        },
-        email: {
-          contains: req.query.email,
-        },
-      },
-      select: {
-        email: true,
-        name: true,
-        books: {
-          select: {
-            name: true,
-            number: true,
+        select: {
+          email: true,
+          name: true,
+          books: {
+            select: {
+              name: true,
+              number: true,
+            },
           },
         },
-      },
-    });
+      })
+      .catch((error) => console.log(error));
+    console.log(students);
 
     return res.status(200).json({ students: students });
   },

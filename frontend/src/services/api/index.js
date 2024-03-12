@@ -68,71 +68,69 @@ const api = {
 			return response.data;
 		},
 
-		professionals: {
-			GetUsers: async () => {
-				const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/users`);
-				return response.data;
-			},
+		GetUsers: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/users`);
+			return response.data;
+		},
 
-			UploadPhoto: async (id, photo) => {
-				const uploadRef = ref(storage, `photos/professionals/${id}`);
-				await uploadBytes(uploadRef, photo)
-					.then((snapshot) => {
-						getDownloadURL(snapshot.ref).then(async (downloadURL) => {
-							await axios
-								.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`, {
-									id: id,
-									avatar_url: downloadURL,
-								})
-								.then((res) => {
-									toast.success(res.data.message);
-								})
-								.catch((err) => {
-									console.log(err.message);
-									toast.error("Erro ao atualizar foto!");
-								});
-						});
-					})
-					.catch((error) => {
-						console.log(error.message);
-						toast.error("Erro ao atualizar!");
+		UploadPhoto: async (id, photo) => {
+			const uploadRef = ref(storage, `photos/professionals/${id}`);
+			await uploadBytes(uploadRef, photo)
+				.then((snapshot) => {
+					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+						await axios
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`, {
+								id: id,
+								avatar_url: downloadURL,
+							})
+							.then((res) => {
+								toast.success(res.data.message);
+							})
+							.catch((err) => {
+								console.log(err.message);
+								toast.error("Erro ao atualizar foto!");
+							});
 					});
-			},
-
-			GetStudentByEmail: async (email) => {
-				const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentbyemail/${email}`);
-				return response.data;
-			},
-
-			GetActiveStudents: async (name, email, book) => {
-				const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/activestudents`, {
-					params: {
-						name: name ?? "",
-						email: email ?? "",
-						book: book ?? "",
-					},
+				})
+				.catch((error) => {
+					console.log(error.message);
+					toast.error("Erro ao atualizar!");
 				});
-				return response.data.students;
-			},
+		},
 
-			CreateStudent: async (data) => {
-				const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create`, data);
-				return response.data;
-			},
+		GetStudentByEmail: async (email) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentbyemail/${email}`);
+			return response.data;
+		},
 
-			UpdateStudent: async (data) => {
-				const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update`, data);
-				return response.data;
-			},
+		GetActiveStudents: async (name, email, book) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/activestudents`, {
+				params: {
+					name: name ?? "",
+					email: email ?? "",
+					book: book ?? "",
+				},
+			});
+			return response.data.students;
+		},
 
-			GetStudentUsers: async () => {
-				const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentusers`);
-				return response.data;
-			},
-			GetStudentEmails: async () => {
-				const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentemails`);
-				return response.data;
-			},
+		CreateStudent: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create`, data);
+			return response.data;
+		},
+
+		UpdateStudent: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update`, data);
+			return response.data;
+		},
+
+		GetStudentUsers: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentusers`);
+			return response.data;
+		},
+		GetStudentEmails: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentemails`);
+			return response.data;
 		},
 	},
 

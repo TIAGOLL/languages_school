@@ -22,11 +22,8 @@ function RoutesApp() {
 
       {/* Student */}
       <Route path='/' element={<SignIn />} />
-<<<<<<< HEAD
-=======
 
       {/* Students */}
->>>>>>> 0b0460278f78a898a89e6bf3ab0056e8caf46ed4
       <Route path='/book' element={<Private><Book /></Private>} />
       <Route path='/classes' element={<Private><Classes /></Private>} />
       <Route path='/tasks' element={<Private><Tasks /></Private>} />

@@ -34,6 +34,7 @@ export const useDataTableStudents = () => {
 		queryKey: ["students", name, email, book],
 		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
 	});
+	console.log(students)
 
 	const lastPostIndex = page * per_page;
 	const firstPostIndex = lastPostIndex - per_page;
