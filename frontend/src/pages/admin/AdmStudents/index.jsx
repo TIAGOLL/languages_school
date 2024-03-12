@@ -95,15 +95,16 @@ function AdmStudents() {
         return state
       })
     }
-    if (activeTab == 'all') {
+    if (activeTab == 'all' && searchParams.get('per_page') == null && searchParams.get('page') == null) {
       setSearchParams(state => {
         state.set('tab', 'all')
-        state.set('per_page', 10)
+        state.set('per_page', 5)
         state.set('page', 1)
         return state
       })
     }
-  }, [activeTab, setSearchParams])
+    console.log(searchParams.get('page'))
+  }, [activeTab, searchParams, setSearchParams])
 
   return (
     <div className="h-full w-full">

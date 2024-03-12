@@ -15,7 +15,7 @@ function DataTableStudents() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead >Name</TableHead>
+              <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Book</TableHead>
               <TableHead>Editar</TableHead>

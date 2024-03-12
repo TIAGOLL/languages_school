@@ -65,7 +65,7 @@ function PaginationSection({
         key={idx}
         className={currentPage == page ? "rounded-md" : ""}
       >
-        <PaginationLink onClick={() => setSearchParams((state) => {
+        <PaginationLink isActive={searchParams.get('page') == page} onClick={() => setSearchParams((state) => {
           state.set('page', page)
           return state
         })} className="hover:cursor-pointer">
