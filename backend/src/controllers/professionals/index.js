@@ -22,7 +22,9 @@ const professionals = {
       data: {
         active: false,
         adresses: {
-          update: {},
+          update: {
+            active: false,
+          },
         },
       },
     });
@@ -130,7 +132,7 @@ const professionals = {
       district,
       complement,
       zipCode,
-      CreatedBy,
+      createdBy,
       password,
       user,
       number,
@@ -141,6 +143,7 @@ const professionals = {
       .create({
         data: {
           password: passwordHash,
+          name: firstName + " " + lastName,
           user: user,
           email: email + "@school.com",
           first_name: firstName,
@@ -149,7 +152,7 @@ const professionals = {
           phone: phone,
           date_of_birth: dateOfBirth,
           gender: gender,
-          created_by: CreatedBy,
+          created_by: createdBy,
           adresses: {
             create: {
               city: city,
@@ -194,8 +197,8 @@ const professionals = {
       district,
       complement,
       zipCode,
-      CreatedBy,
       number,
+      updatedBy,
     } = req.body;
 
     const student = await prisma.students.update({
@@ -209,7 +212,8 @@ const professionals = {
         phone: phone,
         date_of_birth: dateOfBirth,
         gender: gender,
-        created_by: CreatedBy,
+        updated_by: updatedBy,
+        updated_at: new Date(),
         adresses: {
           update: {
             data: {
