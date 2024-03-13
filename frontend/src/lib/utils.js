@@ -7,18 +7,20 @@ export function cn(...inputs) {
 }
 
 export function PasswordGenerator(date, firstName) {
-	if (!date || !firstName) return null;
-	const day = date?.getDate().toString().length == 1 ? `0${date?.getDate()}` : date?.getDate();
-	const month = date?.getMonth().toString().length == 1 ? `0${date?.getMonth() + 1}` : date?.getMonth() + 1;
-	const password = `${firstName}${day}${month}`;
+	if (!date || !firstName) return "";
+	firstName = firstName.replace(/\s/g, ""); // tira os espaços do nome
+	const day = date?.getDate().toString().length == 1 ? `0${date?.getDate()}` : date?.getDate(); // verifica se o dia tem 1 ou 2 digitos
+	const month = date?.getMonth().toString().length == 1 ? `0${date?.getMonth() + 1}` : date?.getMonth() + 1; // verifica se o mês tem 1 ou 2 digitos
+	const password = `${firstName}${day}${month}`; // gera a senha
 	return password;
 }
 
 export function UserGenerator(date, firstName) {
-	if (!firstName || !date) return null;
-	const day = date?.getDate().toString().length == 1 ? `0${date?.getDate()}` : date?.getDate();
-	const month = date?.getMonth().toString().length == 1 ? `0${date?.getMonth() + 1}` : date?.getMonth() + 1;
-	const user = `${firstName?.toLowerCase()}${day}${month}`;
+	if (!firstName || !date) return "";
+	firstName = firstName.replace(/\s/g, ""); // tira os espaços do nome
+	const day = date?.getDate().toString().length == 1 ? `0${date?.getDate()}` : date?.getDate(); // verifica se o dia tem 1 ou 2 digitos
+	const month = date?.getMonth().toString().length == 1 ? `0${date?.getMonth() + 1}` : date?.getMonth() + 1; // verifica se o mês tem 1 ou 2 digitos
+	const user = `${firstName?.toLowerCase()}${day}${month}`; // gera o usuário
 	return user;
 }
 
