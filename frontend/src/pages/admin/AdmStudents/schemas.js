@@ -11,13 +11,10 @@ export const studentsCreateSchema = z.object({
 			return await VerifyEmailExists(email + "@school.com");
 		}, "Email já existe"),
 	firstName: z.string().min(1, "Preencha o primeiro nome").trim(),
-	user: z
-		.string()
-		.min(1, "Preencha o usuário")
-		.trim()
-		.refine(async (user) => {
-			return await VerifyUserExists(user);
-		}, "Usuário já existe"),
+	user: z.string().min(1, "Preencha o usuário").trim(),
+	// .refine(async (user) => {
+	// 	return await VerifyUserExists(user);
+	// }, "Usuário já existe")
 	password: z.string().trim(),
 	lastName: z.string().min(1, "Preencha o sobrenome").trim(),
 	number: z.string().min(1, "Preencha o número").trim(),

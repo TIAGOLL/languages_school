@@ -60,3 +60,8 @@ export async function VerifyEmailExists(email) {
 	});
 	return res;
 }
+
+export function DaysOfWeek() {
+	const dates = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+	return dates;
+}

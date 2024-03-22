@@ -1,18 +1,20 @@
 import AdmSideBar from "../../../components/admin/AdmSideBar";
+import { Eye, PlusCircle, Replace, } from 'lucide-react';
+import DataTableStudents from '../../../components/admin/DataTableStudents';
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
+import FormCreateStudents from '../../../components/admin/FormCreateStudents';
+import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
+import { usePreferences } from "./usePreferences";
 import { User } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 import { BellRing } from "lucide-react";
-import { useClasses } from './useClasses';
-import { Eye } from "lucide-react";
-import { PlusCircleIcon } from "lucide-react";
-import { Replace } from "lucide-react";
 
-function AdmClasses() {
+function Preferences() {
 
-  const { handleTab, activeTab } = useClasses();
+  const { handleTab, activeTab } = usePreferences();
 
   return (
     <div className="h-full w-full">
@@ -21,30 +23,30 @@ function AdmClasses() {
         <div className='flex w-full justify-center items-center'>
           <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
-              <TabsTrigger value="all" className="h-12" >
-                <Eye className='w-[20px] h-[20px] mr-2' />
-                Ver todas
+              <TabsTrigger value="profile" className="h-12" >
+                <User className='w-[20px] h-[20px] mr-2' />
+                Perfil
               </TabsTrigger>
-              <TabsTrigger value="create" className="h-12">
-                <PlusCircleIcon className='w-[20px] h-[20px] mr-2' />
-                Cadastrar
+              <TabsTrigger value="credentials" className="h-12">
+                <LockKeyhole className='w-[20px] h-[20px] mr-2' />
+                Credenciais
               </TabsTrigger>
-              <TabsTrigger value="update" className="h-12">
-                <Replace className='w-[20px] h-[20px] mr-2' />
-                Atualizar
+              <TabsTrigger value="notifications" className="h-12">
+                <BellRing className='w-[20px] h-[20px] mr-2' />
+                Notificações
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-full mt-10">
+            <TabsContent value="profile" className="w-full mt-10">
               <div className=" justify-center items-center flex">
                 <h1>Esse recurso ainda não esta disponivel!</h1>
               </div>
             </TabsContent>
-            <TabsContent value="create" className="w-full mt-10">
+            <TabsContent value="credentials" className="w-full mt-10">
               <div className=" justify-center items-center flex">
                 <h1>Esse recurso ainda não esta disponivel!</h1>
               </div>
             </TabsContent>
-            <TabsContent value="update" className="w-full mt-10">
+            <TabsContent value="notifications" className="w-full mt-10">
               <div className=" justify-center items-center flex">
                 <h1>Esse recurso ainda não esta disponivel!</h1>
               </div>
@@ -56,4 +58,4 @@ function AdmClasses() {
   );
 }
 
-export default AdmClasses;
+export default Preferences;

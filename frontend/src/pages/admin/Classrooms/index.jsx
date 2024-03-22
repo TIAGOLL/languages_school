@@ -1,18 +1,17 @@
 import AdmSideBar from "../../../components/admin/AdmSideBar";
+import { User } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
+import { useClassrooms } from "./useClassrooms";
+import DataTableClassrooms from "../../../components/admin/DataTableClassrooms";
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
-import { User } from "lucide-react";
-import { BellRing } from "lucide-react";
-import { useClasses } from './useClasses';
-import { Eye } from "lucide-react";
-import { PlusCircleIcon } from "lucide-react";
-import { Replace } from "lucide-react";
+import FormCreateClassrooms from "../../../components/admin/FormCreateClassrooms";
 
-function AdmClasses() {
+function AdmClassrooms() {
 
-  const { handleTab, activeTab } = useClasses();
+  const { handleTab, activeTab } = useClassrooms();
 
   return (
     <div className="h-full w-full">
@@ -22,32 +21,19 @@ function AdmClasses() {
           <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-4/12 grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
-                <Eye className='w-[20px] h-[20px] mr-2' />
-                Ver todas
+                <User className='w-[20px] h-[20px] mr-2' />
+                Ver todos
               </TabsTrigger>
               <TabsTrigger value="create" className="h-12">
                 <PlusCircleIcon className='w-[20px] h-[20px] mr-2' />
                 Cadastrar
               </TabsTrigger>
-              <TabsTrigger value="update" className="h-12">
-                <Replace className='w-[20px] h-[20px] mr-2' />
-                Atualizar
-              </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="w-full mt-10">
-              <div className=" justify-center items-center flex">
-                <h1>Esse recurso ainda não esta disponivel!</h1>
-              </div>
+              <DataTableClassrooms />
             </TabsContent>
             <TabsContent value="create" className="w-full mt-10">
-              <div className=" justify-center items-center flex">
-                <h1>Esse recurso ainda não esta disponivel!</h1>
-              </div>
-            </TabsContent>
-            <TabsContent value="update" className="w-full mt-10">
-              <div className=" justify-center items-center flex">
-                <h1>Esse recurso ainda não esta disponivel!</h1>
-              </div>
+              <FormCreateClassrooms />
             </TabsContent>
           </Tabs>
         </div>
@@ -56,4 +42,4 @@ function AdmClasses() {
   );
 }
 
-export default AdmClasses;
+export default AdmClassrooms;

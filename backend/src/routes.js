@@ -26,15 +26,39 @@ router.get("/professionals/load/studentusers", professionals.GetStudentUsers);
 router.get("/professionals/load/studentemails", professionals.GetStudentEmails);
 router.get("/professionals/load/emails", professionals.GetEmails);
 router.get("/professionals/load/users", professionals.GetUsers);
+router.get(
+  "/professionals/load/infoforcreateregistration",
+  professionals.GetInfoForCreateRegistration
+);
+router.get(
+  "/professionals/load/createregistration",
+  professionals.CreateRegistration
+);
+router.get("/professionals/load/courses", professionals.GetCourses);
+router.get("/professionals/load/classrooms", professionals.GetClassrooms);
+router.get("/professionals/load/registrations", professionals.GetRegistrations);
 router.put(
   "/professionals/update/studentpassword",
   professionals.UpdateStudentPassword
 );
 router.put("/professionals/update", professionals.UpdateStudent);
-router.put("/professionals/updateurlphoto", professionals.UpdateUrlPhoto);
-router.put("/professionals/desactivestudent", professionals.DesactiveStudent);
+router.put("/professionals/update/urlphoto", professionals.UpdateUrlPhoto);
+router.put(
+  "/professionals/update/desactivestudent",
+  professionals.DesactiveStudent
+);
+router.put(
+  "/professionals/update/updateprofessionalpassword",
+  professionals.UpdateProfessionalPassword
+);
 router.post("/professionals/create", professionals.CreateStudent);
-router.delete("/professionals/deletestudent/:id", professionals.DeleteStudent);
+router.post("/professionals/createclassroom", professionals.CreateClassroom);
+router.post("/professionals/createcourse", professionals.CreateCourse);
+router.post(
+  "/professionals/createregistration",
+  professionals.CreateRegistration
+);
+router.delete("/professionals/delete/student", professionals.DeleteStudent);
 
 // Books
 router.get("/books/load/all", books.GetBooks);

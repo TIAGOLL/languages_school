@@ -3,6 +3,207 @@ const prisma = new PrismaClient();
 const { hash } = require("bcrypt");
 
 const professionals = {
+  CreateClassroom: async (req, res) => {
+    const { date, hour, book, course } = req.body;
+
+    const classroom = prisma.classrooms.create({
+      data: {
+        date: date,
+        hour: hour,
+        books: {
+          connect: {
+            id: parseInt(book),
+          },
+        },
+        courses: {
+          connect: {
+            id: parseInt(course),
+          },
+        },
+      },
+    });
+
+    await prisma
+      .$transaction([classroom])
+      .then(() => {
+        return res.status(200).json({ message: "Turma criada com sucesso!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao criar turma!" });
+      });
+  },
+
+  GetRegistrations: async (req, res) => {
+    const registrations = await prisma.registration.findMany({
+      include: {
+        students: {
+          select: {
+            name: true,
+            email: true,
+          },
+        },
+        classrooms: {
+          select: {
+            date: true,
+            hour: true,
+            books: {
+              select: {
+                name: true,
+                number: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(registrations);
+  },
+
+  CreateRegistration: async (req, res) => {
+    const {
+      student,
+      classroom,
+      registrationTime,
+      startDate,
+      endDate,
+      monthlyFeeAmount,
+      createBy,
+    } = req.body;
+
+    const registration = prisma.registration.create({
+      data: {
+        students: {
+          connect: {
+            id: parseInt(student),
+          },
+        },
+        classrooms: {
+          connect: {
+            id: parseInt(classroom),
+          },
+        },
+        registration_time: registrationTime,
+        start_date: startDate,
+        end_date: endDate,
+        monthly_fee_amount: monthlyFeeAmount,
+        created_by: createBy,
+      },
+    });
+
+    await prisma
+      .$transaction([registration])
+      .then(() => {
+        return res
+          .status(200)
+          .json({ message: "Matricula criada com sucesso!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao criar matricula!" });
+      });
+  },
+
+  GetClassrooms: async (req, res) => {
+    const classrooms = await prisma.classrooms.findMany({
+      include: {
+        books: {
+          select: {
+            name: true,
+            number: true,
+          },
+        },
+        courses: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return res.status(200).json(classrooms);
+  },
+
+  GetInfoForCreateRegistration: async (req, res) => {
+    const students = await prisma.students.findMany({
+      select: {
+        user: true,
+        name: true,
+        email: true,
+      },
+    });
+
+    const classrooms = await prisma.classrooms.findMany({
+      select: {
+        id: true,
+        date: true,
+        hour: true,
+        books_id: true,
+      },
+    });
+
+    const books = await prisma.books.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    const courses = await prisma.courses.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    return res.status(200).json({
+      students: students,
+      classrooms: classrooms,
+      books: books,
+      courses: courses,
+    });
+  },
+
+  CreateRegistration: async (req, res) => {
+    const { student, classroom, course, book, createdBy, amountpaid } =
+      req.body;
+
+    const registration = await prisma.registration.create({
+      data: {
+        students: {
+          connect: {
+            id: parseInt(student),
+          },
+        },
+        classrooms: {
+          connect: {
+            id: parseInt(classroom),
+          },
+        },
+        amountpaid: amountpaid,
+        created_by: createdBy,
+      },
+    });
+
+    prisma
+      .$transaction([registration])
+      .then(() => {
+        return res
+          .status(200)
+          .json({ message: "Matricula criada com suscesso!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro criar a matricula!" });
+      });
+  },
+
   GetEmails: async (req, res) => {
     const emails = await prisma.professionals.findMany({
       select: {
@@ -15,35 +216,60 @@ const professionals = {
   DesactiveStudent: async (req, res) => {
     const { id } = req.body;
 
-    await prisma.students.update({
-      where: {
-        id: id,
-      },
-      data: {
-        active: false,
-        adresses: {
-          update: {
-            active: false,
+    await prisma.students
+      .update({
+        where: {
+          id: id,
+        },
+        data: {
+          active: false,
+          adresses: {
+            update: {
+              active: false,
+            },
           },
         },
-      },
-    });
+      })
+      .then(() => {
+        return res
+          .status(200)
+          .json({ message: "Estudante desativado com sucesso!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao deletar estudante!" });
+      });
   },
 
   DeleteStudent: async (req, res) => {
-    const { id } = req.params;
+    const { id, adresses_id } = req.body;
+    console.log(req.body);
+    const deleteStudent = prisma.students.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
 
-    await prisma.students
-      .delete({
-        where: {
-          id: parseInt(id),
-        },
-        include: {
-          adresses: true,
-        },
+    const deleteAdress = prisma.adresses.delete({
+      where: {
+        id: parseInt(adresses_id),
+      },
+    });
+
+    prisma
+      .$transaction([deleteStudent, deleteAdress])
+      .then(() => {
+        return res
+          .status(200)
+          .json({ message: "Estudante deletado com sucesso!" });
       })
-      .then((value) => {
-        return res.status(200).json(value);
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao deletar estudante!" });
       });
   },
 
@@ -81,15 +307,46 @@ const professionals = {
     return res.status(200).json(user);
   },
 
+  GetCourses: async (req, res) => {
+    const courses = await prisma.courses.findMany({});
+    return res.status(200).json(courses);
+  },
+  CreateCourse: async (req, res) => {
+    const { name, price } = req.body;
+    console.log(req.body);
+    const createCourse = prisma.courses.create({
+      data: {
+        name: name,
+        price: parseFloat(price),
+      },
+    });
+    prisma
+      .$transaction([createCourse])
+      .then(() => {
+        return res.status(200).json({ message: "Curso criado com sucesso!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao criar curso!" });
+      });
+  },
+
   GetActiveStudents: async (req, res) => {
-    console.log(req.query);
     const students = await prisma.students
       .findMany({
         where: {
           active: true,
-          books: {
-            name: {
-              contains: req.query.book,
+          registration: {
+            every: {
+              classrooms: {
+                books: {
+                  name: {
+                    contains: req.query.book,
+                  },
+                },
+              },
             },
           },
           name: {
@@ -101,17 +358,27 @@ const professionals = {
         },
         select: {
           email: true,
+          id: true,
           name: true,
-          books: {
+          adresses_id: true,
+          user: true,
+          registration: {
             select: {
-              name: true,
-              number: true,
+              classrooms: {
+                include: {
+                  books: {
+                    select: {
+                      name: true,
+                      number: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
       })
       .catch((error) => console.log(error));
-    console.log(students);
 
     return res.status(200).json({ students: students });
   },
@@ -190,7 +457,7 @@ const professionals = {
       phone,
       dateOfBirth,
       gender,
-      book,
+      registration,
       city,
       state,
       street,
@@ -227,9 +494,9 @@ const professionals = {
             },
           },
         },
-        books: {
+        registration: {
           connect: {
-            id: parseInt(book),
+            id: parseInt(registration),
           },
         },
       },
@@ -267,6 +534,21 @@ const professionals = {
     });
   },
 
+  UpdateProfessionalPassword: async (req, res) => {
+    const { email, password } = req.body;
+
+    const passwordHash = await hash(password, 6);
+
+    await prisma.professionals.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: passwordHash,
+      },
+    });
+  },
+
   GetStudentByEmail: async (req, res) => {
     const { email } = req.params;
 
@@ -276,7 +558,20 @@ const professionals = {
           email: email,
         },
         include: {
-          books: true,
+          registration: {
+            include: {
+              classrooms: {
+                include: {
+                  books: {
+                    select: {
+                      name: true,
+                      number: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
           adresses: true,
         },
       })

@@ -1,6 +1,9 @@
 import { toast } from "react-toastify";
 import api from "../../../services/api";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SchemaUpdateProfessionalPassword } from "./schemaUpdateProfessionalPassword";
 
 export const useAdmSideBar = () => {
 	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
@@ -8,6 +11,12 @@ export const useAdmSideBar = () => {
 	const [professionalPhoto, setProfessionalPhoto] = useState(null);
 	const [diaglogOpen, setDialogOpen] = useState(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
+
+	const { register, handleSubmit, formState, watch, setValue } = useForm({
+		resolver: zodResolver(SchemaUpdateProfessionalPassword),
+		mode: "all",
+		criteriaMode: "all",
+	});
 
 	async function handleProfessionalPhoto(e) {
 		if (e.target.files[0]) {
@@ -36,8 +45,11 @@ export const useAdmSideBar = () => {
 			});
 	}
 
+	async function changePassword() {}
+
 	return {
 		user,
+		changePassword,
 		professionalPhotoUrl,
 		setProfessionalPhotoUrl,
 		professionalPhoto,
@@ -48,5 +60,10 @@ export const useAdmSideBar = () => {
 		saveProfessionalPhoto,
 		sheetOpen,
 		setSheetOpen,
+		register,
+		handleSubmit,
+		formState,
+		watch,
+		setValue,
 	};
 };

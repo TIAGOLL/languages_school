@@ -3,22 +3,20 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
-import { Menu, Power } from "lucide-react";
+import { Menu, Power, Circle } from "lucide-react";
 import { useContext } from 'react';
 import { AuthContext } from '../../../contexts/auth';
 import { Label } from '@/components/ui/label';
 import { useAdmSideBar } from "./useAdmSideBar";
 import { ThemeSwitcher } from "../../ui/ThemeSwitcher";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
-import { ChevronDownIcon } from "lucide-react";
-import { PlusCircle } from "lucide-react";
-import { Circle } from "lucide-react";
+import { Settings } from "lucide-react";
 
 
 function AdmSideBar() {
 
   const { logout } = useContext(AuthContext);
-  const { diaglogOpen, setDialogOpen, professionalPhotoUrl, user, handleProfessionalPhoto, saveProfessionalPhoto, sheetOpen, setSheetOpen } = useAdmSideBar();
+  const { diaglogOpen, changePassword, setDialogOpen, professionalPhotoUrl, user, handleProfessionalPhoto, saveProfessionalPhoto, sheetOpen, setSheetOpen } = useAdmSideBar();
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -60,14 +58,34 @@ function AdmSideBar() {
                 <Label htmlFor="photo">Escolha sua foto</Label>
                 <Input accept="image/*" id="photo" type="file" className="col-span-2" onChange={e => handleProfessionalPhoto(e)} />
               </div>
-              <DialogFooter>
+              <DialogFooter className="!justify-between flex w-full">
+                <Dialog >
+                  <DialogTrigger asChild>
+                    <Button variant="ghost">Trocar senha</Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                      <DialogTitle>Trocar senha</DialogTitle>
+                      <DialogDescription>
+                        Mantenha se protegido, Troque sua senha regularmente
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid grid-cols-3 items-center gap-4 py-4">
+                      <Label htmlFor="password">Nova senha</Label>
+                      <Input id="password" type="password" className="col-span-2" />
+                    </div>
+                    <DialogFooter >
+                      <Button onClick={() => changePassword()}>Salvar alterações</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
                 <Button onClick={() => saveProfessionalPhoto()}>Salvar alterações</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          {/* Alunos */}
+          {/* Dashboard */}
           <Accordion type="single" collapsible className="w-full border-2 border-[hsl(var(--input))] p-1 rounded-md">
             <AccordionItem value="item-1" className="border-0">
               <AccordionTrigger className="p-2">
@@ -91,11 +109,19 @@ function AdmSideBar() {
               <AccordionContent className="border-0 mt-2 space-y-1">
                 <a href="/admin/students?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
                   <Circle className="w-2 h-2" />
-                  Ver todos
+                  Ver alunos
                 </a>
                 <a href="/admin/students?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
                   <Circle className="w-2 h-2" />
-                  Cadastrar novo
+                  Cadastrar aluno
+                </a>
+                <a href="/admin/classes?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                  <Circle className="w-2 h-2" />
+                  Ver aulas
+                </a>
+                <a href="/admin/classes?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                  <Circle className="w-2 h-2" />
+                  Cadastrar aula
                 </a>
               </AccordionContent>
             </AccordionItem>
@@ -108,7 +134,7 @@ function AdmSideBar() {
                 Cursos
               </AccordionTrigger>
               <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/courses?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                <a href="/admin/courses?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
                   <Circle className="w-2 h-2" />
                   Ver todos
                 </a>
@@ -116,13 +142,28 @@ function AdmSideBar() {
                   <Circle className="w-2 h-2" />
                   Cadastrar curso
                 </a>
-                <a href="/admin/courses?tab=classes" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar aula
-                </a>
-                <a href="/admin/courses?tab=registration" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                <a href="/admin/courses?tab=matriculate" className="hover:underline flex flex-row gap-2 items-center ml-5">
                   <Circle className="w-2 h-2" />
                   Matricular aluno
+                </a>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          
+          {/* Turmas */}
+          <Accordion type="single" collapsible className="w-full border-2 border-[hsl(var(--input))] p-1 rounded-md">
+            <AccordionItem value="item-1" className="border-0">
+              <AccordionTrigger className="p-2">
+                Turmas
+              </AccordionTrigger>
+              <AccordionContent className="border-0 mt-2 space-y-1">
+                <a href="/admin/classrooms?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                  <Circle className="w-2 h-2" />
+                  Ver todas
+                </a>
+                <a href="/admin/classrooms?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
+                  <Circle className="w-2 h-2" />
+                  Cadastrar turma
                 </a>
               </AccordionContent>
             </AccordionItem>
@@ -147,10 +188,19 @@ function AdmSideBar() {
             </AccordionItem>
           </Accordion>
         </div>
-        <SheetFooter className="absolute bottom-2">
-          <SheetClose asChild >
-            <Button variant="link" className="gap-2" onClick={() => logout()}><Power width={20} />Desconectar</Button>
-          </SheetClose>
+        <SheetFooter className="absolute bottom-2 w-10/12">
+          <div className="w-full !justify-between flex">
+            <SheetClose asChild >
+              <Button variant="link" className="gap-2" onClick={() => logout()}><Power width={20} />Desconectar</Button>
+            </SheetClose>
+            <SheetClose asChild >
+              <a href="/admin/preferences">
+                <Button variant="ghost" className="gap-2" >
+                  <Settings width={20} />
+                </Button>
+              </a>
+            </SheetClose>
+          </div>
         </SheetFooter>
       </SheetContent>
     </Sheet >
