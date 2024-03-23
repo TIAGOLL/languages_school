@@ -11,7 +11,6 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import FormCreateStudents from '../../../components/admin/FormCreateStudents';
-import { useEffect } from 'react';
 import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
 import { StudentsFilterSchema } from './schemas';
 import { useStudent } from './useStudent';
@@ -19,8 +18,9 @@ import { useStudent } from './useStudent';
 
 function AdmStudents() {
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const { cleanParams, handleFilterStudents, cleanFilter } = useStudent();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, _] = useSearchParams()
+  const { handleFilterStudents, cleanFilter, handleTab } = useStudent();
 
   const name = searchParams.get('name')
   const email = searchParams.get('email')
@@ -36,39 +36,13 @@ function AdmStudents() {
     }
   })
 
-  function handleTab(e) {
-    setSearchParams(state => {
-      state.set('tab', e)
-      return state
-    })
-    cleanParams();
-  }
-
-  useEffect(() => {
-    if (!activeTab) {
-      setSearchParams((state) => {
-        state.set("tab", "all");
-        return state;
-      });
-    }
-    if (activeTab == "all") {
-      setSearchParams((state) => {
-        state.set("tab", "all");
-        state.set("per_page", 10);
-        state.set("page", 1);
-        return state;
-      });
-    }
-  }, [activeTab, setSearchParams]);
-
-
   return (
     <div className="h-full w-full">
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
           <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
-            <TabsList className="grid w-4/12 grid-cols-3 h-full">
+            <TabsList className="grid w-[600px] grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <Eye className='w-[20px] h-[20px] mr-2' />
                 Ver todos
@@ -79,7 +53,7 @@ function AdmStudents() {
               </TabsTrigger>
               <TabsTrigger value="update" disabled={activeTab != 'update'} className="h-12">
                 <Replace className='w-[20px] h-[20px] mr-2' />
-                Atualizar
+                Atualizar aluno
               </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="w-full mt-10">

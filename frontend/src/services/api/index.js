@@ -58,6 +58,63 @@ const api = {
 	},
 
 	professionals: {
+		CreateRegistration: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createregistration`, data);
+			return response.data;
+		},
+
+		GetRegistrations: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/registrations`);
+			return response.data;
+		},
+
+		CreateClassroom: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createclassroom`, data);
+			return response.data;
+		},
+
+		GetClassrooms: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/classrooms`);
+			return response.data;
+		},
+
+		GetInfoForCreateRegistration: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/infoforcreateregistration`);
+			return response.data;
+		},
+
+		CreateCourse: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createcourse`, data);
+			return response.data;
+		},
+
+		GetCourses: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/courses`);
+			return response.data;
+		},
+
+		UpdateProfessionalPassword: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/updateprofessionalpassword`, data);
+			return response.data;
+		},
+
+		DeleteStudent: async (id, adresses_id) => {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/student`, {
+				data: {
+					id: id,
+					adresses_id: adresses_id,
+				},
+			});
+			return response.data;
+		},
+
+		DesactiveStudent: async (id) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/desactivestudent`, {
+				id: id,
+			});
+			return response.data;
+		},
+
 		UpdateStudentPassword: async (data) => {
 			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/studentpassword`, data);
 			return response.data;
@@ -79,7 +136,7 @@ const api = {
 				.then((snapshot) => {
 					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
 						await axios
-							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/updateurlphoto`, {
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/urlphoto`, {
 								id: id,
 								avatar_url: downloadURL,
 							})
@@ -133,10 +190,6 @@ const api = {
 			return response.data;
 		},
 	},
-
-	courses: {},
-
-	classrooms: {},
 };
 
 export default api;

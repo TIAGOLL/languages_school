@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 export const useDataTableStudents = () => {
 	const {
@@ -29,13 +30,16 @@ export const useDataTableStudents = () => {
 	const name = searchParams.get("name");
 	const email = searchParams.get("email");
 	const book = searchParams.get("book");
+	const activeTab = searchParams.get("tab");
 
-	const { data: students, isLoading } = useQuery({
+	const {
+		data: students,
+		isLoading,
+		refetch,
+	} = useQuery({
 		queryKey: ["students", name, email, book],
 		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
 	});
-	console.log(students)
-
 	const lastPostIndex = page * per_page;
 	const firstPostIndex = lastPostIndex - per_page;
 	const currentPosts = students?.slice(firstPostIndex, lastPostIndex);
@@ -58,8 +62,57 @@ export const useDataTableStudents = () => {
 		setValue("email", student.email);
 	}
 
+	async function deleteStudent(id, adresses_id) {
+		setLoading(true);
+		await api.professionals
+			.DeleteStudent(id, adresses_id)
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+				setDialogOpen(false);
+			})
+			.catch((err) => {
+				toast.error(err.message);
+			})
+			.finally(() => setLoading(false));
+	}
+
+	async function desactiveStudent(id) {
+		setLoading(true);
+		await api.professionals
+			.DesactiveStudent(id)
+			.then((res) => {
+				toast.success(res.message);
+				refetch();
+				setDialogOpen(false);
+			})
+			.catch((err) => {
+				toast.error(err.message);
+			})
+			.finally(() => setLoading(false));
+	}
+
+	useEffect(() => {
+		if (!activeTab) {
+			setSearchParams((state) => {
+				state.set("tab", "all");
+				return state;
+			});
+		}
+		if (activeTab == "all" && !per_page && !page) {
+			setSearchParams((state) => {
+				state.set("tab", "all");
+				state.set("per_page", 10);
+				state.set("page", 1);
+				return state;
+			});
+		}
+	}, [activeTab, book, email, name, page, per_page, setSearchParams]);
+
 	return {
 		students,
+		desactiveStudent,
+		deleteStudent,
 		setValueOnDialogOpen,
 		diaglogOpen,
 		UpdatePassword,

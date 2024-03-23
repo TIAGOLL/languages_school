@@ -10,6 +10,7 @@ import { studentsCreateSchema, studentsUpdateSchema } from "./schemas";
 export const useStudent = () => {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
 
 	const {
 		register: registerCreate,
@@ -50,7 +51,7 @@ export const useStudent = () => {
 
 	async function createStudent(data) {
 		await api.professionals
-			.CreateStudent(data)
+			.CreateStudent({ ...data, createdBy: user.id })
 			.then((res) => {
 				toast.success(res.message);
 				navigate("/admin/students");
@@ -63,7 +64,7 @@ export const useStudent = () => {
 
 	async function updateStudent(data) {
 		await api.professionals
-			.UpdateStudent(data)
+			.UpdateStudent({ ...data, updatedBy: user.id })
 			.then((res) => {
 				toast.success(res.message);
 				navigate("/admin/students");
@@ -158,9 +159,19 @@ export const useStudent = () => {
 		});
 	}
 
+	function handleTab(e) {
+		console.log(e);
+		setSearchParams((state) => {
+			state.set("tab", e);
+			return state;
+		});
+		cleanParams();
+	}
+
 	return {
 		registerCreate,
 		handleSubmitCreate,
+		handleTab,
 		errorsCreate: errorsCreate.errors,
 		watchCreate,
 		setValueCreate,
@@ -179,5 +190,6 @@ export const useStudent = () => {
 		errorsUpdate: errorsUpdate.errors,
 		watchUpdate,
 		setValueUpdate,
+		user,
 	};
 };
