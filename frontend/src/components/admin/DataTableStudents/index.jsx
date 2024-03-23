@@ -123,7 +123,11 @@ function DataTableStudents() {
                                 <DropdownMenuLabel>Mais ações</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup >
+<<<<<<< HEAD
                                   <DropdownMenuItem onSelect={() => window.location.assign(`/admin/courses?tab=matriculate&id=${student.id}`)}>
+=======
+                                  <DropdownMenuItem onSelect={() => window.location.assign(`/admin/courses?tab=matriculate&user=${student.user}`)}>
+>>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
                                     Matricular aluno
                                     <DropdownMenuShortcut><ScrollText className='w-4 h-4 dark:text-white' /></DropdownMenuShortcut>
                                   </DropdownMenuItem>

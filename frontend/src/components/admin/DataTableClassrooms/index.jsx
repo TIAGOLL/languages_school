@@ -15,8 +15,13 @@ function DataTableClassrooms() {
             <TableRow>
               <TableHead>Dia</TableHead>
               <TableHead>Hora</TableHead>
+<<<<<<< HEAD
               <TableHead>Curso</TableHead>
               <TableHead>Livro</TableHead>
+=======
+              <TableHead>Livro</TableHead>
+              <TableHead>Curso</TableHead>
+>>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
             </TableRow>
           </TableHeader>
           <TableBody>

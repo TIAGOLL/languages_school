@@ -30,6 +30,13 @@ router.get(
   "/professionals/load/infoforcreateregistration",
   professionals.GetInfoForCreateRegistration
 );
+<<<<<<< HEAD
+=======
+router.get(
+  "/professionals/load/createregistration",
+  professionals.CreateRegistration
+);
+>>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
 router.get("/professionals/load/courses", professionals.GetCourses);
 router.get("/professionals/load/classrooms", professionals.GetClassrooms);
 router.get("/professionals/load/registrations", professionals.GetRegistrations);
@@ -43,10 +50,13 @@ router.put(
   "/professionals/update/desactivestudent",
   professionals.DesactiveStudent
 );
+<<<<<<< HEAD
 router.post(
   "/professionals/createregistration",
   professionals.CreateRegistration
 );
+=======
+>>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
 router.put(
   "/professionals/update/updateprofessionalpassword",
   professionals.UpdateProfessionalPassword

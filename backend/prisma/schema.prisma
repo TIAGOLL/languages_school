@@ -17,7 +17,7 @@ model adresses {
   city          String?         @db.VarChar(45)
   state         String?         @db.VarChar(45)
   number        String?         @db.VarChar(45)
-  active        Boolean         @default(dbgenerated("(b'1')")) @db.Bit(1)
+  active        Boolean         @default(dbgenerated("b'1'")) @db.Bit(1)
   professionals professionals[]
   students      students[]
 }
@@ -44,6 +44,7 @@ model classes {
   @@index([classrooms_id], map: "fk_classes_classrooms1_idx")
   @@index([presence_list_id], map: "fk_classes_presence_list1_idx")
   @@index([professionals_id], map: "fk_classes_professionals1_idx")
+  @@index([classrooms_id], map: "fk_classes_classrooms1_idx")
 }
 
 model classrooms {
@@ -116,6 +117,7 @@ model registration {
 
   @@index([classrooms_id], map: "fk_registration_classrooms1_idx")
   @@index([students_id], map: "fk_registration_students1_idx")
+  @@index([classrooms_id], map: "fk_registration_classrooms1_idx")
 }
 
 model role {
