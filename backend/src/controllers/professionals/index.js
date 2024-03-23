@@ -68,7 +68,6 @@ const professionals = {
       student,
       classroom,
       registrationTime,
-<<<<<<< HEAD
       monthlyFeeAmount,
       createdBy,
     } = req.body;
@@ -78,14 +77,6 @@ const professionals = {
     let endDate = new Date();
     endDate.setMonth(new Date().getMonth() + parseInt(registrationTime));
 
-=======
-      startDate,
-      endDate,
-      monthlyFeeAmount,
-      createBy,
-    } = req.body;
-
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
     const registration = prisma.registration.create({
       data: {
         students: {
@@ -98,7 +89,6 @@ const professionals = {
             id: parseInt(classroom),
           },
         },
-<<<<<<< HEAD
         registration_time: parseInt(registrationTime),
         start_date: new Date(),
         end_date: endDate,
@@ -115,22 +105,11 @@ const professionals = {
         amount_paid_for_month: {
           increment: parseFloat(monthlyFeeAmount),
         },
-=======
-        registration_time: registrationTime,
-        start_date: startDate,
-        end_date: endDate,
-        monthly_fee_amount: monthlyFeeAmount,
-        created_by: createBy,
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
       },
     });
 
     await prisma
-<<<<<<< HEAD
       .$transaction([registration, updateAmountPaidForMonth])
-=======
-      .$transaction([registration])
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
       .then(() => {
         return res
           .status(200)
@@ -169,10 +148,7 @@ const professionals = {
         user: true,
         name: true,
         email: true,
-<<<<<<< HEAD
         id: true,
-=======
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
       },
     });
 
@@ -207,45 +183,6 @@ const professionals = {
     });
   },
 
-<<<<<<< HEAD
-=======
-  CreateRegistration: async (req, res) => {
-    const { student, classroom, course, book, createdBy, amountpaid } =
-      req.body;
-
-    const registration = await prisma.registration.create({
-      data: {
-        students: {
-          connect: {
-            id: parseInt(student),
-          },
-        },
-        classrooms: {
-          connect: {
-            id: parseInt(classroom),
-          },
-        },
-        amountpaid: amountpaid,
-        created_by: createdBy,
-      },
-    });
-
-    prisma
-      .$transaction([registration])
-      .then(() => {
-        return res
-          .status(200)
-          .json({ message: "Matricula criada com suscesso!" });
-      })
-      .catch((error) => {
-        console.error(error.message);
-        return res
-          .status(500)
-          .json({ message: "Ocorreu um erro criar a matricula!" });
-      });
-  },
-
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
   GetEmails: async (req, res) => {
     const emails = await prisma.professionals.findMany({
       select: {

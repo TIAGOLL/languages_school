@@ -55,7 +55,7 @@ function FormCreateRegistration() {
                           params.set("id", student.id)
                           return params
                         })
-                        setValue("student", student.user)
+                        setValue("student", student.id)
                         setOpen(false)
                       }}
                     >

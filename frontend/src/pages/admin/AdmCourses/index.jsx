@@ -34,19 +34,11 @@ function AdmCourses() {
                 Matricular
               </TabsTrigger>
             </TabsList>
-<<<<<<< HEAD
             <TabsContent value="all" className="w-6/12 mt-10">
               <DataTableCourses />
             </TabsContent>
             <TabsContent value="create" className="w-full mt-10">
               <FormCreateCourse />
-=======
-            <TabsContent value="all" className="w-full mt-10">
-              <DataTableCourses />
-            </TabsContent>
-            <TabsContent value="create" className="w-full mt-10">
-             <FormCreateCourse />
->>>>>>> 39c8d20d1114fd156937fbe4dea89ce82c7b053b
             </TabsContent>
             <TabsContent value="matriculate" className="w-full mt-10">
               <FormCreateRegistration />
