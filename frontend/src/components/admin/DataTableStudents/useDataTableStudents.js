@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../services/api";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
@@ -24,6 +24,7 @@ export const useDataTableStudents = () => {
 	const [diaglogOpen, setDialogOpen] = useState(null);
 	const [loading, setLoading] = useState(false);
 
+	const tab = searchParams.get("tab");
 	const page = searchParams.get("page");
 	const per_page = searchParams.get("per_page");
 	const name = searchParams.get("name");
@@ -34,7 +35,7 @@ export const useDataTableStudents = () => {
 		queryKey: ["students", name, email, book],
 		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
 	});
-	console.log(students)
+	console.log(students);
 
 	const lastPostIndex = page * per_page;
 	const firstPostIndex = lastPostIndex - per_page;
@@ -57,6 +58,17 @@ export const useDataTableStudents = () => {
 	function setValueOnDialogOpen(student) {
 		setValue("email", student.email);
 	}
+
+	useEffect(() => {
+		if (tab == "all" && !page && !per_page) {
+			setSearchParams((state) => {
+				state.set("tab", "all");
+				state.set("per_page", 10);
+				state.set("page", 1);
+				return state;
+			});
+		}
+	}, [page, per_page, setSearchParams, tab]);
 
 	return {
 		students,

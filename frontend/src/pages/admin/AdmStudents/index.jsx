@@ -20,12 +20,13 @@ import { useStudent } from './useStudent';
 function AdmStudents() {
 
   const [searchParams, setSearchParams] = useSearchParams()
-  const { cleanParams, handleFilterStudents, cleanFilter } = useStudent();
+  const { handleFilterStudents, cleanFilter } = useStudent();
 
   const name = searchParams.get('name')
   const email = searchParams.get('email')
   const book = searchParams.get('book')
   const activeTab = searchParams.get('tab')
+
 
   const { register, handleSubmit } = useForm({
     resolver: zodResolver(StudentsFilterSchema),
@@ -35,12 +36,21 @@ function AdmStudents() {
       book: book ?? ''
     }
   })
-
+  function cleanParams() {
+    setSearchParams((state) => {
+      state.delete("name");
+      state.delete("email");
+      state.delete("book");
+      state.delete("per_page");
+      state.delete("page");
+      return state;
+    });
+  }
   function handleTab(e) {
-    setSearchParams(state => {
-      state.set('tab', e)
-      return state
-    })
+    setSearchParams((state) => {
+      state.set("tab", e);
+      return state;
+    });
     cleanParams();
   }
 
@@ -48,14 +58,6 @@ function AdmStudents() {
     if (!activeTab) {
       setSearchParams((state) => {
         state.set("tab", "all");
-        return state;
-      });
-    }
-    if (activeTab == "all") {
-      setSearchParams((state) => {
-        state.set("tab", "all");
-        state.set("per_page", 10);
-        state.set("page", 1);
         return state;
       });
     }

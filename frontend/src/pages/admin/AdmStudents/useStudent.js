@@ -109,17 +109,6 @@ export const useStudent = () => {
 		return { books, student, isLoading };
 	}
 
-	function cleanParams() {
-		setSearchParams((state) => {
-			state.delete("name");
-			state.delete("email");
-			state.delete("book");
-			state.delete("per_page");
-			state.delete("page");
-			return state;
-		});
-	}
-
 	function cleanFilter() {
 		setSearchParams((state) => {
 			state.delete("name");
@@ -171,7 +160,6 @@ export const useStudent = () => {
 		student: Data().student,
 		datesForCalendar,
 		handleFilterStudents,
-		cleanParams,
 		cleanFilter,
 		searchParams,
 		registerUpdate,
