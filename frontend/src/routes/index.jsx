@@ -16,7 +16,8 @@ import Admin from './admin';
 import Preferences from '../pages/admin/AdmPreferences';
 import AdmCourses from './../pages/admin/AdmCourses/index';
 import AdmClasses from './../pages/admin/AdmClasses/index';
-import AdmClassrooms from '../pages/admin/Classrooms';
+import AdmClassrooms from '../pages/admin/AdmClassrooms';
+import AdmRegistrations from '../pages/admin/AdmRegistrations';
 
 function RoutesApp() {
   return (
@@ -39,6 +40,7 @@ function RoutesApp() {
       <Route path='/admin/classes' element={<Admin><AdmClasses /></Admin>} />
       <Route path='/admin/preferences' element={<Admin><Preferences /></Admin>} />
       <Route path='/admin/classrooms' element={<Admin><AdmClassrooms /></Admin>} />
+      <Route path='/admin/registrations' element={<Admin><AdmRegistrations /></Admin>} />
 
     </Routes>
   )

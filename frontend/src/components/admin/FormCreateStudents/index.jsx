@@ -9,6 +9,7 @@ import { CalendarIcon, PlusCircle } from 'lucide-react';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
 import { PasswordGenerator, UserGenerator, cn } from './../../../lib/utils';
 import { useEffect } from 'react';
+import mask from 'make-mask'
 
 function FormCreateStudents() {
 
@@ -43,7 +44,7 @@ function FormCreateStudents() {
         </div>
         <div className='col-span-4'>
           <Label>CPF</Label>
-          <Input placeholder="CPF" {...registerCreate('cpf')} maxLength={11} />
+          <Input placeholder="CPF" {...registerCreate('cpf')} value={mask(watchCreate("cpf") || "", '000.000.000-00', { reverse: true })} />
           {errorsCreate.cpf && <p className='text-sm text-red-500'>{errorsCreate.cpf.message}</p>}
         </div>
         <div className='col-span-4'>

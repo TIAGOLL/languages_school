@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export const useCourses = () => {
+export const useClassrooms = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const activeTab = searchParams.get("tab");
 

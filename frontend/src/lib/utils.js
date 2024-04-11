@@ -65,3 +65,16 @@ export function DaysOfWeek() {
 	const dates = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
 	return dates;
 }
+
+export function CreatePaginationArray(data, page, per_page) {
+	const lastPostIndex = page * per_page;
+	const firstPostIndex = lastPostIndex - per_page;
+	const currentPosts = data?.slice(firstPostIndex, lastPostIndex);
+
+	return currentPosts;
+}
+
+export function GetUser() {
+	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
+	return user;
+}

@@ -33,7 +33,7 @@ const api = {
 								toast.success(res.data.message);
 							})
 							.catch((err) => {
-								console.log(err.message);
+								console.log(err.response.data.message);
 								toast.error("Erro ao atualizar foto!");
 							});
 					});
@@ -58,8 +58,50 @@ const api = {
 	},
 
 	professionals: {
+		HandleClassroom: async (classroomId, registrationId) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handleclassroom`, {
+				classroomId,
+				registrationId,
+			});
+			return response.data;
+		},
+
+		GetCourseById: async (id) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/coursesbyid/${id}`);
+			return response.data;
+		},
+
+		UpdateCourse: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/course`, data);
+			return response.data;
+		},
+
+		DeleteCourse: async (id) => {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/course`, {
+				data: {
+					id: id,
+				},
+			});
+			return response.data;
+		},
+
 		CreateRegistration: async (data) => {
 			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createregistration`, data);
+			return response.data;
+		},
+
+		DeleteRegistration: async (id) => {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/registration/${id}`);
+			return response.data;
+		},
+
+		HandleLockRegistration: async (id) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/lock/registration/${id}`);
+			return response.data;
+		},
+
+		GetRegistrationById: async (id) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/registrationbyid/${id}`);
 			return response.data;
 		},
 
@@ -70,6 +112,25 @@ const api = {
 
 		CreateClassroom: async (data) => {
 			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createclassroom`, data);
+			return response.data;
+		},
+
+		UpdateClassroom: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/classroom`, data);
+			return response.data;
+		},
+
+		DeleteClassroom: async (id) => {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/classroom`, {
+				data: {
+					id: id,
+				},
+			});
+			return response.data;
+		},
+
+		GetClassroomById: async (id) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/classroombyid/${id}`);
 			return response.data;
 		},
 
@@ -144,7 +205,7 @@ const api = {
 								toast.success(res.data.message);
 							})
 							.catch((err) => {
-								console.log(err.message);
+								console.log(err.response.data.message);
 								toast.error("Erro ao atualizar foto!");
 							});
 					});
@@ -160,12 +221,12 @@ const api = {
 			return response.data;
 		},
 
-		GetActiveStudents: async (name, email, book) => {
+		GetActiveStudents: async (name, email, course) => {
 			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/activestudents`, {
 				params: {
 					name: name ?? "",
 					email: email ?? "",
-					book: book ?? "",
+					course: course ?? "",
 				},
 			});
 			return response.data.students;

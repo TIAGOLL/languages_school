@@ -10,35 +10,55 @@ import { LoaderIcon, Power, Trash2, ScrollText, Save, KeyRound, Pencil } from 'l
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
+import mask from 'make-mask';
+import { cn } from '../../../lib/utils';
+import { BookCheck, LockKeyhole } from 'lucide-react';
 
 function DataTableStudents() {
 
-  const { isLoading, currentPosts, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent } = useDataTableStudents();
+  const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent } = useDataTableStudents();
   return (
     <>
       <div className='border rounded-lg rounded-b-none'>
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>ID</TableHead>
               <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Book</TableHead>
+              <TableHead>Curso(s)</TableHead>
+              <TableHead>CPF</TableHead>
+              <TableHead>Mensalidade (total)</TableHead>
               <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {
-              !isLoading && currentPosts?.map((student) => (
-                <TableRow key={student.email}>
-                  <TableCell className="font-medium">{student.name}</TableCell>
-                  <TableCell>{student.email}</TableCell>
-                  <TableCell>{student.registration?.books?.name}</TableCell>
+              !isLoading && studentsPages?.map((student) => (
+                <TableRow key={student?.email}>
+                  <TableCell>{student?.id}</TableCell>
+                  <TableCell className="font-medium">{student?.name}</TableCell>
+                  <TableCell>{student?.email}</TableCell>
+                  <TableCell className="flex flex-row gap-1">
+                    {
+                      student?.registrations?.map((registration) => registration).length == 0 ? 'S/C' : student?.registrations?.map((registration) => {
+                        return (
+                          <div key={registration?.id} className={cn('flex gap-1 flex-row items-center justify-center bg-zinc-100 dark:bg-zinc-700 p-1 rounded-md', registration?.locked == 1 ? "text-red-400" : "text-green-400")}>
+                            {registration?.locked == 1 ? <LockKeyhole className='w-4 h-4' /> : <BookCheck className='w-4 h-4' />}
+                            <span className=''>{registration?.courses.name}</span>
+                          </div>
+                        )
+                      })
+                    }
+                  </TableCell>
+                  <TableCell>{mask(student?.cpf, '000.000.000-00', { reverse: true })}</TableCell>
+                  <TableCell>R$ {student?.amount_paid_for_month}</TableCell>
                   <TableCell className="space-x-2">
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Button variant="link" className="py-0 px-0 m-0">
-                            <a href={`/admin/students?tab=update&email=${student.email}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
+                            <a href={`/admin/students?tab=update&email=${student?.email}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
                               <Pencil className='w-4 h-4 dark:text-black' />
                             </a>
                           </Button>
@@ -63,7 +83,7 @@ function DataTableStudents() {
                                   <DialogHeader>
                                     <DialogTitle>Editar senha</DialogTitle>
                                     <DialogDescription>
-                                      Digite a nova senha para o usuário: <span className='font-bold'>{student.name}</span>
+                                      Digite a nova senha para o usuário: <span className='font-bold'>{student?.name}</span>
                                     </DialogDescription>
                                   </DialogHeader>
                                   <div className='grid grid-cols-2 gap-3'>
@@ -96,7 +116,7 @@ function DataTableStudents() {
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
-                          <Button variant="link" className="p-0 m-0" onClick={() => desactiveStudent(student.id)}>
+                          <Button variant="link" className="p-0 m-0" onClick={() => desactiveStudent(student?.id)}>
                             <div className='flex flex-row bg-red-300 justify-center items-center p-1 rounded-md'>
                               <Power className='w-4 h-4 dark:text-black' />
                             </div>
@@ -123,11 +143,11 @@ function DataTableStudents() {
                                 <DropdownMenuLabel>Mais ações</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup >
-                                  <DropdownMenuItem onSelect={() => window.location.assign(`/admin/courses?tab=matriculate&id=${student.id}`)}>
+                                  <DropdownMenuItem onSelect={() => window.location.assign(`/admin/registrations?tab=create&id=${student?.id}`)}>
                                     Matricular aluno
                                     <DropdownMenuShortcut><ScrollText className='w-4 h-4 dark:text-white' /></DropdownMenuShortcut>
                                   </DropdownMenuItem>
-                                  <DropdownMenuItem onSelect={async () => await deleteStudent(student.id, student.adresses_id)}>
+                                  <DropdownMenuItem onSelect={async () => await deleteStudent(student?.id, student?.adresses_id)}>
                                     Excluir
                                     <DropdownMenuShortcut><Trash2 className='w-4 h-4 dark:text-white' /></DropdownMenuShortcut>
                                   </DropdownMenuItem>
@@ -163,7 +183,7 @@ function DataTableStudents() {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="text-right" colSpan={3}>Total de alunos:</TableCell>
+              <TableCell className="text-right" colSpan={6}>Total de alunos:</TableCell>
               <TableCell className="text-left">{students?.length}</TableCell>
             </TableRow>
           </TableFooter>

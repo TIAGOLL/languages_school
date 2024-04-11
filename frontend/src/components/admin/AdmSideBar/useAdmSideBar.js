@@ -4,10 +4,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SchemaUpdateProfessionalPassword } from "./schemaUpdateProfessionalPassword";
+import { GetUser } from "../../../lib/utils";
 
 export const useAdmSideBar = () => {
-	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
-	const [professionalPhotoUrl, setProfessionalPhotoUrl] = useState(user.avatarUrl);
+	const [professionalPhotoUrl, setProfessionalPhotoUrl] = useState(GetUser().avatarUrl);
 	const [professionalPhoto, setProfessionalPhoto] = useState(null);
 	const [diaglogOpen, setDialogOpen] = useState(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
@@ -33,11 +33,12 @@ export const useAdmSideBar = () => {
 	}
 
 	async function saveProfessionalPhoto() {
+		if (professionalPhoto == null || !professionalPhoto) return toast.error("Selecione uma foto");
 		await api.professionals
-			.UploadPhoto(user.id, professionalPhoto)
+			.UploadPhoto(GetUser().id, professionalPhoto)
 			.then(() => {
 				setDialogOpen(false);
-				JSON.parse(localStorage.getItem("@ticketsPRO")).avatarUrl = professionalPhotoUrl;
+				GetUser().avatarUrl = professionalPhotoUrl;
 				toast.success("Foto salva com sucesso");
 			})
 			.catch((error) => {
@@ -48,7 +49,7 @@ export const useAdmSideBar = () => {
 	async function changePassword() {}
 
 	return {
-		user,
+		user: GetUser(),
 		changePassword,
 		professionalPhotoUrl,
 		setProfessionalPhotoUrl,

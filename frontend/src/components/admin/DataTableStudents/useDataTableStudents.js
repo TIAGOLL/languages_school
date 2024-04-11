@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { CreatePaginationArray } from "../../../lib/utils";
 
 export const useDataTableStudents = () => {
 	const {
@@ -29,7 +30,7 @@ export const useDataTableStudents = () => {
 	const per_page = searchParams.get("per_page");
 	const name = searchParams.get("name");
 	const email = searchParams.get("email");
-	const book = searchParams.get("book");
+	const course = searchParams.get("course");
 	const activeTab = searchParams.get("tab");
 
 	const {
@@ -37,12 +38,10 @@ export const useDataTableStudents = () => {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["students", name, email, book],
-		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
+		queryKey: ["students1", name, email, course],
+		queryFn: () => api.professionals.GetActiveStudents(name, email, course),
 	});
-	const lastPostIndex = page * per_page;
-	const firstPostIndex = lastPostIndex - per_page;
-	const currentPosts = students?.slice(firstPostIndex, lastPostIndex);
+	const studentsPages = CreatePaginationArray(students, page, per_page);
 
 	async function UpdatePassword(data) {
 		setLoading(true);
@@ -53,7 +52,7 @@ export const useDataTableStudents = () => {
 				setDialogOpen(false);
 			})
 			.catch((err) => {
-				toast.error(err.message);
+				toast.error(err.response.data.message);
 			})
 			.finally(() => setLoading(false));
 	}
@@ -67,12 +66,12 @@ export const useDataTableStudents = () => {
 		await api.professionals
 			.DeleteStudent(id, adresses_id)
 			.then((res) => {
-				toast.success(res.message);
+				toast.info(res.message);
 				refetch();
 				setDialogOpen(false);
 			})
 			.catch((err) => {
-				toast.error(err.message);
+				toast.error(err.response.data.message);
 			})
 			.finally(() => setLoading(false));
 	}
@@ -82,12 +81,12 @@ export const useDataTableStudents = () => {
 		await api.professionals
 			.DesactiveStudent(id)
 			.then((res) => {
-				toast.success(res.message);
+				toast.info(res.message);
 				refetch();
 				setDialogOpen(false);
 			})
 			.catch((err) => {
-				toast.error(err.message);
+				toast.error(err.response.data.message);
 			})
 			.finally(() => setLoading(false));
 	}
@@ -99,15 +98,7 @@ export const useDataTableStudents = () => {
 				return state;
 			});
 		}
-		if (activeTab == "all" && !per_page && !page) {
-			setSearchParams((state) => {
-				state.set("tab", "all");
-				state.set("per_page", 10);
-				state.set("page", 1);
-				return state;
-			});
-		}
-	}, [activeTab, book, email, name, page, per_page, setSearchParams]);
+	}, [activeTab, setSearchParams]);
 
 	return {
 		students,
@@ -118,7 +109,7 @@ export const useDataTableStudents = () => {
 		UpdatePassword,
 		setDialogOpen,
 		isLoading,
-		currentPosts,
+		studentsPages,
 		searchParams,
 		setSearchParams,
 		register,

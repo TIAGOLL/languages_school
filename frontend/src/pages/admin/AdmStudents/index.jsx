@@ -14,25 +14,32 @@ import FormCreateStudents from '../../../components/admin/FormCreateStudents';
 import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
 import { StudentsFilterSchema } from './schemas';
 import { useStudent } from './useStudent';
+import { Select } from '@/components/ui/select';
+import { SelectTrigger } from '@/components/ui/select';
+import { SelectValue } from '@/components/ui/select';
+import { SelectContent } from '@/components/ui/select';
+import { SelectGroup } from '@/components/ui/select';
+import { SelectItem } from '@/components/ui/select';
+import { cn } from '../../../lib/utils';
 
 
 function AdmStudents() {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, _] = useSearchParams()
-  const { handleFilterStudents, cleanFilter, handleTab } = useStudent();
+  const { handleFilterStudents, cleanFilter, handleTab, courses } = useStudent();
 
   const name = searchParams.get('name')
   const email = searchParams.get('email')
-  const book = searchParams.get('book')
+  const course = searchParams.get('course') || null
   const activeTab = searchParams.get('tab')
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     resolver: zodResolver(StudentsFilterSchema),
     values: {
       name: name ?? '',
       email: email ?? '',
-      book: book ?? ''
+      course: course ?? ''
     }
   })
 
@@ -60,7 +67,20 @@ function AdmStudents() {
               <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-8/12 mb-10'>
                 <Input placeholder="Nome" {...register('name')} />
                 <Input placeholder="E-mail" {...register('email')} />
-                <Input placeholder="Book" {...register('book')} />
+                <Select {...register('course')} onValueChange={(value) => setValue('course', value)} value={watch("course")}>
+                  <SelectTrigger className={cn(watch("course") ? "" : "text-muted-foreground")}>
+                    <SelectValue placeholder="Curso" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {
+                        courses?.map((courses) => (
+                          <SelectItem key={courses.id} value={courses.name}>{courses.name}</SelectItem>
+                        ))
+                      }
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
 
                 <Button type="submit" variant="link">
                   <Search className='w-4 h-4 mr-2' />

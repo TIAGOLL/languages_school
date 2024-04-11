@@ -4,12 +4,13 @@ import { Popover } from '@/components/ui/popover';
 import { PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from './../../../lib/utils';
-import { CalendarIcon, PlusCircle } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 import { format, isSameMonth, setYear as setYearFns } from "date-fns"
 import { PopoverContent } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { useStudent } from "../../../pages/admin/AdmStudents/useStudent";
 import { Label } from '@/components/ui/label';
+import { Save } from 'lucide-react';
 
 
 function FormUpdateStudents() {
@@ -18,7 +19,6 @@ function FormUpdateStudents() {
   const dateOfBirth = watchUpdate('dateOfBirth')
   const gender = watchUpdate('gender')
   const currentBook = watchUpdate('book')
-
 
   return (
     <div className='mt-10 flex flex-col'>
@@ -183,8 +183,8 @@ function FormUpdateStudents() {
           {errorsUpdate.user && <p className='text-sm text-red-500'>{errorsUpdate.user.message}</p>}
         </div>
         <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Atualizar
+          <Save className='w-4 h-4 mr-2' />
+          Salvar
         </Button>
       </form>
     </div>

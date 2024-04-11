@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { VerifyEmailExists, VerifyUserExists } from "../../../lib/utils";
+import { VerifyEmailExists } from "../../../lib/utils";
 
 export const studentsCreateSchema = z.object({
 	email: z
@@ -12,13 +12,10 @@ export const studentsCreateSchema = z.object({
 		}, "Email já existe"),
 	firstName: z.string().min(1, "Preencha o primeiro nome").trim(),
 	user: z.string().min(1, "Preencha o usuário").trim(),
-	// .refine(async (user) => {
-	// 	return await VerifyUserExists(user);
-	// }, "Usuário já existe")
 	password: z.string().trim(),
 	lastName: z.string().min(1, "Preencha o sobrenome").trim(),
 	number: z.string().min(1, "Preencha o número").trim(),
-	cpf: z.string().max(11, "O CPF deve ter 11 digitos").min(11, "O CPF deve ter 11 digitos").trim(),
+	cpf: z.string().max(14, "O CPF deve ter 11 digitos").min(14, "O CPF deve ter 11 digitos"),
 	phone: z.string().max(11, "O telefone deve ter 11 digitos").min(11, "O telefone deve ter 11 digitos").trim(),
 	dateOfBirth: z
 		.date()
@@ -66,5 +63,5 @@ export const studentsUpdateSchema = z.object({
 export const StudentsFilterSchema = z.object({
 	name: z.string().optional(),
 	email: z.string().optional(),
-	book: z.string().optional(),
+	course: z.string().optional(),
 });

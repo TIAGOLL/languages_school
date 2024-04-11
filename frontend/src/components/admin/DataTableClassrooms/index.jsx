@@ -2,10 +2,14 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFoo
 import { Skeleton } from '@/components/ui/skeleton';
 import PaginationSection from './../../ui/PaginationSection';
 import { useDataTableClassrooms } from './useDataTableClassrooms';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Pencil } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 
 function DataTableClassrooms() {
-  const { isLoading, classrooms } = useDataTableClassrooms();
+  const { isLoading, classrooms, classroomPages, deleteClassroom } = useDataTableClassrooms();
 
   return (
     <>
@@ -13,27 +17,62 @@ function DataTableClassrooms() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Dia</TableHead>
-              <TableHead>Hora</TableHead>
               <TableHead>Curso</TableHead>
               <TableHead>Livro</TableHead>
+              <TableHead>Dia</TableHead>
+              <TableHead>Hora</TableHead>
+              <TableHead>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {
-              !isLoading && classrooms?.map((classrooms) => (
-                <TableRow key={classrooms?.id}>
-                  <TableCell className="font-medium">{classrooms?.date}</TableCell>
-                  <TableCell>{classrooms?.hour}</TableCell>
-                  <TableCell className="space-x-2">{classrooms?.courses.name}</TableCell>
-                  <TableCell className="space-x-2">{classrooms?.books.name}</TableCell>
+              !isLoading && classroomPages?.map((classroom) => (
+                <TableRow key={classroom?.id}>
+                  <TableCell>{classroom?.books?.courses?.name}</TableCell>
+                  <TableCell>{classroom?.books?.name}</TableCell>
+                  <TableCell>{classroom?.date}</TableCell>
+                  <TableCell>{classroom?.hour}</TableCell>
+                  <TableCell className="space-x-2">
+                    <TooltipProvider>
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger asChild>
+                          <Button variant="link" className="py-0 px-0 m-0">
+                            <a href={`/admin/classrooms?tab=update&id=${classroom.id}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
+                              <Pencil className='w-4 h-4 dark:text-black' />
+                            </a>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Editar
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger asChild>
+                          <Button variant="link" className="p-0 m-0" onClick={() => deleteClassroom(classroom.id)}>
+                            <div className='flex flex-row bg-red-300 justify-center items-center p-1 rounded-md'>
+                              <Trash2 className='w-4 h-4 dark:text-black' />
+                            </div>
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Excluir
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </TableCell>
                 </TableRow>
               ))
             }
             {
-              isLoading && (
+              isLoading &&
+              (
                 <TableRow>
                   <TableCell className="font-medium">
+                    <Skeleton className="h-6 w-4/12" />
+                  </TableCell>
+                  <TableCell>
                     <Skeleton className="h-6 w-4/12" />
                   </TableCell>
                   <TableCell>
@@ -48,7 +87,7 @@ function DataTableClassrooms() {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="text-right" colSpan={3}>Total de alunos:</TableCell>
+              <TableCell className="text-right" colSpan={4}>Total de salas:</TableCell>
               <TableCell className="text-left">{classrooms?.length}</TableCell>
             </TableRow>
           </TableFooter>

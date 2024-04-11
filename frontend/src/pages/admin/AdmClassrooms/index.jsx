@@ -1,19 +1,19 @@
 import AdmSideBar from "../../../components/admin/AdmSideBar";
+import { User } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
+import { useClassrooms } from "./useClassrooms";
+import DataTableClassrooms from "../../../components/admin/DataTableClassrooms";
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
-import { User } from "lucide-react";
-import { useCourses } from './useCourses';
-import { PlusCircleIcon } from "lucide-react";
-import DataTableCourses from "../../../components/admin/DataTableCourses";
-import FormCreateCourse from './../../../components/admin/FormCreateCourse/index';
+import FormCreateClassrooms from "../../../components/admin/FormCreateClassrooms";
 import { Replace } from "lucide-react";
-import FormUpdateCourse from "../../../components/admin/FormUpdateCourse";
+import FormUpdateClassrooms from './../../../components/admin/FormUpdateClassrooms/index';
 
-function AdmCourses() {
+function AdmClassrooms() {
 
-  const { handleTab, activeTab } = useCourses();
+  const { handleTab, activeTab } = useClassrooms();
 
   return (
     <div className="h-full w-full">
@@ -35,14 +35,14 @@ function AdmCourses() {
                 Atualizar
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-6/12 mt-10">
-              <DataTableCourses />
+            <TabsContent value="all" className="w-full mt-10">
+              <DataTableClassrooms />
             </TabsContent>
             <TabsContent value="create" className="w-full mt-10">
-              <FormCreateCourse />
+              <FormCreateClassrooms />
             </TabsContent>
             <TabsContent value="update" className="w-full mt-10">
-              <FormUpdateCourse />
+              <FormUpdateClassrooms />
             </TabsContent>
           </Tabs>
         </div>
@@ -51,4 +51,4 @@ function AdmCourses() {
   );
 }
 
-export default AdmCourses;
+export default AdmClassrooms;

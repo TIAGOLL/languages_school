@@ -1,10 +1,10 @@
 import { toast } from "react-toastify";
 import api from "../../../services/api";
 import { useState } from "react";
+import { GetUser } from "../../../lib/utils";
 
 export const useSideBar = () => {
-	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
-	const [studentPhotoUrl, setStudentPhotoUrl] = useState(user.avatarUrl);
+	const [studentPhotoUrl, setStudentPhotoUrl] = useState(GetUser().avatarUrl);
 	const [studentPhoto, setStudentPhoto] = useState(null);
 	const [diaglogOpen, setDialogOpen] = useState(null);
 
@@ -24,10 +24,10 @@ export const useSideBar = () => {
 
 	async function saveStudentPhoto() {
 		await api.students
-			.UploadPhoto(user.id, studentPhoto)
+			.UploadPhoto(GetUser().id, studentPhoto)
 			.then(() => {
 				setDialogOpen(false);
-				JSON.parse(localStorage.getItem("@ticketsPRO")).avatarUrl = studentPhotoUrl;
+				GetUser().avatarUrl = studentPhotoUrl;
 				toast.success("Foto salva com sucesso");
 			})
 			.catch((error) => {
@@ -37,7 +37,7 @@ export const useSideBar = () => {
 	}
 
 	return {
-		user,
+		user: GetUser(),
 		studentPhotoUrl,
 		studentPhoto,
 		setStudentPhotoUrl,

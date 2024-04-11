@@ -2,9 +2,9 @@ import { useSearchParams } from "react-router-dom";
 import api from "../../../services/api";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { GetUser } from "../../../lib/utils";
 
 export const useBook = () => {
-	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const lesson = searchParams.get("lesson");
@@ -16,8 +16,8 @@ export const useBook = () => {
 	}, [searchParams, setSearchParams]);
 
 	const { data: book } = useQuery({
-		queryKey: ["book", user.email],
-		queryFn: () => api.students.GetBook(user.email),
+		queryKey: ["book", GetUser().email],
+		queryFn: () => api.students.GetBook(GetUser().email),
 	});
 
 	function handleLesson(value) {
@@ -31,5 +31,5 @@ export const useBook = () => {
 		return searchParams.get("qw");
 	}
 
-	return { book, user, lesson, handleLesson, getQtdLessons, getQtdWaks };
+	return { book, user: GetUser(), lesson, handleLesson, getQtdLessons, getQtdWaks };
 };

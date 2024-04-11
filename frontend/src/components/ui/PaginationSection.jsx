@@ -9,7 +9,18 @@ function PaginationSection({
   const [searchParams, setSearchParams] = useSearchParams()
   const currentPage = searchParams.get('page') || 1
   const perPage = searchParams.get('per_page') || 10
+  const activeTab = searchParams.get('tab')
 
+  useEffect(() => {
+    if (activeTab == "all" && !searchParams.get('page') && !searchParams.get('per_page')) {
+      setSearchParams((state) => {
+        state.set("tab", "all");
+        state.set("per_page", 10);
+        state.set("page", 1);
+        return state;
+      });
+    }
+  }), [activeTab, currentPage, perPage, setSearchParams];
 
   const totalPosts = data?.length;
 

@@ -1,41 +1,45 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useFormCreateClassrooms } from './useFormCreateClassrooms';
-import { PlusCircle } from 'lucide-react';
+import { useFormUpdateClassrooms } from './useFormUpdateClassrooms';
 import { Select, SelectTrigger, SelectValue, SelectGroup, SelectContent, SelectItem } from '@/components/ui/select';
 import { DaysOfWeek } from '../../../lib/utils';
+import { Save } from 'lucide-react';
 
-function FormCreateClassrooms() {
+function FormUpdateClassrooms() {
 
-  const { handleSubmit, createClassroom, errors, register, setValue, books, courses, currentCourse } = useFormCreateClassrooms()
+  const { handleSubmit, updateClassroom, errors, register, setValue, books, courses, currentBook, currentDate, currentCourse } = useFormUpdateClassrooms()
+
+  if (!books || !courses) return <p>Carregando...</p>
 
   return (
     <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(createClassroom)} className='grid grid-cols-12 gap-2'>
+      <form onSubmit={handleSubmit(updateClassroom)} className='grid grid-cols-12 gap-2'>
         <div className='col-span-4'>
-          <Label>Curso</Label>
-          <Select {...register('course')} onValueChange={(value) => setValue('course', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Curso" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {
-                  courses?.map((courses) => (
-                    <SelectItem key={courses.id} value={courses.id.toString()}>{courses.name}</SelectItem>
-                  ))
-                }
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          {errors.course && <p className='text-sm text-red-500'>{errors.course.message}</p>}
+          <div className='col-span-4'>
+            <Label>Curso</Label>
+            <Select {...register('course')} onValueChange={(value) => setValue('course', value)} value={currentCourse?.toString()}>
+              <SelectTrigger>
+                <SelectValue placeholder="Curso" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {
+                    courses?.map((course) => {
+                      return <SelectItem key={course.id} value={course.id.toString()}>{course.name}</SelectItem>
+                    })
+                  }
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            {errors.course && <p className='text-sm text-red-500'>{errors.course.message}</p>}
+          </div>
         </div>
         <div className='col-span-4'>
           <Label>Livro</Label>
-          <Select {...register('book')} onValueChange={(value) => setValue('book', value)} disabled={!currentCourse}>
+          <Select {...register('book')} onValueChange={(value) => setValue('book', value)} value={currentBook?.toString()}>
             <SelectTrigger>
-              <SelectValue placeholder={!currentCourse ? "Primeiro selecione o curso" : "Book"} />
+              <SelectValue placeholder="Book" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -45,9 +49,6 @@ function FormCreateClassrooms() {
                     return <SelectItem key={book.id} value={book.id.toString()}>{book.name}</SelectItem>
                   })
                 }
-                {
-                  books?.filter((book) => book.courses_id == currentCourse).length == 0 && <SelectItem disabled value={null}>Nenhum livro para esse curso foi encontrado!</SelectItem>
-                }
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -55,7 +56,7 @@ function FormCreateClassrooms() {
         </div>
         <div className='col-span-4'>
           <Label>Dia</Label>
-          <Select {...register('date')} onValueChange={(value) => setValue('date', value)}>
+          <Select {...register('date')} onValueChange={(value) => setValue('date', value)} value={currentDate}>
             <SelectTrigger>
               <SelectValue placeholder="Dia" />
             </SelectTrigger>
@@ -78,12 +79,12 @@ function FormCreateClassrooms() {
         </div>
 
         <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Cadastrar
+          <Save className='w-4 h-4 mr-2' />
+          Salvar
         </Button>
       </form >
     </div >
   );
 }
 
-export default FormCreateClassrooms;
+export default FormUpdateClassrooms;
