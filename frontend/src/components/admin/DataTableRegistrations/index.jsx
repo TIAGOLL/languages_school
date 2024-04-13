@@ -55,7 +55,7 @@ function DataTableRegistrations() {
                   <TableCell className="font-medium">{regis.locked == 1 ? <span className='mx-1 bg-red-300 text-black p-0.5 rounded-md'>Trancada</span> : <span className='mx-1 p-0.5 rounded-md'>Ativa</span>}</TableCell>
                   <TableCell className="space-x-2">
                     <TooltipProvider>
-                      <Tooltip delayDuration={0}>
+                      {regis.locked == 0 && <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild >
                           <button variant="link" className="bg-green-300 p-1 rounded-md">
                             <Dialog>
@@ -74,7 +74,7 @@ function DataTableRegistrations() {
                                     <SelectValue placeholder="Selecione" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectGroup>
+                                    <SelectGroup className="h-[10rem]">
                                       {
                                         classrooms?.map((classroom) => {
                                           if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour}</SelectItem>
@@ -108,18 +108,65 @@ function DataTableRegistrations() {
                           Alterar sala
                         </TooltipContent>
                       </Tooltip>
+                      }
                     </TooltipProvider>
                     <TooltipProvider>
-                      <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild>
-                          <button variant="link" className="bg-yellow-200 p-1 rounded-md" onClick={async () => await handleValuePaid(regis.id)}>
-                            <CircleDollarSignIcon className='w-4 h-4 dark:text-black' />
+                      {regis.locked == 0 && <Tooltip delayDuration={0}>
+                        <TooltipTrigger asChild >
+                          <button variant="link" className="bg-yellow-200 p-1 rounded-md">
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <CircleDollarSignIcon className='w-4 h-4 dark:text-black' />
+                              </DialogTrigger>
+                              <DialogContent>
+                                <DialogHeader>
+                                  <DialogTitle className="!justify-center flex w-full">
+                                    Mudar valor da mensalidade
+                                  </DialogTitle>
+                                </DialogHeader>
+                                <DialogDescription className="flex text-white text-md p-3">
+                                  Mudando o valor da mensalidade de {regis.students.name}, o valor a ser pago na matricula, ?
+                                </DialogDescription>
+                                <Select className="mb-10" onValueChange={(value) => setCurrentClassroom(value)} value={currentClassroom}>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Selecione" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectGroup className="h-[10rem]">
+                                      {
+                                        classrooms?.map((classroom) => {
+                                          if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour}</SelectItem>
+                                        })
+                                      }
+                                    </SelectGroup>
+                                  </SelectContent>
+                                </Select>
+                                <DialogFooter className="w-full flex !justify-between !items-start mt-10">
+                                  <DialogClose>
+                                    <Button variant="ghost" onClick={() => {
+                                      setCurrentClassroom("")
+                                    }}>
+                                      Cancelar
+                                    </Button>
+                                  </DialogClose>
+                                  <DialogClose>
+                                    <Button variant="default" onClick={async () => {
+                                      await handleClassroom(currentClassroom, regis?.id)
+                                      setCurrentClassroom("")
+                                    }}>
+                                      Mudar sala
+                                    </Button>
+                                  </DialogClose>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          Mudar valor da mensalidade
+                          Alterar sala
                         </TooltipContent>
                       </Tooltip>
+                      }
                     </TooltipProvider>
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>

@@ -72,9 +72,9 @@ export const useDataTableRegistrations = () => {
 			});
 	}
 
-	async function handleValuePaid(id) {
+	async function handleValuePaid(id, value) {
 		await api.professionals
-			.HandleValuePaid(id)
+			.HandleValuePaid(id, value)
 			.then((res) => {
 				toast.success(res.message);
 				refetch();

@@ -51,6 +51,7 @@ router.put(
   professionals.HandleLockRegistration
 );
 router.put("/professionals/handleclassroom", professionals.HandleClassroom);
+router.put("/professionals/handlevaluepaid", professionals.HandleValuePaid);
 router.put("/professionals/update", professionals.UpdateStudent);
 router.put("/professionals/update/urlphoto", professionals.UpdateUrlPhoto);
 router.delete(

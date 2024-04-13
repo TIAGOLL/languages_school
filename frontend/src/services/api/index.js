@@ -58,6 +58,14 @@ const api = {
 	},
 
 	professionals: {
+		HandleValuePaid: async (id, value) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handlevaluepaid`, {
+				id,
+				value,
+			});
+			return response.data;
+		},
+
 		HandleClassroom: async (classroomId, registrationId) => {
 			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handleclassroom`, {
 				classroomId,

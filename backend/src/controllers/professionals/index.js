@@ -399,6 +399,18 @@ const professionals = {
             },
           },
         });
+
+        if (
+          await trx.students_has_classrooms.findFirst({
+            where: { registrations_id: parseInt(id) },
+          })
+        ) {
+          await trx.students_has_classrooms.delete({
+            where: {
+              registrations_id: parseInt(id),
+            },
+          });
+        }
         return await trx.registrations.update({
           where: {
             id: parseInt(id),
@@ -427,6 +439,18 @@ const professionals = {
           .status(500)
           .json({ message: "Ocorreu um erro ao trancar matricula!" });
       });
+  },
+
+  HandleValuePaid: async (req, res) => {
+    const { id, value } = req.body;
+
+    await prisma.$transaction(async (trx) => {
+      await trx.registrations.update({
+        data: {
+          monthly_fee_amount: parseFloat(value),
+        },
+      });
+    });
   },
 
   CreateRegistration: async (req, res) => {
