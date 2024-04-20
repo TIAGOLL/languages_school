@@ -44,8 +44,13 @@ const api = {
 				});
 		},
 
-		GetBook: async (email) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}`);
+		GetBook: async (email, course) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}/${course}`);
+			return response.data;
+		},
+
+		GetInfoOfStudent: async (email) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/infoofstudent/${email}`);
 			return response.data;
 		},
 	},
@@ -58,14 +63,6 @@ const api = {
 	},
 
 	professionals: {
-		HandleValuePaid: async (id, value) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handlevaluepaid`, {
-				id,
-				value,
-			});
-			return response.data;
-		},
-
 		HandleClassroom: async (classroomId, registrationId) => {
 			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handleclassroom`, {
 				classroomId,

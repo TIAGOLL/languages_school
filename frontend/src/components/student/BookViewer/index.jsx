@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-function BookViewer({ book, lesson = 1 }) {
+function BookViewer({ book, lesson = 1, course }) {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setSearchParams] = useSearchParams()

@@ -6,10 +6,12 @@ import { toast } from "react-toastify";
 import api from "../../../services/api";
 import { studentsCreateSchema, studentsUpdateSchema } from "./schemas";
 import { GetUser } from "../../../lib/utils";
+import { useEffect } from "react";
 
 export const useStudent = () => {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
+	const activeTab = searchParams.get("tab");
 
 	const {
 		register: registerCreate,
@@ -77,7 +79,6 @@ export const useStudent = () => {
 	}
 
 	async function createStudent(data) {
-		console.log(data);
 		await api.professionals
 			.CreateStudent({ ...data, createdBy: GetUser().id })
 			.then((res) => {
@@ -99,7 +100,7 @@ export const useStudent = () => {
 			})
 			.catch((error) => {
 				console.error(error);
-				toast.error(error.message);
+				toast.error(error.response.data.message);
 			});
 	}
 
@@ -173,6 +174,15 @@ export const useStudent = () => {
 		});
 		cleanParams();
 	}
+
+	useEffect(() => {
+		if (!activeTab) {
+			setSearchParams((state) => {
+				state.set("tab", "all");
+				return state;
+			});
+		}
+	}, [activeTab, setSearchParams]);
 
 	return {
 		registerCreate,

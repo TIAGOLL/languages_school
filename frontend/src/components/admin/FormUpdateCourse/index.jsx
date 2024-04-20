@@ -3,29 +3,45 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PlusCircle } from 'lucide-react';
 import { useFormUpdateCourse } from './useFormUpdateCourse';
-import { Save } from 'lucide-react';
+import { PlusSquare } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 function FormUpdateCourse() {
 
-  const { handleSubmit, updateCourse, errors, register, } = useFormUpdateCourse()
+  const { handleSubmit, updateCourse, errors, register, addNewBook, removeBook, books } = useFormUpdateCourse()
 
   return (
     <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(updateCourse)} className='grid grid-cols-12 gap-2'>
-        <div className='col-span-3 flex flex-col space-y-1'>
-          <Label htmlFor="name">Nome</Label>
-          <Input type="text" id="name" {...register('name')} />
-          {errors.name && <span className='text-sm text-red-500'>{errors.name.message}</span>}
-        </div>
-        <div className='col-span-3 flex flex-col space-y-1'>
-          <Label htmlFor="name">Preço</Label>
-          <Input type="text" id="name" {...register('price')} />
-          {errors.price && <span className='text-sm text-red-500'>{errors.price.message}</span>}
-        </div>
+      <form onSubmit={handleSubmit(updateCourse)} className='flex items-center space-y-6 flex-col justify-center gap-2'>
+        {
+          books?.map((book, index) => (
+            <div key={index} className='grid grid-cols-11 gap-4 justify-center items-center w-[800px]'>
+              <div className='col-span-5 flex flex-col space-y-1'>
+                <Label htmlFor={`books.${index}.name`}>Nome</Label>
+                <Input type="text" id={`books.${index}.name`} {...register(`books.${index}.name`)} value={book?.name} />
+                {errors?.books?.[index]?.name && <span className='text-sm text-red-500'>{errors?.books?.[index]?.name?.message}</span>}
+              </div>
+              <div className='col-span-5 flex flex-col space-y-1'>
+                <Label htmlFor={`books.${index}.position`}>Posição</Label>
+                <Input type="text" id={`books.${index}.position`} {...register(`books.${index}.position`)} value={book?.position} />
+                {errors?.books?.[index]?.position && <span className='text-sm text-red-500'>{errors?.books?.[index]?.position?.message}</span>}
+              </div>
+              <Button type="button" variant="destructive" onClick={removeBook} className="w-[55px] col-span-1">
+                <Trash2 className='w-4 h-4' />
+              </Button>
+            </div>
+          ))
+        }
+        {errors?.books && <span className='text-sm text-red-500'>{errors?.books?.root?.message}</span>}
 
-        <Button type="submit" variant="default" className="mt-5 col-span-12 w-32">
-          <Save className='w-4 h-4 mr-2' />
-          Salvar
+        <Button type="button" variant="ghost" onClick={addNewBook} className="gap-2">
+          <PlusSquare /> Adicionar livro
+        </Button>
+
+
+        <Button type="submit" variant="default" className="mt-5">
+          <PlusCircle className='w-4 h-4 mr-2' />
+          Cadastrar
         </Button>
       </form >
     </div >

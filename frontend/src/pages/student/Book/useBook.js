@@ -8,20 +8,44 @@ export const useBook = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const lesson = searchParams.get("lesson");
+	const course = searchParams.get("course");
 
 	useEffect(() => {
 		if (!searchParams.has("lesson")) {
-			setSearchParams({ lesson: 1 });
+			setSearchParams((state) => {
+				state.set("lesson", "1");
+				return state;
+			});
+		}
+		if (!searchParams.has("course")) {
+			setSearchParams((state) => {
+				state.set("course", "1");
+				return state;
+			});
 		}
 	}, [searchParams, setSearchParams]);
 
 	const { data: book } = useQuery({
-		queryKey: ["book", GetUser().email],
-		queryFn: () => api.students.GetBook(GetUser().email),
+		queryKey: ["book"],
+		queryFn: () => api.students.GetBook(GetUser().email, searchParams.get("course")),
+	});
+
+	const { data: infoOfStudent } = useQuery({
+		queryKey: ["infoOfStudent", GetUser().email],
+		queryFn: () => api.students.GetInfoOfStudent(GetUser().email),
 	});
 
 	function handleLesson(value) {
-		setSearchParams({ lesson: value });
+		setSearchParams((state) => {
+			state.set("lesson", value);
+			return state;
+		});
+	}
+	function handleCourse(value) {
+		setSearchParams((state) => {
+			state.set("course", value);
+			return state;
+		});
 	}
 
 	function getQtdLessons() {
@@ -31,5 +55,5 @@ export const useBook = () => {
 		return searchParams.get("qw");
 	}
 
-	return { book, user: GetUser(), lesson, handleLesson, getQtdLessons, getQtdWaks };
+	return { book, user: GetUser(), infoOfStudent, handleCourse, course, lesson, handleLesson, getQtdLessons, getQtdWaks };
 };

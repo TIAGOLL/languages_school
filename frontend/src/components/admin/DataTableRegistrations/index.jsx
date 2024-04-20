@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { CircleDollarSignIcon, LockKeyholeIcon, Trash2 } from 'lucide-react';
+import { LockKeyholeIcon, Trash2 } from 'lucide-react';
 import { SiGoogleclassroom } from "react-icons/si";
 import PaginationSection from './../../ui/PaginationSection';
 import { useDataTableRegistrations } from './useDataTableRegistrations';
@@ -16,7 +16,7 @@ import { DialogClose } from '../../ui/dialog';
 
 
 function DataTableRegistrations() {
-  const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, handleValuePaid, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
+  const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
 
   return (
     <>
@@ -110,64 +110,7 @@ function DataTableRegistrations() {
                       </Tooltip>
                       }
                     </TooltipProvider>
-                    <TooltipProvider>
-                      {regis.locked == 0 && <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild >
-                          <button variant="link" className="bg-yellow-200 p-1 rounded-md">
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <CircleDollarSignIcon className='w-4 h-4 dark:text-black' />
-                              </DialogTrigger>
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle className="!justify-center flex w-full">
-                                    Mudar valor da mensalidade
-                                  </DialogTitle>
-                                </DialogHeader>
-                                <DialogDescription className="flex text-white text-md p-3">
-                                  Mudando o valor da mensalidade de {regis.students.name}, o valor a ser pago na matricula, ?
-                                </DialogDescription>
-                                <Select className="mb-10" onValueChange={(value) => setCurrentClassroom(value)} value={currentClassroom}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Selecione" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectGroup className="h-[10rem]">
-                                      {
-                                        classrooms?.map((classroom) => {
-                                          if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour}</SelectItem>
-                                        })
-                                      }
-                                    </SelectGroup>
-                                  </SelectContent>
-                                </Select>
-                                <DialogFooter className="w-full flex !justify-between !items-start mt-10">
-                                  <DialogClose>
-                                    <Button variant="ghost" onClick={() => {
-                                      setCurrentClassroom("")
-                                    }}>
-                                      Cancelar
-                                    </Button>
-                                  </DialogClose>
-                                  <DialogClose>
-                                    <Button variant="default" onClick={async () => {
-                                      await handleClassroom(currentClassroom, regis?.id)
-                                      setCurrentClassroom("")
-                                    }}>
-                                      Mudar sala
-                                    </Button>
-                                  </DialogClose>
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          Alterar sala
-                        </TooltipContent>
-                      </Tooltip>
-                      }
-                    </TooltipProvider>
+
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>

@@ -15,10 +15,9 @@ import { Save } from 'lucide-react';
 
 function FormUpdateStudents() {
 
-  const { books, watchUpdate, handleSubmitUpdate, errorsUpdate, registerUpdate, setValueUpdate, updateStudent, datesForCalendar, } = useStudent()
+  const {  watchUpdate, handleSubmitUpdate, errorsUpdate, registerUpdate, setValueUpdate, updateStudent, datesForCalendar, } = useStudent()
   const dateOfBirth = watchUpdate('dateOfBirth')
   const gender = watchUpdate('gender')
-  const currentBook = watchUpdate('book')
 
   return (
     <div className='mt-10 flex flex-col'>
@@ -112,24 +111,6 @@ function FormUpdateStudents() {
             </PopoverContent>
           </Popover>
           {errorsUpdate.dateOfBirth && <p className='text-sm text-red-500'>{errorsUpdate.dateOfBirth.message}</p>}
-        </div>
-        <div className='col-span-4'>
-          <Label>Livro</Label>
-          <Select {...registerUpdate('book')} onValueChange={(value) => setValueUpdate('book', value)} value={currentBook}>
-            <SelectTrigger>
-              <SelectValue placeholder="Book" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {
-                  books?.map((book) => (
-                    <SelectItem key={book.id} value={book.id.toString()}>{book.name}</SelectItem>
-                  ))
-                }
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          {errorsUpdate.book && <p className='text-sm text-red-500'>{errorsUpdate.book.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>

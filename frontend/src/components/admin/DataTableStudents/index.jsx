@@ -43,16 +43,25 @@ function DataTableStudents() {
                     {
                       student?.registrations?.map((registration) => registration).length == 0 ? 'S/C' : student?.registrations?.map((registration) => {
                         return (
-                          <div key={registration?.id} className={cn('flex gap-1 flex-row items-center justify-center bg-zinc-100 dark:bg-zinc-700 p-1 rounded-md', registration?.locked == 1 ? "text-red-400" : "text-green-400")}>
+                          <a href={`/admin/registrations?id=${registration.id}`} key={registration?.id} className={cn('hover:!bg-zinc-600 flex gap-1 flex-row items-center justify-center bg-zinc-100 dark:bg-zinc-700 p-1 rounded-md', registration?.locked == 1 ? "text-red-400" : "text-green-400")}>
                             {registration?.locked == 1 ? <LockKeyhole className='w-4 h-4' /> : <BookCheck className='w-4 h-4' />}
-                            <span className=''>{registration?.courses.name}</span>
-                          </div>
+                            <span >{registration?.courses.name}</span>
+                          </a>
                         )
                       })
                     }
                   </TableCell>
                   <TableCell>{mask(student?.cpf, '000.000.000-00', { reverse: true })}</TableCell>
-                  <TableCell>R$ {student?.amount_paid_for_month}</TableCell>
+                  <TableCell>
+                    R$ {
+                      student?.registrations?.reduce((acc, item) => {
+                        if (!item.completed && !item.locked) {
+                          acc += item?.monthly_fee_amount;
+                        }
+                        return acc;
+                      }, 0)
+                    }
+                  </TableCell>
                   <TableCell className="space-x-2">
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>

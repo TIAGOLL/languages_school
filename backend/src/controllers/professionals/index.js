@@ -5,19 +5,20 @@ const { hash } = require("bcrypt");
 const professionals = {
   GetCourseById: async (req, res) => {
     const { id } = req.params;
-    await prisma.courses
-      .findFirst({
-        where: {
-          id: parseInt(id),
+    const course = await prisma.courses.findFirst({
+      where: {
+        id: parseInt(id),
+      },
+      include: {
+        books: {
+          include: {
+            lessons: true,
+          },
         },
-      })
-      .then((value) => {
-        return res.status(200).json(value);
-      })
-      .catch((error) => {
-        console.log(error.message);
-        return res.status(500);
-      });
+      },
+    });
+
+    return res.status(200).json(course);
   },
 
   DeleteRegistration: async (req, res) => {
@@ -35,34 +36,6 @@ const professionals = {
             );
           }
         });
-
-        // pega a matricula
-        const registration = await trx.registrations.findFirst({
-          where: {
-            id: parseInt(id),
-          },
-          include: {
-            students: {
-              select: {
-                id: true,
-              },
-            },
-          },
-        });
-
-        // decrementa o valor total pago mensalmente pelo estudante se a matricula ainda não esta trancada
-        if (!registration.locked) {
-          await trx.students.update({
-            where: {
-              id: registration.students.id,
-            },
-            data: {
-              amount_paid_for_month: {
-                decrement: registration.monthly_fee_amount,
-              },
-            },
-          });
-        }
 
         // deleta as mensalidades não pagas
         await trx.monthly_fee.deleteMany({
@@ -134,18 +107,19 @@ const professionals = {
 
   UpdateCourse: async (req, res) => {
     const { id, name, price } = req.body;
-    const course = prisma.courses.update({
-      where: {
-        id: parseInt(id),
-      },
-      data: {
-        name: name,
-        price: parseFloat(price),
-      },
-    });
 
     await prisma
-      .$transaction([course])
+      .$transaction(async (trx) => {
+        await trx.courses.update({
+          where: {
+            id: parseInt(id),
+          },
+          data: {
+            name: name,
+            price: parseFloat(price),
+          },
+        });
+      })
       .then(() => {
         return res.status(200).json({ message: "Curso atualizado!" });
       })
@@ -323,83 +297,12 @@ const professionals = {
     return res.status(200).json(registrations);
   },
 
-  GetRegistrationById: async (req, res) => {
-    const { id } = req.params;
-
-    await prisma
-      .$transaction(async (trx) => {
-        const courses = await trx.courses.findMany({});
-
-        const classrooms = await trx.classrooms.findMany({});
-
-        const registration = await trx.registrations.findFirst({
-          where: {
-            id: parseInt(id),
-          },
-          include: {
-            students: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-              },
-            },
-            students_has_classrooms: {
-              include: {
-                classrooms: {
-                  select: {
-                    date: true,
-                    hour: true,
-                    books: {
-                      select: {
-                        name: true,
-                        number: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            courses: true,
-          },
-        });
-        return { courses, classrooms, registration };
-      })
-      .then((value) => {
-        return res.status(200).json(value);
-      })
-      .catch((error) => {
-        console.error(error.message);
-        return res
-          .status(500)
-          .json({ message: "Ocorreu um erro ao buscar matricula!" });
-      });
-  },
-
   HandleLockRegistration: async (req, res) => {
     const { id } = req.params;
 
     await prisma
       .$transaction(async (trx) => {
-        await trx.students.update({
-          where: {
-            id: (
-              await prisma.registrations.findFirst({
-                where: { id: parseInt(id) },
-              })
-            ).students_id,
-          },
-          data: {
-            amount_paid_for_month: {
-              decrement: (
-                await prisma.registrations.findFirst({
-                  where: { id: parseInt(id) },
-                })
-              ).monthly_fee_amount,
-            },
-          },
-        });
-
+        // deleta a relação entre a matricula e a turma
         if (
           await trx.students_has_classrooms.findFirst({
             where: { registrations_id: parseInt(id) },
@@ -411,6 +314,8 @@ const professionals = {
             },
           });
         }
+
+        // trancar ou destrancar a matricula
         return await trx.registrations.update({
           where: {
             id: parseInt(id),
@@ -439,18 +344,6 @@ const professionals = {
           .status(500)
           .json({ message: "Ocorreu um erro ao trancar matricula!" });
       });
-  },
-
-  HandleValuePaid: async (req, res) => {
-    const { id, value } = req.body;
-
-    await prisma.$transaction(async (trx) => {
-      await trx.registrations.update({
-        data: {
-          monthly_fee_amount: parseFloat(value),
-        },
-      });
-    });
   },
 
   CreateRegistration: async (req, res) => {
@@ -497,18 +390,6 @@ const professionals = {
           });
         }
 
-        //atualiza o valor total pago mensalmente pelo estudante
-        await trx.students.update({
-          where: {
-            id: parseInt(student),
-          },
-          data: {
-            amount_paid_for_month: {
-              increment: parseFloat(monthlyFeeAmount),
-            },
-          },
-        });
-
         //cria a matricula
         await trx.registrations.create({
           data: {
@@ -541,17 +422,6 @@ const professionals = {
                   },
                 },
               },
-            },
-          },
-        });
-
-        trx.students.update({
-          where: {
-            id: parseInt(student),
-          },
-          data: {
-            amount_paid_for_month: {
-              increment: parseFloat(monthlyFeeAmount),
             },
           },
         });
@@ -598,11 +468,8 @@ const professionals = {
 
   GetInfoForCreateRegistration: async (req, res) => {
     const students = await prisma.students.findMany({
-      select: {
-        user: true,
-        name: true,
-        email: true,
-        id: true,
+      include: {
+        registrations: true,
       },
     });
 
@@ -764,24 +631,47 @@ const professionals = {
   },
 
   CreateCourse: async (req, res) => {
-    const { name, price } = req.body;
-    console.log(req.body);
-    const createCourse = prisma.courses.create({
-      data: {
-        name: name,
-        price: parseFloat(price),
-      },
-    });
+    const { course, books } = req.body;
+
     prisma
-      .$transaction([createCourse])
+      .$transaction(async (trx) => {
+        //verifica se o curso ja existe
+        if (
+          await trx.courses.findFirst({
+            where: { name: course.name },
+          })
+        ) {
+          throw new Error("Já existe um curso com esse nome!");
+        }
+
+        //verifica se foram passados livros
+        if (books.length == 0) {
+          throw new Error("Adicione pelo menos um livro ao curso!");
+        }
+
+        const courseCreated = await trx.courses.create({
+          data: {
+            name: course.name,
+            price: parseFloat(course.price),
+          },
+        });
+
+        await trx.books.createMany({
+          data: books.map((item) => {
+            return {
+              name: item.name,
+              position: parseInt(item.position),
+              courses_id: courseCreated.id,
+            };
+          }),
+        });
+      })
       .then(() => {
         return res.status(200).json({ message: "Curso criado!" });
       })
       .catch((error) => {
-        console.error(error.message);
-        return res
-          .status(500)
-          .json({ message: "Ocorreu um erro ao criar curso!" });
+        console.error(error);
+        return res.status(500).json({ message: error.message });
       });
   },
 
@@ -839,7 +729,6 @@ const professionals = {
           select: {
             email: true,
             cpf: true,
-            amount_paid_for_month: true,
             id: true,
             name: true,
             adresses_id: true,
@@ -867,7 +756,6 @@ const professionals = {
       email,
       firstName,
       lastName,
-      cpf,
       phone,
       dateOfBirth,
       gender,
@@ -883,8 +771,12 @@ const professionals = {
       user,
       number,
     } = req.body;
-
+    let { cpf } = req.body;
+    //remove os caracteres especiais do cpf
+    cpf = cpf.replace(/[^a-zA-Z0-9]/g, "");
+    //criptografa a senha
     const passwordHash = await hash(password, 6);
+
     const student = await prisma.students
       .create({
         data: {
@@ -910,11 +802,6 @@ const professionals = {
               number: number,
             },
           },
-          books: {
-            connect: {
-              id: parseInt(book),
-            },
-          },
         },
       })
       .catch((error) => {
@@ -936,7 +823,6 @@ const professionals = {
       phone,
       dateOfBirth,
       gender,
-      registration,
       city,
       state,
       street,
@@ -971,11 +857,6 @@ const professionals = {
               zip_code: zipCode,
               number: number,
             },
-          },
-        },
-        registration: {
-          connect: {
-            id: parseInt(registration),
           },
         },
       },

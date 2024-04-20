@@ -30,11 +30,14 @@ export const useFormUpdateCourse = () => {
 		defaultValues: async () => {
 			const data = await api.professionals.GetCourseById(id);
 			return {
-				name: data.name,
-				price: data.price,
+				"course.name": data.name,
+				"course.price": data.price,
+				books: data.books,
 			};
 		},
 	});
+
+	const books = watch("books");
 
 	async function updateCourse(data) {
 		await api.professionals
@@ -48,14 +51,35 @@ export const useFormUpdateCourse = () => {
 				toast.error(error.message);
 			});
 	}
+	function addNewBook() {
+		const books = watch("books");
+		setValue("books", [
+			...books,
+			{
+				name: "",
+				position: "",
+			},
+		]);
+	}
+
+	function removeBook(index) {
+		const books = watch("books");
+		console.log(books);
+		books.splice(index, 1);
+		console.log(books);
+		setValue("books", books);
+	}
 
 	return {
 		register,
+		removeBook,
+		addNewBook,
 		handleSubmit,
 		errors,
 		watch,
 		setValue,
 		updateCourse,
+		books,
 		isLoading,
 		course,
 	};

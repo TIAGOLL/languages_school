@@ -3,18 +3,70 @@ const prisma = new PrismaClient();
 
 const students = {
   GetBook: async (req, res) => {
-    const { email } = req.params;
+    const { email, course } = req.params;
     const book = await prisma.students.findFirst({
       where: {
         email: email,
+        registrations: {
+          some: {
+            students_has_classrooms: {
+              classrooms: {
+                books: {
+                  courses: {
+                    id: parseInt(course),
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       select: {
-        books: {
-          select: { number: true, name: true },
+        registrations: {
+          include: {
+            students_has_classrooms: {
+              include: {
+                classrooms: {
+                  include: {
+                    books: {
+                      select: { number: true, name: true },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });
     return res.status(200).json(book.books);
+  },
+
+  GetInfoOfStudent: async (req, res) => {
+    const { email } = req.params;
+
+    const student = await prisma.students.findFirst({
+      where: {
+        email: email,
+      },
+      select: {
+        name: true,
+        email: true,
+        avatar_url: true,
+        registrations: {
+          include: {
+            courses: true,
+            students_has_classrooms: {
+              include: {
+                classrooms: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json(student);
   },
 
   UpdateUrlPhoto: async (req, res) => {

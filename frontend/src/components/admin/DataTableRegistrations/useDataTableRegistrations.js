@@ -72,18 +72,6 @@ export const useDataTableRegistrations = () => {
 			});
 	}
 
-	async function handleValuePaid(id, value) {
-		await api.professionals
-			.HandleValuePaid(id, value)
-			.then((res) => {
-				toast.success(res.message);
-				refetch();
-			})
-			.catch((err) => {
-				toast.error(err.response.data.message);
-			});
-	}
-
 	useEffect(() => {
 		if (!activeTab) {
 			setSearchParams((state) => {
@@ -99,7 +87,6 @@ export const useDataTableRegistrations = () => {
 		registrationsPagination,
 		handleLockRegistration,
 		handleClassroom,
-		handleValuePaid,
 		dialogLockedOpen,
 		setDialogLockedOpen,
 		dialogDeleteOpen,

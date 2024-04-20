@@ -6,10 +6,20 @@ import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/comp
 import { Button } from '@/components/ui/button';
 import { Trash2 } from 'lucide-react';
 import { Pencil } from 'lucide-react';
+import { NotebookPen } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Dialog } from '@/components/ui/dialog';
+import { DialogTrigger } from '@/components/ui/dialog';
+import { DialogContent } from '@/components/ui/dialog';
+import { DialogHeader } from '@/components/ui/dialog';
+import { DialogTitle } from '@/components/ui/dialog';
+import { DialogFooter } from '@/components/ui/dialog';
+import { Save } from 'lucide-react';
 
 
 function DataTableCourses() {
-  const { isLoading, courses, coursesPagination, deleteCourse } = useDataTableCourses();
+  const { isLoading, courses, coursesPagination, deleteCourse, setDiaglogHandleCourseOpen, diaglogHandleCourseOpen, registerHandleCourse, handleSubmitHandleCourse, errorsHandleCourse, watchHandleCourse, setValueHandleCourse, handleCourse } = useDataTableCourses();
 
   return (
     <>
@@ -49,14 +59,61 @@ function DataTableCourses() {
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
+                          <span className='pt-3'>
+                            <Dialog open={diaglogHandleCourseOpen} onOpenChange={setDiaglogHandleCourseOpen}>
+                              <DialogTrigger asChild>
+                                <button className='bg-orange-300 p-1 m-0 rounded-md' onClick={() => {
+                                  setValueHandleCourse("id", course.id)
+                                  setValueHandleCourse("name", course.name)
+                                  setValueHandleCourse("price", course.price)
+                                }}>
+                                  <Pencil className="w-4 h-4 dark:text-black" />
+                                </button>
+                              </DialogTrigger>
+                              <DialogContent >
+                                <form onSubmit={handleSubmitHandleCourse(handleCourse)} className='flex flex-col gap-6'>
+                                  <DialogHeader>
+                                    <DialogTitle>Editar curso</DialogTitle>
+                                  </DialogHeader>
+                                  <div className='grid grid-cols-2 gap-3'>
+                                    <div className='col-span-2 gap-1 grid w-8/12'>
+                                      <Label htmlFor="name">Nome</Label>
+                                      <Input type="name" {...registerHandleCourse("name")} />
+                                      {errorsHandleCourse.name && <span className="text-red-500 text-sm">{errorsHandleCourse.name.message}</span>}
+                                    </div>
+                                    <div className='col-span-2 gap-1 grid w-8/12'>
+                                      <Label htmlFor="price">Preço</Label>
+                                      <Input type="price" {...registerHandleCourse("price")} />
+                                      {errorsHandleCourse.price && <span className="text-red-500 text-sm">{errorsHandleCourse.price.message}</span>}
+                                    </div>
+                                    <DialogFooter className="w-full flex !justify-start !items-start">
+                                      <Button type="submit">
+                                        <Save className='w-4 h-4 dark:text-black mr-2' />
+                                        Salvar
+                                      </Button>
+                                    </DialogFooter>
+                                  </div>
+                                </form>
+                              </DialogContent>
+                            </Dialog>
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Editar curso
+                        </TooltipContent>
+                      </Tooltip >
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip delayDuration={0}>
+                        <TooltipTrigger asChild>
                           <Button variant="link" className="py-0 px-0 m-0">
                             <a href={`/admin/courses?tab=update&id=${course.id}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
-                              <Pencil className='w-4 h-4 dark:text-black' />
+                              <NotebookPen className='w-4 h-4 dark:text-black' />
                             </a>
                           </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          Editar
+                          Editar livros
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>

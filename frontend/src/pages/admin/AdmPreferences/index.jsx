@@ -1,12 +1,8 @@
 import AdmSideBar from "../../../components/admin/AdmSideBar";
-import { Eye, PlusCircle, Replace, } from 'lucide-react';
-import DataTableStudents from '../../../components/admin/DataTableStudents';
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
-import FormCreateStudents from '../../../components/admin/FormCreateStudents';
-import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
 import { usePreferences } from "./usePreferences";
 import { User } from "lucide-react";
 import { LockKeyhole } from "lucide-react";

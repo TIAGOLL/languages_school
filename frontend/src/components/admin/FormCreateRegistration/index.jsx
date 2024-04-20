@@ -88,9 +88,15 @@ function FormCreateRegistration() {
             <SelectContent>
               <SelectGroup>
                 {
-                  infoForCreate?.courses.map((course) => (
-                    <SelectItem key={course.id} value={course.id.toString()}>{course.name}</SelectItem>
-                  ))
+                  infoForCreate?.courses.map((course) => {
+                    // filtra somente os cursos que o aluno ainda não faz
+                    const aux = infoForCreate.students.filter((student) => student.id == studentId)[0]?.registrations.map((registration) => {
+                      if (registration.courses_id == course.id) return false
+                    })
+                    if (aux?.find((item) => item == false) == false) return
+
+                    return <SelectItem key={course.id} value={course.id.toString()}>{course.name}</SelectItem>
+                  })
                 }
               </SelectGroup>
             </SelectContent>

@@ -10,7 +10,7 @@ const router = Router();
 router.get("/auth/signin/:user/:password", auth.SignIn);
 
 // Students
-router.get("/students/load/book/:email", students.GetBook);
+router.get("/students/load/book/:email/:course", students.GetBook);
 router.put("/students/updateurlphoto", students.UpdateUrlPhoto);
 
 // Professionals
@@ -30,10 +30,6 @@ router.get(
   "/professionals/load/infoforcreateregistration",
   professionals.GetInfoForCreateRegistration
 );
-router.get(
-  "/professionals/load/registrationbyid/:id",
-  professionals.GetRegistrationById
-);
 router.get("/professionals/load/courses", professionals.GetCourses);
 router.get("/professionals/load/coursesbyid/:id", professionals.GetCourseById);
 router.get("/professionals/load/classrooms", professionals.GetClassrooms);
@@ -51,7 +47,6 @@ router.put(
   professionals.HandleLockRegistration
 );
 router.put("/professionals/handleclassroom", professionals.HandleClassroom);
-router.put("/professionals/handlevaluepaid", professionals.HandleValuePaid);
 router.put("/professionals/update", professionals.UpdateStudent);
 router.put("/professionals/update/urlphoto", professionals.UpdateUrlPhoto);
 router.delete(
@@ -85,5 +80,6 @@ router.delete("/professionals/delete/classroom", professionals.DeleteClassroom);
 
 // Books
 router.get("/books/load/all", books.GetBooks);
+router.get("/students/load/infoofstudent/:email", students.GetInfoOfStudent);
 
 module.exports = { router };

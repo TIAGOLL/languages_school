@@ -24,7 +24,6 @@ export const studentsCreateSchema = z.object({
 			return new Date(data) < new Date();
 		}, "A data de nascimento deve ser menor que a data atual"),
 	gender: z.string().min(1, "Preencha o gênero").trim(),
-	book: z.string().min(1, "Preencha o livro").trim(),
 	city: z.string().min(1, "Preencha a cidade").trim(),
 	state: z.string().min(1, "Preencha o estado").trim(),
 	street: z.string().min(1, "Preencha a rua").trim(),
@@ -50,7 +49,6 @@ export const studentsUpdateSchema = z.object({
 			return new Date(data) <= new Date();
 		}, "A data de nascimento deve ser menor que a data atual"),
 	gender: z.string().min(1, "Preencha o gênero").trim(),
-	book: z.string().min(1, "Preencha o livro").trim(),
 	city: z.string().min(1, "Preencha a cidade").trim(),
 	state: z.string().min(1, "Preencha o estado").trim(),
 	street: z.string().min(1, "Preencha a rua").trim(),

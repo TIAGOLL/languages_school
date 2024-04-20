@@ -13,7 +13,7 @@ import mask from 'make-mask'
 
 function FormCreateStudents() {
 
-  const { books, watchCreate, handleSubmitCreate, errorsCreate, registerCreate, setValueCreate, createStudent, datesForCalendar } = useStudent()
+  const { watchCreate, handleSubmitCreate, errorsCreate, registerCreate, setValueCreate, createStudent, datesForCalendar } = useStudent()
 
   const dateOfBirth = watchCreate('dateOfBirth')
   const firstName = watchCreate('firstName')
@@ -113,24 +113,6 @@ function FormCreateStudents() {
             </PopoverContent>
           </Popover>
           {errorsCreate.dateOfBirth && <p className='text-sm text-red-500'>{errorsCreate.dateOfBirth.message}</p>}
-        </div>
-        <div className='col-span-4'>
-          <Label>Livro</Label>
-          <Select {...registerCreate('book')} onValueChange={(value) => setValueCreate('book', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Book" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {
-                  books?.map((book) => (
-                    <SelectItem key={book.id} value={book.id.toString()}>{book.name}</SelectItem>
-                  ))
-                }
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          {errorsCreate.book && <p className='text-sm text-red-500'>{errorsCreate.book.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>
