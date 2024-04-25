@@ -3,6 +3,23 @@ const prisma = new PrismaClient();
 const { hash } = require("bcrypt");
 
 const professionals = {
+  GetBooksByCourse: async (req, res) => {
+    const { course: courseId } = req.params;
+    const books = await prisma.books.findMany({
+      where: {
+        courses_id: parseInt(courseId),
+      },
+    });
+
+    const course = await prisma.courses.findFirst({
+      where: {
+        id: parseInt(courseId),
+      },
+    });
+
+    return res.status(200).json({ books, course });
+  },
+
   GetCourseById: async (req, res) => {
     const { id } = req.params;
     const course = await prisma.courses.findFirst({
@@ -131,6 +148,35 @@ const professionals = {
       });
   },
 
+  DeleteBook: async (req, res) => {
+    const { id } = req.params;
+
+    // verifica se o livro esta associado a alguma turma
+    if (
+      await prisma.classrooms.findFirst({ where: { books_id: parseInt(id) } })
+    ) {
+      return res.status(400).json({
+        message: "Delete as TURMAS associadas a esse livro antes de exclui-lo!",
+      });
+    }
+
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.books.delete({
+          where: {
+            id: parseInt(id),
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Livro deletado!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
+      });
+  },
+
   DeleteCourse: async (req, res) => {
     const { id } = req.body;
 
@@ -237,6 +283,47 @@ const professionals = {
       });
   },
 
+  CreateBook: async (req, res) => {
+    const { name, position, course } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        //verifica se o livro ja existe
+        if (
+          await trx.books.findFirst({
+            where: {
+              name: {
+                equals: name,
+              },
+              courses_id: parseInt(course),
+            },
+          })
+        ) {
+          throw new Error("Já existe um livro com esse nome!");
+        }
+
+        //cria o livro
+        await trx.books.create({
+          data: {
+            name: name,
+            position: parseInt(position),
+            courses: {
+              connect: {
+                id: parseInt(course),
+              },
+            },
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Livro criado!" });
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+      });
+  },
+
   CreateClassroom: async (req, res) => {
     const { date, hour, book } = req.body;
 
@@ -284,7 +371,7 @@ const professionals = {
                 books: {
                   select: {
                     name: true,
-                    number: true,
+                    position: true,
                   },
                 },
               },
@@ -457,7 +544,7 @@ const professionals = {
         books: {
           select: {
             name: true,
-            number: true,
+            position: true,
             courses: true,
           },
         },
@@ -628,6 +715,26 @@ const professionals = {
     });
 
     return res.status(200).json(courses);
+  },
+
+  deleteBook: async (req, res) => {
+    const { bookId } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.books.delete({
+          where: {
+            id: parseInt(bookId),
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Livro deletado!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
+      });
   },
 
   CreateCourse: async (req, res) => {
@@ -927,7 +1034,7 @@ const professionals = {
                       books: {
                         select: {
                           name: true,
-                          number: true,
+                          position: true,
                         },
                       },
                     },

@@ -42,3 +42,21 @@ export const courseUpdateSchema = z.object({
 			message: "Adicione pelo menos um livro",
 		}),
 });
+
+export const createBookSchema = z.object({
+	name: z
+		.string()
+		.min(3, {
+			message: "O nome deve ter no mínimo 3 caracteres",
+		})
+		.trim(),
+	position: z
+		.string()
+		.min(1, {
+			message: "Digite uma posição",
+		})
+		.trim()
+		.or(z.number(), {
+			message: "Digite um número",
+		}),
+});

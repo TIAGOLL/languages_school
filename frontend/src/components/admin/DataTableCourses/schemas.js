@@ -22,5 +22,10 @@ export const updatedCourse = z.object({
 		.min(1, {
 			message: "Digite um preço",
 		})
-		.trim(),
+		.trim()
+		.or(
+			z.number().min(1, {
+				message: "Digite um preço",
+			})
+		),
 });

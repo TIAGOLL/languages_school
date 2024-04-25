@@ -21,7 +21,7 @@ function SignIn() {
       <div className="absolute left-10 bottom-10">
         <ThemeSwitcher />
       </div>
-      <Tabs defaultValue="account" className="w-[500px] sm:max-w-[425px]">
+      <Tabs defaultValue="account" className="w-[calc(100vw-135px)] sm:max-w-[425px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
           <TabsTrigger value="password">Esqueci a senha</TabsTrigger>

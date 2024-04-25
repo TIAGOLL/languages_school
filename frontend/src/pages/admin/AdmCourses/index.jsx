@@ -9,7 +9,7 @@ import { PlusCircleIcon } from "lucide-react";
 import DataTableCourses from "../../../components/admin/DataTableCourses";
 import FormCreateCourse from './../../../components/admin/FormCreateCourse/index';
 import { Replace } from "lucide-react";
-import FormUpdateCourse from "../../../components/admin/FormUpdateCourse";
+import FormUpdateBooks from "../../../components/admin/FormUpdateBooks";
 
 function AdmCourses() {
 
@@ -20,8 +20,8 @@ function AdmCourses() {
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
-            <TabsList className="grid w-4/12 grid-cols-3 h-full">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[calc(100vw-135px)] mt-5 justify-center items-center flex flex-col">
+            <TabsList className="grid grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <User className='w-[20px] h-[20px] mr-2' />
                 Ver todos
@@ -30,19 +30,19 @@ function AdmCourses() {
                 <PlusCircleIcon className='w-[20px] h-[20px] mr-2' />
                 Cadastrar
               </TabsTrigger>
-              <TabsTrigger value="update" className="h-12" disabled={activeTab != 'update'}>
+              <TabsTrigger value="updatebooks" className="h-12" disabled={activeTab != 'updatebooks'}>
                 <Replace className='w-[20px] h-[20px] mr-2' />
-                Atualizar
+                Atualizar livros
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-6/12 mt-10">
+            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
               <DataTableCourses />
             </TabsContent>
-            <TabsContent value="create" className="w-full mt-10">
+            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
               <FormCreateCourse />
             </TabsContent>
-            <TabsContent value="update" className="w-full mt-10">
-              <FormUpdateCourse />
+            <TabsContent value="updatebooks" className="w-[calc(100vw-140px-150px)] mt-10">
+              <FormUpdateBooks />
             </TabsContent>
           </Tabs>
         </div>

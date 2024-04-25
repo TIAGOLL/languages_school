@@ -20,8 +20,8 @@ function AdmClassrooms() {
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
-            <TabsList className="grid w-4/12 grid-cols-3 h-full">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[calc(100vw-140px)] mt-5 justify-center items-center flex flex-col">
+            <TabsList className="grid grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <User className='w-[20px] h-[20px] mr-2' />
                 Ver todos
@@ -35,13 +35,13 @@ function AdmClassrooms() {
                 Atualizar
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-full mt-10">
+            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
               <DataTableClassrooms />
             </TabsContent>
-            <TabsContent value="create" className="w-full mt-10">
+            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
               <FormCreateClassrooms />
             </TabsContent>
-            <TabsContent value="update" className="w-full mt-10">
+            <TabsContent value="update" className="w-[calc(100vw-140px-150px)] mt-10">
               <FormUpdateClassrooms />
             </TabsContent>
           </Tabs>

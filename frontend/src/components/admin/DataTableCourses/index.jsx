@@ -9,13 +9,9 @@ import { Pencil } from 'lucide-react';
 import { NotebookPen } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Dialog } from '@/components/ui/dialog';
-import { DialogTrigger } from '@/components/ui/dialog';
-import { DialogContent } from '@/components/ui/dialog';
-import { DialogHeader } from '@/components/ui/dialog';
-import { DialogTitle } from '@/components/ui/dialog';
-import { DialogFooter } from '@/components/ui/dialog';
 import { Save } from 'lucide-react';
+import { AlertDialog, AlertDialogTitle, AlertDialogDescription, AlertDialogHeader, AlertDialogTrigger, AlertDialogAction, AlertDialogCancel, AlertDialogFooter, AlertDialogContent } from '@/components/ui/alert-dialog';
+
 
 
 function DataTableCourses() {
@@ -37,7 +33,7 @@ function DataTableCourses() {
           <TableBody>
             {
               !isLoading && coursesPagination?.map((course) => (
-                <TableRow key={course.name}>
+                <TableRow key={course.id}>
                   <TableCell className="font-medium">{course.name}</TableCell>
                   <TableCell>{course.price}</TableCell>
                   <TableCell>
@@ -60,8 +56,8 @@ function DataTableCourses() {
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <span className='pt-3'>
-                            <Dialog open={diaglogHandleCourseOpen} onOpenChange={setDiaglogHandleCourseOpen}>
-                              <DialogTrigger asChild>
+                            <AlertDialog open={diaglogHandleCourseOpen} onOpenChange={setDiaglogHandleCourseOpen}>
+                              <AlertDialogTrigger asChild>
                                 <button className='bg-orange-300 p-1 m-0 rounded-md' onClick={() => {
                                   setValueHandleCourse("id", course.id)
                                   setValueHandleCourse("name", course.name)
@@ -69,12 +65,12 @@ function DataTableCourses() {
                                 }}>
                                   <Pencil className="w-4 h-4 dark:text-black" />
                                 </button>
-                              </DialogTrigger>
-                              <DialogContent >
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
                                 <form onSubmit={handleSubmitHandleCourse(handleCourse)} className='flex flex-col gap-6'>
-                                  <DialogHeader>
-                                    <DialogTitle>Editar curso</DialogTitle>
-                                  </DialogHeader>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Editar curso</AlertDialogTitle>
+                                  </AlertDialogHeader>
                                   <div className='grid grid-cols-2 gap-3'>
                                     <div className='col-span-2 gap-1 grid w-8/12'>
                                       <Label htmlFor="name">Nome</Label>
@@ -86,16 +82,16 @@ function DataTableCourses() {
                                       <Input type="price" {...registerHandleCourse("price")} />
                                       {errorsHandleCourse.price && <span className="text-red-500 text-sm">{errorsHandleCourse.price.message}</span>}
                                     </div>
-                                    <DialogFooter className="w-full flex !justify-start !items-start">
-                                      <Button type="submit">
-                                        <Save className='w-4 h-4 dark:text-black mr-2' />
-                                        Salvar
-                                      </Button>
-                                    </DialogFooter>
+                                    <AlertDialogFooter className="col-span-2">
+                                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                      <AlertDialogAction type="submit">
+                                        <Save className='w-4 h-4 dark:text-black mr-2' />Salvar
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
                                   </div>
                                 </form>
-                              </DialogContent>
-                            </Dialog>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </span>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -107,7 +103,7 @@ function DataTableCourses() {
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <Button variant="link" className="py-0 px-0 m-0">
-                            <a href={`/admin/courses?tab=update&id=${course.id}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
+                            <a href={`/admin/courses?tab=updatebooks&id=${course.id}`} className='flex flex-row bg-green-400 justify-center items-center p-1 rounded-md'>
                               <NotebookPen className='w-4 h-4 dark:text-black' />
                             </a>
                           </Button>
@@ -119,12 +115,31 @@ function DataTableCourses() {
                     </TooltipProvider>
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild>
-                          <Button variant="link" className="p-0 m-0" onClick={() => deleteCourse(course.id)}>
-                            <div className='flex flex-row bg-red-300 justify-center items-center p-1 rounded-md'>
-                              <Trash2 className='w-4 h-4 dark:text-black' />
-                            </div>
-                          </Button>
+                        <TooltipTrigger>
+                          <AlertDialog>
+                            <AlertDialogTrigger>
+                              <button variant="link" className="p-0 m-0">
+                                <div className='flex flex-row bg-red-300 justify-center items-center p-1 rounded-md'>
+                                  <Trash2 className='w-4 h-4 dark:text-black' />
+                                </div>
+                              </button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Aviso</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Você tem certeza que deseja DELETAR o livro: <strong>{course?.name}</strong>?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                <AlertDialogAction onClick={async () => await deleteCourse(course.id)}>
+                                  <Trash2 className='w-4 h-4 mr-2' />
+                                  Deletar
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </TooltipTrigger>
                         <TooltipContent>
                           Excluir
@@ -154,7 +169,7 @@ function DataTableCourses() {
             </TableRow>
           </TableFooter>
         </Table>
-      </div>
+      </div >
       <div className="border p-2 border-t-0 rounded-b-lg">
         <PaginationSection
           data={courses}

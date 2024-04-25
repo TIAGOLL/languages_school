@@ -48,7 +48,7 @@ function AdmStudents() {
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[calc(100vw-135px)] mt-5 justify-center items-center flex flex-col">
             <TabsList className="grid w-[600px] grid-cols-3 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <Eye className='w-[20px] h-[20px] mr-2' />
@@ -63,7 +63,7 @@ function AdmStudents() {
                 Atualizar aluno
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-full mt-10">
+            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
               <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-8/12 mb-10'>
                 <Input placeholder="Nome" {...register('name')} />
                 <Input placeholder="E-mail" {...register('email')} />
@@ -94,10 +94,10 @@ function AdmStudents() {
               </form>
               <DataTableStudents />
             </TabsContent>
-            <TabsContent value="create">
+            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] justify-center flex">
               <FormCreateStudents />
             </TabsContent>
-            <TabsContent value="update">
+            <TabsContent value="update" className="w-[calc(100vw-140px-150px)] justify-center flex" >
               <FormUpdateStudents />
             </TabsContent>
           </Tabs>

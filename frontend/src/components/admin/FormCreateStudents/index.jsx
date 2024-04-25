@@ -27,7 +27,7 @@ function FormCreateStudents() {
   }, [dateOfBirth, firstName, setValueCreate])
 
   return (
-    <div className='mt-10 flex flex-col'>
+    <div className='mt-10 flex flex-col w-[1000px]'>
       <form onSubmit={handleSubmitCreate(createStudent)} className='grid grid-cols-8 gap-2'>
         <div className='col-span-8 justify-center items-center grid'>
           <p className='font-semibold'>Perfil</p>

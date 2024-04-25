@@ -1,10 +1,9 @@
-import { Tabs, TabsList, TabsTrigger, TabsContent, } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
+import { PlusCircleIcon, User } from "lucide-react";
 import AdmSideBar from "../../../components/admin/AdmSideBar";
-import { User } from "lucide-react";
-import { PlusCircleIcon } from "lucide-react";
+import DataTableRegistrations from "../../../components/admin/DataTableRegistrations";
 import FormCreateRegistration from "../../../components/admin/FormCreateRegistration";
 import { useRegistration } from './useRegistration';
-import DataTableRegistrations from "../../../components/admin/DataTableRegistrations";
 
 function AdmRegistrations() {
 
@@ -15,8 +14,8 @@ function AdmRegistrations() {
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[1200px] mt-5 justify-center items-center flex flex-col">
-            <TabsList className="grid w-4/12 grid-cols-2 h-full">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[calc(100vw-135px)] mt-5 justify-center items-center flex flex-col">
+            <TabsList className=" grid-cols-2 h-full">
               <TabsTrigger value="all" className="h-12" >
                 <User className='w-[20px] h-[20px] mr-2' />
                 Ver todas
@@ -26,10 +25,10 @@ function AdmRegistrations() {
                 Cadastrar
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-full mt-10">
+            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
               <DataTableRegistrations />
             </TabsContent>
-            <TabsContent value="create" className="w-full mt-10">
+            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
               <FormCreateRegistration />
             </TabsContent>
           </Tabs>
