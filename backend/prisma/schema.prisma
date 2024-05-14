@@ -204,10 +204,11 @@ model boleto_api {
 }
 
 model lessons {
-  id       Int     @id @unique(map: "id_UNIQUE")
+  id       Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   books_id Int
   name     String? @db.VarChar(100)
   code     String? @db.VarChar(200)
+  position Int?
   books    books   @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_lesson_books1")
   tasks    tasks[]
 

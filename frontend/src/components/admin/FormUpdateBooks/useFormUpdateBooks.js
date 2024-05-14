@@ -3,26 +3,32 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
-import { courseUpdateSchema, createBookSchema } from "./schemas";
+import { courseUpdateSchema, createBookSchema, createLessonSchema, updateBookSchema } from "./schemas";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
 
 export const useFormUpdateBooks = () => {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const id = searchParams.get("id");
-	const [dialogDeleteOpen, setDialogDeleteOpen] = useState(false);
-	const [alertCreateBookOpen, setAlertCreateBookOpen] = useState(false);
+	const book = searchParams.get("book");
 
 	const { data: course, isLoading } = useQuery({
 		queryKey: ["coursesbyid"],
 		queryFn: async () => await api.professionals.GetCourseById(id),
 	});
 
-	const { data: books, refetch } = useQuery({
+	const { data: books, refetch: refetchBooks } = useQuery({
 		queryKey: ["booksbycourse"],
 		queryFn: async () => await api.professionals.GetBooksByCourse(id),
+	});
+
+	const { data: lessonByBook, refetch: refetchLessons } = useQuery({
+		queryKey: ["lessonsbybook", book],
+		queryFn: async () => {
+			if (!book) return;
+			return await api.professionals.GetLessonByBook(book);
+		},
 	});
 
 	const {
@@ -35,13 +41,6 @@ export const useFormUpdateBooks = () => {
 		resolver: zodResolver(courseUpdateSchema),
 		mode: "all",
 		criteriaMode: "all",
-		defaultValues: async () => {
-			const data = await api.professionals.GetCourseById(id);
-			return {
-				"course.name": data.name,
-				"course.price": data.price,
-			};
-		},
 	});
 
 	const {
@@ -52,6 +51,29 @@ export const useFormUpdateBooks = () => {
 		setValue: setValueCreateBook,
 	} = useForm({
 		resolver: zodResolver(createBookSchema),
+		mode: "all",
+		criteriaMode: "all",
+	});
+	const {
+		register: registerUpdateBook,
+		handleSubmit: handleSubmitUpdateBook,
+		formState: { errors: errorsUpdateBook },
+		watch: watchUpdateBook,
+		setValue: setValueUpdateBook,
+	} = useForm({
+		resolver: zodResolver(updateBookSchema),
+		mode: "all",
+		criteriaMode: "all",
+	});
+
+	const {
+		register: registerCreateLesson,
+		handleSubmit: handleSubmitCreateLesson,
+		formState: { errors: errorsCreateLesson },
+		watch: watchCreateLesson,
+		setValue: setValueCreateLesson,
+	} = useForm({
+		resolver: zodResolver(createLessonSchema),
 		mode: "all",
 		criteriaMode: "all",
 	});
@@ -73,7 +95,7 @@ export const useFormUpdateBooks = () => {
 			.CreateBook({ ...data, course: id })
 			.then((res) => {
 				toast.success(res.message);
-				refetch();
+				refetchBooks();
 				setValueCreateBook("name", "");
 				setValueCreateBook("position", "");
 			})
@@ -88,39 +110,77 @@ export const useFormUpdateBooks = () => {
 			.DeleteBook(id)
 			.then((res) => {
 				toast.success(res.message);
-				refetch();
+				refetchBooks();
 			})
 			.catch((error) => {
 				console.error(error);
 				toast.error(error.response.data.message, {
 					autoClose: 5000,
 				});
+			});
+	}
+
+	async function updateBook(data) {
+		console.log(data);
+		await api.professionals
+			.UpdateBook(data)
+			.then((res) => {
+				toast.success(res.message);
+				refetchBooks();
 			})
-			.finally(() => {
-				setDialogDeleteOpen(false);
+			.catch((error) => {
+				console.error(error);
+				toast.error(error.response.data.message, {
+					autoClose: 5000,
+				});
+			});
+	}
+
+	async function deleteLesson(id) {
+		await api.professionals
+			.DeleteLesson(id)
+			.then((res) => {
+				toast.success(res.message);
+				refetchLessons();
+			})
+			.catch((error) => {
+				console.error(error);
+				toast.error(error.response.data.message, {
+					autoClose: 5000,
+				});
 			});
 	}
 
 	return {
 		register,
 		deleteBook,
+		lessonByBook,
 		createBook,
 		handleSubmit,
 		errors,
+		deleteLesson,
 		watch,
 		setValue,
 		updateCourse,
 		books: books?.books,
 		course: books?.course,
-		dialogDeleteOpen,
-		setDialogDeleteOpen,
+		updateBook,
 		isLoading,
 		errorsCreateBook,
 		registerCreateBook,
-		setAlertCreateBookOpen,
-		alertCreateBookOpen,
 		handleSubmitCreateBook,
 		watchCreateBook,
 		setValueCreateBook,
+		registerCreateLesson,
+		handleSubmitCreateLesson,
+		errorsCreateLesson,
+		watchCreateLesson,
+		setValueCreateLesson,
+		setSearchParams,
+		registerUpdateBook,
+		handleSubmitUpdateBook,
+		errorsUpdateBook,
+		watchUpdateBook,
+		setValueUpdateBook,
 	};
 };

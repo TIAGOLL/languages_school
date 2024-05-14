@@ -18,7 +18,7 @@ function DataTableCourses() {
   const { isLoading, courses, coursesPagination, deleteCourse, setDiaglogHandleCourseOpen, diaglogHandleCourseOpen, registerHandleCourse, handleSubmitHandleCourse, errorsHandleCourse, watchHandleCourse, setValueHandleCourse, handleCourse } = useDataTableCourses();
 
   return (
-    <>
+    <div className='mb-10'>
       <div className='border rounded-lg rounded-b-none'>
         <Table>
           <TableHeader>
@@ -175,7 +175,7 @@ function DataTableCourses() {
           data={courses}
         />
       </div>
-    </>
+    </div>
   );
 }
 

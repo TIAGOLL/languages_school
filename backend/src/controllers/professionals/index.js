@@ -3,6 +3,62 @@ const prisma = new PrismaClient();
 const { hash } = require("bcrypt");
 
 const professionals = {
+  GetLessonByBook: async (req, res) => {
+    const { book } = req.params;
+    const lessons = await prisma.lessons.findMany({
+      where: {
+        books_id: parseInt(book),
+      },
+    });
+    return res.status(200).json(lessons);
+  },
+
+  UpdateBook: async (req, res) => {
+    const { id, name, position } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.books.update({
+          where: {
+            id: parseInt(id),
+          },
+          data: {
+            name: name,
+            position: parseInt(position),
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Livro atualizado!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao atualizar livro!" });
+      });
+  },
+
+  DeleteLesson: async (req, res) => {
+    const { id } = req.params;
+    await prisma
+
+      .$transaction(async (trx) => {
+        await trx.lessons.delete({
+          where: {
+            id: parseInt(id),
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Lição deletada!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res.status(500).json({ message: error.message });
+      });
+  },
+
   GetBooksByCourse: async (req, res) => {
     const { course: courseId } = req.params;
     const books = await prisma.books.findMany({

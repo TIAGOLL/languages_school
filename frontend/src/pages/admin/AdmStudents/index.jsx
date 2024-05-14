@@ -44,7 +44,7 @@ function AdmStudents() {
   })
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full overflow-x-hidden mb-10">
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>

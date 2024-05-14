@@ -11,7 +11,7 @@ function FormCreateCourse() {
   const { handleSubmit, createCourse, errors, register, addNewBook, books, removeBook } = useFormCreateCourse()
 
   return (
-    <div className='mt-10 flex flex-col'>
+    <div className='mt-10 flex flex-col mb-10'>
       <form onSubmit={handleSubmit(createCourse)} className='flex items-center space-y-6 flex-col justify-center gap-2'>
         <div className='justify-center items-center'>
           <p className='font-semibold'>Curso</p>
@@ -34,20 +34,22 @@ function FormCreateCourse() {
 
         {
           books.map((book, index) => (
-            <div key={index} className='grid grid-cols-11 gap-4 justify-center items-center w-[800px]'>
-              <div className='col-span-5 flex flex-col space-y-1'>
+            <div key={index} className='grid grid-cols-9 gap-4  w-[800px]'>
+              <div className='col-span-4 flex flex-col space-y-1'>
                 <Label htmlFor="name">Nome</Label>
                 <Input type="text" id="name" {...register(`books.${index}.name`)} />
                 {errors?.books?.[index]?.name && <span className='text-sm text-red-500'>{errors?.books?.[index]?.name?.message}</span>}
               </div>
-              <div className='col-span-5 flex flex-col space-y-1'>
+              <div className='col-span-4 flex flex-col space-y-1'>
                 <Label htmlFor="position">Posição</Label>
                 <Input type="text" id="position" {...register(`books.${index}.position`)} />
                 {errors?.books?.[index]?.position && <span className='text-sm text-red-500'>{errors?.books?.[index]?.position?.message}</span>}
               </div>
-              <Button type="button" variant="destructive" onClick={removeBook} className="w-[55px] col-span-1">
-                <Trash2 className='w-4 h-4' />
-              </Button>
+              <div className='col-span-1 items-center flex'>
+                <Button type="button" variant="destructive" onClick={removeBook} className="w-[55px] col-span-1">
+                  <Trash2 className='w-4 h-4' />
+                </Button>
+              </div>
             </div>
           ))
         }

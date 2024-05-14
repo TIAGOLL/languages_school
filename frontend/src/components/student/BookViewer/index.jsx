@@ -26,6 +26,7 @@ function BookViewer({ book, lesson = 1, course }) {
               src="https:&#x2F;&#x2F;www.canva.com&#x2F;design&#x2F;DAF-AQFw9PY&#x2F;F7rGGz9nm-FU6MQqUuHEBA&#x2F;view?embed" />
           </div>
         )
+        // DAF-AQFw9PYF7rGGz9nm-FU6MQqUuHEBA
       case 2:
         return (
           <div className="w-scren h-[calc(100vh-80px)]">

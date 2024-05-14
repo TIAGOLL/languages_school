@@ -63,6 +63,21 @@ const api = {
 	},
 
 	professionals: {
+		GetLessonByBook: async (course) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/lessonbybook/${course}`);
+			return response.data;
+		},
+
+		DeleteLesson: async (id) => {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/lesson/${id}`);
+			return response.data;
+		},
+
+		UpdateBook: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/book`, data);
+			return response.data;
+		},
+
 		DeleteBook: async (id) => {
 			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/book/${id}`);
 			return response.data;
