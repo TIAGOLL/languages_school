@@ -38,7 +38,14 @@ router.get(
   professionals.GetClassroomsById
 );
 router.get("/professionals/load/registrations", professionals.GetRegistrations);
-router.get("/professionals/load/booksbycourse/:course", professionals.GetBooksByCourse);
+router.get(
+  "/professionals/load/booksbycourse/:course",
+  professionals.GetBooksByCourse
+);
+router.get(
+  "/professionals/load/lessonbybook/:book",
+  professionals.GetLessonByBook
+);
 router.put(
   "/professionals/update/studentpassword",
   professionals.UpdateStudentPassword
@@ -72,6 +79,7 @@ router.post("/professionals/createclassroom", professionals.CreateClassroom);
 router.put("/professionals/update/classroom", professionals.UpdateClassroom);
 router.post("/professionals/createcourse", professionals.CreateCourse);
 router.post("/professionals/create/book", professionals.CreateBook);
+router.put("/professionals/update/book", professionals.UpdateBook);
 router.post(
   "/professionals/createregistration",
   professionals.CreateRegistration
@@ -79,6 +87,7 @@ router.post(
 router.delete("/professionals/delete/student", professionals.DeleteStudent);
 router.delete("/professionals/delete/course", professionals.DeleteCourse);
 router.delete("/professionals/delete/book/:id", professionals.DeleteBook);
+router.delete("/professionals/delete/lesson/:id", professionals.DeleteLesson);
 router.delete("/professionals/delete/classroom", professionals.DeleteClassroom);
 
 // Books

@@ -16,7 +16,7 @@ function AdmClassrooms() {
   const { handleTab, activeTab } = useClassrooms();
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full mb-10 overflow-x-hidden">
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
