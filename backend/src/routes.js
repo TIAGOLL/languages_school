@@ -57,6 +57,7 @@ router.put(
 router.put("/professionals/handleclassroom", professionals.HandleClassroom);
 router.put("/professionals/update", professionals.UpdateStudent);
 router.put("/professionals/update/urlphoto", professionals.UpdateUrlPhoto);
+router.put("/professionals/update/lesson", professionals.UpdateLesson);
 router.delete(
   "/professionals/delete/registration/:id",
   professionals.DeleteRegistration
@@ -64,6 +65,10 @@ router.delete(
 router.post(
   "/professionals/createregistration",
   professionals.CreateRegistration
+);
+router.post(
+  "/professionals/create/lesson",
+  professionals.CreateLesson
 );
 router.put(
   "/professionals/update/desactivestudent",
