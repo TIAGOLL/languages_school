@@ -3,6 +3,73 @@ const prisma = new PrismaClient();
 const { hash } = require("bcrypt");
 
 const professionals = {
+  CreateLesson: async (req, res) => {
+    const { name, code, position, book } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        //verifica se a lição ja existe
+        if (
+          await trx.lessons.findFirst({
+            where: {
+              name: name,
+              books_id: parseInt(book),
+            },
+          })
+        ) {
+          throw new Error("Já existe uma lição com esse nome!");
+        }
+
+        //cria a lição
+        await trx.lessons.create({
+          data: {
+            name: name,
+            code: code,
+            position: parseInt(position),
+            books: {
+              connect: {
+                id: parseInt(book),
+              },
+            },
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Lição criada!" });
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(500).json({ message: error.message });
+      });
+  },
+
+  UpdateLesson: async (req, res) => {
+    const { id, name, code, position } = req.body;
+    console.log(req.body);
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.lessons.update({
+          where: {
+            id: parseInt(id),
+          },
+          data: {
+            name: name,
+            code: code,
+            position: parseInt(position),
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Lição atualizada!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao atualizar a lição!" });
+      });
+  },
+
   GetLessonByBook: async (req, res) => {
     const { book } = req.params;
     const lessons = await prisma.lessons.findMany({

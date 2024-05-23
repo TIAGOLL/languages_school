@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import api from "../../../services/api";
-import { courseUpdateSchema, createBookSchema, createLessonSchema, updateBookSchema } from "./schemas";
+import { courseUpdateSchema, createBookSchema, createLessonSchema, updateBookSchema, updateLessonSchema } from "./schemas";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 
@@ -77,6 +77,52 @@ export const useFormUpdateBooks = () => {
 		mode: "all",
 		criteriaMode: "all",
 	});
+
+	const {
+		register: registerUpdateLesson,
+		handleSubmit: handleSubmitUpdateLesson,
+		formState: { errors: errorsUpdateLesson },
+		watch: watchUpdateLesson,
+		setValue: setValueUpdateLesson,
+	} = useForm({
+		resolver: zodResolver(updateLessonSchema),
+		mode: "all",
+		criteriaMode: "all",
+	});
+
+	async function createLesson(data) {
+		await api.professionals
+			.CreateLesson(data)
+			.then((res) => {
+				toast.success(res.message);
+				refetchLessons();
+				setValueCreateLesson("name", "");
+				setValueCreateLesson("position", "");
+				setValueCreateLesson("code", "");
+			})
+			.catch((error) => {
+				console.error(error);
+				toast.error(error.response.data.message);
+			});
+	}
+
+	async function updateLesson(data) {
+		await api.professionals
+			.UpdateLesson(data)
+			.then((res) => {
+				toast.success(res.message);
+				refetchLessons();
+				setValueUpdateLesson("name", "");
+				setValueUpdateLesson("position", "");
+				setValueUpdateLesson("code", "");
+			})
+			.catch((error) => {
+				console.error(error);
+				toast.error(error.response.data.message, {
+					autoClose: 5000,
+				});
+			});
+	}
 
 	async function updateCourse(data) {
 		await api.professionals
@@ -175,6 +221,8 @@ export const useFormUpdateBooks = () => {
 		handleSubmitCreateLesson,
 		errorsCreateLesson,
 		watchCreateLesson,
+		updateLesson,
+		createLesson,
 		setValueCreateLesson,
 		setSearchParams,
 		registerUpdateBook,
@@ -182,5 +230,10 @@ export const useFormUpdateBooks = () => {
 		errorsUpdateBook,
 		watchUpdateBook,
 		setValueUpdateBook,
+		registerUpdateLesson,
+		handleSubmitUpdateLesson,
+		errorsUpdateLesson,
+		watchUpdateLesson,
+		setValueUpdateLesson,
 	};
 };

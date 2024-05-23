@@ -10,7 +10,7 @@ import { Pencil } from 'lucide-react';
 
 function FormUpdateBooks() {
 
-  const { handleSubmit, updateCourse, errors, register, createBook, deleteBook, books, handleSubmitCreateBook, errorsCreateBook, registerCreateBook, course, alertCreateBookOpen, setAlertCreateBookOpen, errorsCreateLesson, watchCreateLesson, registerCreateLesson, setValueCreateLesson, handleSubmitCreateLesson, lessonByBook, setSearchParams, deleteLesson, registerUpdateBook, errorsUpdateBook, setValueUpdateBook, handleSubmitUpdateBook, updateBook } = useFormUpdateBooks()
+  const { handleSubmit, updateCourse, errors, register, createBook, deleteBook, books, handleSubmitCreateBook, errorsCreateBook, registerCreateBook, course, alertCreateBookOpen, setAlertCreateBookOpen, errorsCreateLesson, watchCreateLesson, registerCreateLesson, setValueCreateLesson, handleSubmitCreateLesson, lessonByBook, setSearchParams, deleteLesson, registerUpdateBook, errorsUpdateBook, setValueUpdateBook, handleSubmitUpdateBook, updateBook, updateLesson, registerUpdateLesson, handleSubmitUpdateLesson, errorsUpdateLesson, watchUpdateLesson, setValueUpdateLesson, createLesson } = useFormUpdateBooks()
 
   return (
     <div className='flex flex-col mb-10'>
@@ -100,22 +100,76 @@ function FormUpdateBooks() {
                             {
                               lessonByBook && lessonByBook?.map((lesson, index) => (
                                 <div key={index} className='grid grid-cols-12 gap-4 w-8/12 justify-center'>
-                                  <div className='col-span-3 flex flex-col space-y-1'>
-                                    <Label htmlFor={`lessons.${index}.name`}>Nome</Label>
-                                    <Input type="text" id={`lessons.${index}.name`} {...registerCreateLesson(`lessons.${index}.name`)} value={lesson.name} readOnly />
-                                    {errors?.lessons?.[index]?.name && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.name?.message}</span>}
-                                  </div>
                                   <div className='col-span-1 flex flex-col space-y-1'>
                                     <Label htmlFor={`lessons.${index}.position`}>Posição</Label>
                                     <Input type="text" id={`lessons.${index}.position`} {...registerCreateLesson(`lessons.${index}.position`)} value={lesson.position} readOnly />
                                     {errors?.lessons?.[index]?.position && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.position?.message}</span>}
                                   </div>
-                                  <div className='col-span-6 flex flex-col space-y-1'>
+                                  <div className='col-span-3 flex flex-col space-y-1'>
+                                    <Label htmlFor={`lessons.${index}.name`}>Nome</Label>
+                                    <Input type="text" id={`lessons.${index}.name`} {...registerCreateLesson(`lessons.${index}.name`)} value={lesson.name} readOnly />
+                                    {errors?.lessons?.[index]?.name && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.name?.message}</span>}
+                                  </div>
+                                  <div className='col-span-7 flex flex-col space-y-1'>
                                     <Label htmlFor={`lessons.${index}.code`}>Código (Canva)</Label>
                                     <Input type="text" id={`lessons.${index}.code`} {...registerCreateLesson(`lessons.${index}.code`)} value={lesson.code} readOnly />
                                     {errors?.lessons?.[index]?.code && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.code?.message}</span>}
                                   </div>
-                                  <div className='col-span-2 flex flex-col space-y-1 justify-end items-start'>
+                                  <div className='col-span-1 flex flex-row justify-start items-end gap-2'>
+                                    <TooltipProvider>
+                                      <Tooltip delayDuration={0}>
+                                        <TooltipTrigger>
+                                          <AlertDialog>
+                                            <AlertDialogTrigger>
+                                              <button onClick={() => {
+                                                setValueUpdateLesson("id", lesson?.id)
+                                                setValueUpdateLesson("position", lesson?.position)
+                                                setValueUpdateLesson("name", lesson?.name)
+                                                setValueUpdateLesson("code", lesson?.code)
+                                              }} type="button" className="bg-green-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md">
+                                                <Pencil className="w-4 h-4 dark:text-black" />
+                                              </button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                              <AlertDialogHeader>
+                                                <AlertDialogTitle>Editar</AlertDialogTitle>
+                                              </AlertDialogHeader>
+                                              <form onSubmit={handleSubmitUpdateLesson(updateLesson)} className='gap-2 flex flex-col'>
+                                                <div className='col-span-2 gap-1 grid w-8/12'>
+                                                  <Label htmlFor="lessonName">Nome</Label>
+                                                  <Input type="lessonName" {...registerUpdateLesson("name")} />
+                                                  {errorsUpdateLesson.name && <span className="text-red-500 text-sm">{errorsUpdateLesson.name.message}</span>}
+                                                </div>
+                                                <div className='col-span-2 gap-1 grid w-8/12'>
+                                                  <Label htmlFor="lessonPosition">Posição</Label>
+                                                  <Input type="lessonPosition" {...registerUpdateLesson("position")} />
+                                                  {errorsUpdateLesson.position && <span className="text-red-500 text-sm">{errorsUpdateLesson.position.message}</span>}
+                                                </div>
+                                                <div className='col-span-2 gap-1 grid w-8/12'>
+                                                  <Label htmlFor="lessonCode">Código (Canva)</Label>
+                                                  <Input type="lessonCode" {...registerUpdateLesson("code")} />
+                                                  {errorsUpdateLesson.code && <span className="text-red-500 text-sm">{errorsUpdateLesson.code.message}</span>}
+                                                </div>
+                                                <AlertDialogFooter>
+                                                  <AlertDialogCancel onClick={() => {
+                                                    setValueUpdateLesson("name", "")
+                                                    setValueUpdateLesson("position", "")
+                                                    setValueUpdateLesson("code", "")
+                                                  }}>Cancelar</AlertDialogCancel>
+                                                  <AlertDialogAction type="submit">
+                                                    <Save className='w-4 h-4 mr-2' />
+                                                    Salvar
+                                                  </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                              </form>
+                                            </AlertDialogContent>
+                                          </AlertDialog>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          Editar
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
                                     <TooltipProvider>
                                       <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
@@ -155,8 +209,61 @@ function FormUpdateBooks() {
                               lessonByBook?.length === 0 && <span className='text-md text-red-500 font-bold justify-center overflow-y-hidden w-full flex'>Nenhuma lição cadastrada</span>
                             }
                           </form>
-                          <AlertDialogFooter className="justify-center flex-row flex">
-                            <AlertDialogCancel>Sair</AlertDialogCancel>
+                          <AlertDialogFooter className="justify-center !flex-col flex items-center gap-2">
+                            <div className='w-[10rem] flex flex-col justify-center items-center gap-2'>
+                              <AlertDialog open={alertCreateBookOpen} onOpenChange={setAlertCreateBookOpen}>
+                                <AlertDialogTrigger>
+                                  <Button type="button" variant="ghost" className="w-full mb-5" onClick={() => {
+                                    setValueCreateLesson("name", "")
+                                    setValueCreateLesson("position", "")
+                                    setValueCreateLesson("code", "")
+                                    setValueCreateLesson("book", book.id)
+                                  }}>
+                                    {console.log(errorsCreateLesson)}
+                                    <PlusCircle className='w-4 h-4 mr-2' />
+                                    Adicionar lição
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <form onSubmit={handleSubmitCreateLesson(createLesson)}>
+                                    <AlertDialogHeader>
+                                      <AlertDialogTitle>Nova lição</AlertDialogTitle>
+                                      <AlertDialogDescription>
+                                        Descreva a lição que deseja adicionar
+                                      </AlertDialogDescription>
+                                      <div className='col-span-2 gap-1 grid w-8/12'>
+                                        <Label htmlFor="lessonName">Nome</Label>
+                                        <Input type="lessonName" {...registerCreateLesson("name")} />
+                                        {errorsCreateLesson.name && <span className="text-red-500 text-sm">{errorsCreateLesson.name.message}</span>}
+                                      </div>
+                                      <div className='col-span-2 gap-1 grid w-8/12'>
+                                        <Label htmlFor="lessonPosition">Posição</Label>
+                                        <Input type="lessonPosition" {...registerCreateLesson("position")} />
+                                        {errorsCreateLesson.position && <span className="text-red-500 text-sm">{errorsCreateLesson.position.message}</span>}
+                                      </div>
+                                      <div className='col-span-2 gap-1 grid w-8/12'>
+                                        <Label htmlFor="lessonCode">Código (Canva)</Label>
+                                        <Input type="lessonCode" {...registerCreateLesson("code")} />
+                                        {errorsCreateLesson.code && <span className="text-red-500 text-sm">{errorsCreateLesson.code.message}</span>}
+                                      </div>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter className="mt-8">
+                                      <AlertDialogCancel onClick={() => {
+                                        setValueCreateLesson("name", "")
+                                        setValueCreateLesson("position", "")
+                                        setValueCreateLesson("code", "")
+                                        setValueCreateLesson("book", "")
+                                      }}>Cancelar</AlertDialogCancel>
+                                      <AlertDialogAction type="submit">
+                                        <Save className='w-4 h-4 mr-2' />
+                                        Salvar
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                  </form>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                              <AlertDialogCancel variant="default" className="w-full border-2">Sair</AlertDialogCancel>
+                            </div>
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
@@ -231,12 +338,6 @@ function FormUpdateBooks() {
             </form>
           </AlertDialogContent>
         </AlertDialog>
-
-
-        <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Cadastrar
-        </Button>
       </form >
     </div >
   );

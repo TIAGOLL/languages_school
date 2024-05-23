@@ -63,6 +63,16 @@ const api = {
 	},
 
 	professionals: {
+		CreateLesson: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create/lesson`, data);
+			return response.data;
+		},
+
+		UpdateLesson: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/lesson`, data);
+			return response.data;
+		},
+
 		GetLessonByBook: async (course) => {
 			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/lessonbybook/${course}`);
 			return response.data;
