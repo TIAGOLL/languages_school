@@ -77,10 +77,10 @@ export const createLessonSchema = z.object({
 		.or(z.number(), {
 			message: "Digite um número",
 		}),
-	code: z
+	url: z
 		.string()
-		.min(1, {
-			message: "Digite um código",
+		.url({
+			message: "Digite uma URL válida",
 		})
 		.trim(),
 	book: z
@@ -145,10 +145,10 @@ export const updateLessonSchema = z.object({
 		.or(z.number(), {
 			message: "Digite um número",
 		}),
-	code: z
+	url: z
 		.string()
-		.min(1, {
-			message: "Digite um código",
+		.url({
+			message: "Digite uma URL válida",
 		})
 		.trim(),
 });

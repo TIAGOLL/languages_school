@@ -29,7 +29,7 @@ const students = {
                 classrooms: {
                   include: {
                     books: {
-                      select: { number: true, name: true },
+                      select: { position: true, name: true },
                     },
                   },
                 },

@@ -134,21 +134,22 @@ model professionals {
 }
 
 model registrations {
-  id                      Int                      @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  students_id             Int
-  courses_id              Int
-  start_date              DateTime                 @default(now()) @db.DateTime(0)
-  end_date                DateTime                 @db.DateTime(0)
-  monthly_fee_amount      Float?                   @default(0) @db.Float
-  created_by              Int?
-  created_at              DateTime?                @default(now()) @db.DateTime(0)
-  locked                  Boolean                  @default(dbgenerated("b'0'")) @db.Bit(1)
-  completed               Boolean                  @default(dbgenerated("b'0'")) @db.Bit(1)
-  monthly_fee             monthly_fee[]
-  courses                 courses                  @relation(fields: [courses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_registrations_courses1")
-  students                students                 @relation(fields: [students_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_registrations_students1")
-  students_has_classrooms students_has_classrooms?
-  tasks                   tasks[]
+  id                       Int                        @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  students_id              Int
+  courses_id               Int
+  start_date               DateTime                   @default(now()) @db.DateTime(0)
+  end_date                 DateTime                   @db.DateTime(0)
+  monthly_fee_amount       Float?                     @default(0) @db.Float
+  created_by               Int?
+  created_at               DateTime?                  @default(now()) @db.DateTime(0)
+  locked                   Boolean                    @default(dbgenerated("b'0'")) @db.Bit(1)
+  completed                Boolean                    @default(dbgenerated("b'0'")) @db.Bit(1)
+  monthly_fee              monthly_fee[]
+  records_of_registrations records_of_registrations[] @ignore
+  courses                  courses                    @relation(fields: [courses_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_registrations_courses1")
+  students                 students                   @relation(fields: [students_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_registrations_students1")
+  students_has_classrooms  students_has_classrooms?
+  tasks                    tasks[]
 
   @@index([courses_id], map: "fk_registrations_courses1_idx")
   @@index([students_id], map: "fk_registrations_students1_idx")
@@ -207,7 +208,7 @@ model lessons {
   id       Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   books_id Int
   name     String? @db.VarChar(100)
-  code     String? @db.VarChar(200)
+  url      String? @db.VarChar(200)
   position Int?
   books    books   @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_lesson_books1")
   tasks    tasks[]
@@ -252,4 +253,16 @@ model tasks {
 
   @@index([lessons_id], map: "fk_responses_lessons1_idx")
   @@index([registrations_id], map: "fk_responses_registrations1_idx")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model records_of_registrations {
+  registrations_id Int
+  description      String?       @db.VarChar(1000)
+  tittle           String?       @db.VarChar(100)
+  reason           String?       @db.VarChar(1000)
+  registrations    registrations @relation(fields: [registrations_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_records_of_registrations_registrations1")
+
+  @@index([registrations_id], map: "fk_records_of_registrations_registrations1_idx")
+  @@ignore
 }
