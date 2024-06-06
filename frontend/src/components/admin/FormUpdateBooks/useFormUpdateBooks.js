@@ -17,7 +17,6 @@ export const useFormUpdateBooks = () => {
 		queryKey: ["coursesbyid"],
 		queryFn: async () => await api.professionals.GetCourseById(id),
 	});
-
 	const { data: books, refetch: refetchBooks } = useQuery({
 		queryKey: ["booksbycourse"],
 		queryFn: async () => await api.professionals.GetBooksByCourse(id),

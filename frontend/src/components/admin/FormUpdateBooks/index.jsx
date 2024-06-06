@@ -111,9 +111,9 @@ function FormUpdateBooks() {
                                     {errors?.lessons?.[index]?.name && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.name?.message}</span>}
                                   </div>
                                   <div className='col-span-7 flex flex-col space-y-1'>
-                                    <Label htmlFor={`lessons.${index}.code`}>Código (Canva)</Label>
-                                    <Input type="text" id={`lessons.${index}.code`} {...registerCreateLesson(`lessons.${index}.code`)} value={lesson.code} readOnly />
-                                    {errors?.lessons?.[index]?.code && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.code?.message}</span>}
+                                    <Label htmlFor={`lessons.${index}.url`}>URL (Canva)</Label>
+                                    <Input type="text" id={`lessons.${index}.url`} {...registerCreateLesson(`lessons.${index}.url`)} value={lesson.url} readOnly />
+                                    {errors?.lessons?.[index]?.url && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.url?.message}</span>}
                                   </div>
                                   <div className='col-span-1 flex flex-row justify-start items-end gap-2'>
                                     <TooltipProvider>
@@ -146,9 +146,9 @@ function FormUpdateBooks() {
                                                   {errorsUpdateLesson.position && <span className="text-red-500 text-sm">{errorsUpdateLesson.position.message}</span>}
                                                 </div>
                                                 <div className='col-span-2 gap-1 grid w-8/12'>
-                                                  <Label htmlFor="lessonCode">Código (Canva)</Label>
-                                                  <Input type="lessonCode" {...registerUpdateLesson("code")} />
-                                                  {errorsUpdateLesson.code && <span className="text-red-500 text-sm">{errorsUpdateLesson.code.message}</span>}
+                                                  <Label htmlFor="lessonURL">URL (Canva)</Label>
+                                                  <Input type="lessonURL" {...registerUpdateLesson("url")} />
+                                                  {errorsUpdateLesson.url && <span className="text-red-500 text-sm">{errorsUpdateLesson.url.message}</span>}
                                                 </div>
                                                 <AlertDialogFooter>
                                                   <AlertDialogCancel onClick={() => {
