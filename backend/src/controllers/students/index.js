@@ -42,6 +42,22 @@ const students = {
     return res.status(200).json(book.books);
   },
 
+  GetUrlLesson: async (req, res) => {
+    const { book, lesson } = req.params;
+
+    const url = await prisma.lessons.findFirst({
+      where: {
+        books_id: parseInt(book),
+        id: parseInt(lesson),
+      },
+      select: {
+        url: true,
+      },
+    });
+
+    return res.status(200).json(url);
+  },
+
   GetInfoOfStudent: async (req, res) => {
     const { email } = req.params;
 
@@ -58,7 +74,13 @@ const students = {
             courses: true,
             students_has_classrooms: {
               include: {
-                classrooms: true,
+                classrooms: {
+                  include: {
+                    books: {
+                      include: { lessons: true, courses: true },
+                    },
+                  },
+                },
               },
             },
           },
@@ -66,7 +88,11 @@ const students = {
       },
     });
 
-    return res.status(200).json(student);
+    const books = student.registrations.map((registration) => {
+      return registration.students_has_classrooms.classrooms.books;
+    });
+
+    return res.status(200).json({ ...student, books });
   },
 
   UpdateUrlPhoto: async (req, res) => {

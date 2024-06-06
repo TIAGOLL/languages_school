@@ -115,7 +115,7 @@ function FormCreateRegistration() {
                 {
                   infoForCreate?.classrooms.map((classrooms) => {
                     if (classrooms.books.courses_id != currentCourse) return
-                    return <SelectItem key={classrooms.id} value={classrooms.id.toString()}>{classrooms.date + " à(s) " + classrooms.hour + " hora(s)"}</SelectItem>
+                    return <SelectItem key={classrooms.id} value={classrooms.id.toString()}>{classrooms.date} à(s) {classrooms.hour} hora(s) || {classrooms.books.name}</SelectItem>
                   })
                 }
                 {

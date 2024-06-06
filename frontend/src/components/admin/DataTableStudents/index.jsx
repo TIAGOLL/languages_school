@@ -17,6 +17,7 @@ import { BookCheck, LockKeyhole } from 'lucide-react';
 function DataTableStudents() {
 
   const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent } = useDataTableStudents();
+  
   return (
     <>
       <div className='border rounded-lg rounded-b-none'>

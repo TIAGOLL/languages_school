@@ -4,7 +4,7 @@ const { hash } = require("bcrypt");
 
 const professionals = {
   CreateLesson: async (req, res) => {
-    const { name, code, position, book } = req.body;
+    const { name, url, position, book } = req.body;
 
     await prisma
       .$transaction(async (trx) => {
@@ -24,7 +24,7 @@ const professionals = {
         await trx.lessons.create({
           data: {
             name: name,
-            code: code,
+            url: url,
             position: parseInt(position),
             books: {
               connect: {
@@ -44,7 +44,7 @@ const professionals = {
   },
 
   UpdateLesson: async (req, res) => {
-    const { id, name, code, position } = req.body;
+    const { id, name, url, position } = req.body;
     console.log(req.body);
     await prisma
       .$transaction(async (trx) => {
@@ -54,7 +54,7 @@ const professionals = {
           },
           data: {
             name: name,
-            code: code,
+            url: url,
             position: parseInt(position),
           },
         });
@@ -69,6 +69,8 @@ const professionals = {
           .json({ message: "Ocorreu um erro ao atualizar a lição!" });
       });
   },
+
+  
 
   GetLessonByBook: async (req, res) => {
     const { book } = req.params;

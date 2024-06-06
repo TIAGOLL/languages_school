@@ -77,7 +77,8 @@ function DataTableRegistrations() {
                                     <SelectGroup className="h-[10rem]">
                                       {
                                         classrooms?.map((classroom) => {
-                                          if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour}</SelectItem>
+                                          console.log(classroom)
+                                          if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour} || {classroom?.books.name}</SelectItem>
                                         })
                                       }
                                     </SelectGroup>
