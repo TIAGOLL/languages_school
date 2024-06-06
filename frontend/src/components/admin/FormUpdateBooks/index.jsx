@@ -113,6 +113,7 @@ function FormUpdateBooks() {
                                   <div className='col-span-7 flex flex-col space-y-1'>
                                     <Label htmlFor={`lessons.${index}.url`}>URL (Canva)</Label>
                                     <Input type="text" id={`lessons.${index}.url`} {...registerCreateLesson(`lessons.${index}.url`)} value={lesson.url} readOnly />
+                                    {console.log(lesson)}
                                     {errors?.lessons?.[index]?.url && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.url?.message}</span>}
                                   </div>
                                   <div className='col-span-1 flex flex-row justify-start items-end gap-2'>
@@ -125,7 +126,7 @@ function FormUpdateBooks() {
                                                 setValueUpdateLesson("id", lesson?.id)
                                                 setValueUpdateLesson("position", lesson?.position)
                                                 setValueUpdateLesson("name", lesson?.name)
-                                                setValueUpdateLesson("code", lesson?.code)
+                                                setValueUpdateLesson("url", lesson?.url)
                                               }} type="button" className="bg-green-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md">
                                                 <Pencil className="w-4 h-4 dark:text-black" />
                                               </button>
@@ -154,7 +155,7 @@ function FormUpdateBooks() {
                                                   <AlertDialogCancel onClick={() => {
                                                     setValueUpdateLesson("name", "")
                                                     setValueUpdateLesson("position", "")
-                                                    setValueUpdateLesson("code", "")
+                                                    setValueUpdateLesson("url", "")
                                                   }}>Cancelar</AlertDialogCancel>
                                                   <AlertDialogAction type="submit">
                                                     <Save className='w-4 h-4 mr-2' />
@@ -216,7 +217,7 @@ function FormUpdateBooks() {
                                   <Button type="button" variant="ghost" className="w-full mb-5" onClick={() => {
                                     setValueCreateLesson("name", "")
                                     setValueCreateLesson("position", "")
-                                    setValueCreateLesson("code", "")
+                                    setValueCreateLesson("url", "")
                                     setValueCreateLesson("book", book.id)
                                   }}>
                                     {console.log(errorsCreateLesson)}
@@ -242,16 +243,16 @@ function FormUpdateBooks() {
                                         {errorsCreateLesson.position && <span className="text-red-500 text-sm">{errorsCreateLesson.position.message}</span>}
                                       </div>
                                       <div className='col-span-2 gap-1 grid w-8/12'>
-                                        <Label htmlFor="lessonCode">Código (Canva)</Label>
-                                        <Input type="lessonCode" {...registerCreateLesson("code")} />
-                                        {errorsCreateLesson.code && <span className="text-red-500 text-sm">{errorsCreateLesson.code.message}</span>}
+                                        <Label htmlFor="lessonURL">URL (Canva)</Label>
+                                        <Input type="lessonURL" {...registerCreateLesson("url")} />
+                                        {errorsCreateLesson.url && <span className="text-red-500 text-sm">{errorsCreateLesson.url.message}</span>}
                                       </div>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter className="mt-8">
                                       <AlertDialogCancel onClick={() => {
                                         setValueCreateLesson("name", "")
                                         setValueCreateLesson("position", "")
-                                        setValueCreateLesson("code", "")
+                                        setValueCreateLesson("url", "")
                                         setValueCreateLesson("book", "")
                                       }}>Cancelar</AlertDialogCancel>
                                       <AlertDialogAction type="submit">

@@ -1,13 +1,12 @@
-import SideBar from "../../../components/student/SideBar";
-import BookViewer from "../../../components/student/BookViewer";
-import { useBook } from "./useBook";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SideBar from "../../../components/student/SideBar";
+import { useBook } from "./useBook";
+import BookViewer from '../../../components/student/BookViewer';
 
 function Book() {
 
-  const { book, lesson, handleLesson, getQtdLessons, getQtdWaks, course, handleCourse, infoOfStudent } = useBook();
-  console.log(book)
+  const { book, lesson, handleLesson, handleBook, infoOfStudent } = useBook();
 
   return (
     <div>
@@ -18,39 +17,38 @@ function Book() {
         <div className="w-full items-center justify-center flex mt-5 max-sm:w-[130px] max-sm:mr-10 flex-row">
           <div className="w-[600px] flex flex-row gap-4">
             <div className="flex flex-col gap-1 w-6/12">
-              <Label>Curso</Label>
-              <Select onValueChange={(e) => handleCourse(e)} defaultValue={1}>
+              <Label>Livro</Label>
+              <Select onValueChange={(e) => handleBook(e)} value={parseInt(book)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Curso" />
+                  <SelectValue placeholder="Livro" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {
-                      infoOfStudent?.registrations.map((registration) => (
-                        <SelectItem value={registration?.courses_id} key={registration.id}>{registration?.courses.name}</SelectItem>
-                      ))
+                      infoOfStudent?.books.map((book) => {
+                        return <SelectItem value={book.id} key={book.id}>{book?.courses?.name} | {book.name}</SelectItem>
+                      })
                     }
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col gap-1 w-6/12">
-              <Label>Livro</Label>
-              <Select onValueChange={(e) => handleLesson(e)} defaultValue={1}>
+              <Label>Lição</Label>
+              <Select onValueChange={(e) => handleLesson(e)} value={parseInt(lesson)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Lição" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     {
-                      Array.from({ length: getQtdLessons() }, (_, i) => (
-                        <SelectItem value={i + 1} key={i}>Lesson {i + 1}</SelectItem>
-                      ))
-                    }
-                    {
-                      Array.from({ length: getQtdWaks() }, (_, i) => (
-                        <SelectItem value={i + 1 + parseInt(getQtdLessons())} key={i + getQtdLessons()}>Wak {i + 1}</SelectItem>
-                      ))
+                      infoOfStudent?.books.map((item) => {
+                        if (item.id == parseInt(book)) {
+                          return item.lessons.map((lesson) => {
+                            return <SelectItem value={lesson.id} key={lesson.id}>{lesson.name}</SelectItem>
+                          })
+                        }
+                      })
                     }
                   </SelectGroup>
                 </SelectContent>
@@ -60,7 +58,7 @@ function Book() {
         </div>
       </div >
       <div className="mt-1">
-        <BookViewer book={book} course={parseInt(course)} lesson={parseInt(lesson)} />
+        {lesson && <BookViewer book={parseInt(book)} lesson={parseInt(lesson)} />}
       </div>
     </div>
   );

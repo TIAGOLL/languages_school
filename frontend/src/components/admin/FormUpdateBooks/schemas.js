@@ -79,6 +79,9 @@ export const createLessonSchema = z.object({
 		}),
 	url: z
 		.string()
+		.min(1, {
+			message: "Digite uma URL",
+		})
 		.url({
 			message: "Digite uma URL válida",
 		})
