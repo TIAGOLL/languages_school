@@ -44,6 +44,11 @@ const api = {
 				});
 		},
 
+		GetUrlLesson: async (book, lesson) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/book/getLessons/${book}/${lesson}`);
+			return response.data.url;
+		},
+
 		GetBook: async (email, course) => {
 			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}/${course}`);
 			return response.data;
