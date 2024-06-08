@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import api from "../../../services/api";
 
 function BookViewer({ book, lesson }) {
 
 
-  const { data: url, isLoading, refetch, } = useQuery({
+  const { data: url, isLoading, } = useQuery({
     queryKey: ["urlLesson"],
     queryFn: () => api.students.GetUrlLesson(book, lesson),
   });
