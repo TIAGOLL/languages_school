@@ -7,7 +7,7 @@ const api = {
 	auth: {
 		signIn: async (user, password) => {
 			return await axios
-				.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/auth/signin/${user}/${password}`)
+				.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/auth/${user}/${password}`)
 				.then((res) => {
 					return res.data;
 				})
@@ -25,7 +25,7 @@ const api = {
 				.then((snapshot) => {
 					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
 						await axios
-							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/updateurlphoto`, {
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/uploadphoto`, {
 								id: id,
 								avatar_url: downloadURL,
 							})
@@ -45,71 +45,71 @@ const api = {
 		},
 
 		GetUrlLesson: async (book, lesson) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/book/getLessons/${book}/${lesson}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/std/getLessons/${book}/${lesson}`);
 			return response.data.url;
 		},
 
-		GetBook: async (email, course) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/book/${email}/${course}`);
-			return response.data;
-		},
-
 		GetInfoOfStudent: async (email) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/load/infoofstudent/${email}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/students/infoofstudent/${email}`);
 			return response.data;
 		},
 	},
 
 	books: {
 		GetBooks: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/books/load/all`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/books/all`);
 			return response.data;
 		},
 	},
 
 	professionals: {
 		CreateLesson: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create/lesson`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lesson`, data);
+			return response.data;
+		},
+
+		CreateRecordOfStudent: async (data) => {
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/recordofregistration`, data);
 			return response.data;
 		},
 
 		UpdateLesson: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/lesson`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lesson`, data);
 			return response.data;
 		},
 
 		GetLessonByBook: async (course) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/lessonbybook/${course}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lessonbybook/${course}`);
 			return response.data;
 		},
 
 		DeleteLesson: async (id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/lesson/${id}`);
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lesson/${id}`);
 			return response.data;
 		},
 
 		UpdateBook: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/book`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/book`, data);
 			return response.data;
 		},
 
 		DeleteBook: async (id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/book/${id}`);
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/book/${id}`);
 			return response.data;
 		},
 
 		GetBooksByCourse: async (course) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/booksbycourse/${course}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/booksbycourse/${course}`);
 			return response.data;
 		},
 
 		CreateBook: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create/book`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/book`, data);
 			return response.data;
 		},
 
 		HandleClassroom: async (classroomId, registrationId) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/handleclassroom`, {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/handleclassroom`, {
 				classroomId,
 				registrationId,
 			});
@@ -117,17 +117,17 @@ const api = {
 		},
 
 		GetCourseById: async (id) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/coursesbyid/${id}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/coursesbyid/${id}`);
 			return response.data;
 		},
 
 		UpdateCourse: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/course`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/course`, data);
 			return response.data;
 		},
 
 		DeleteCourse: async (id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/course`, {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/course`, {
 				data: {
 					id: id,
 				},
@@ -136,42 +136,51 @@ const api = {
 		},
 
 		CreateRegistration: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createregistration`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registration`, data);
 			return response.data;
 		},
 
 		DeleteRegistration: async (id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/registration/${id}`);
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registration/${id}`);
 			return response.data;
 		},
 
-		HandleLockRegistration: async (id) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/lock/registration/${id}`);
+		GetRecordsOfStudent: async (studentId) => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/recordsofstudent/${studentId}`);
+			return response.data;
+		},
+
+		HandleLockRegistration: async (registrationId, studentId, description) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lock/registration`, {
+				registrationId,
+				studentId,
+				description,
+			});
 			return response.data;
 		},
 
 		GetRegistrationById: async (id) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/registrationbyid/${id}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registrationbyid/${id}`);
 			return response.data;
 		},
 
 		GetRegistrations: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/registrations`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registrations`);
 			return response.data;
 		},
 
 		CreateClassroom: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createclassroom`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/classroom`, data);
 			return response.data;
 		},
 
 		UpdateClassroom: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/classroom`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/classroom`, data);
 			return response.data;
 		},
 
 		DeleteClassroom: async (id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/classroom`, {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/classroom`, {
 				data: {
 					id: id,
 				},
@@ -180,37 +189,37 @@ const api = {
 		},
 
 		GetClassroomById: async (id) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/classroombyid/${id}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/classroombyid/${id}`);
 			return response.data;
 		},
 
 		GetClassrooms: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/classrooms`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/classrooms`);
 			return response.data;
 		},
 
 		GetInfoForCreateRegistration: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/infoforcreateregistration`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/infoforcreateregistration`);
 			return response.data;
 		},
 
 		CreateCourse: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/createcourse`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/admcourse`, data);
 			return response.data;
 		},
 
 		GetCourses: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/courses`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/courses`);
 			return response.data;
 		},
 
 		UpdateProfessionalPassword: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/updateprofessionalpassword`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/professionalpassword`, data);
 			return response.data;
 		},
 
 		DeleteStudent: async (id, adresses_id) => {
-			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/delete/student`, {
+			const response = await axios.delete(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/student`, {
 				data: {
 					id: id,
 					adresses_id: adresses_id,
@@ -220,34 +229,34 @@ const api = {
 		},
 
 		DesactiveStudent: async (id) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/desactivestudent`, {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/desactivestudent`, {
 				id: id,
 			});
 			return response.data;
 		},
 
 		UpdateStudentPassword: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/studentpassword`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/studentpassword`, data);
 			return response.data;
 		},
 
 		GetEmails: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/emails`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/emails`);
 			return response.data;
 		},
 
 		GetUsers: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/users`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/users`);
 			return response.data;
 		},
 
 		UploadPhoto: async (id, photo) => {
-			const uploadRef = ref(storage, `photos/professionals/${id}`);
+			const uploadRef = ref(storage, `photos/adm/${id}`);
 			await uploadBytes(uploadRef, photo)
 				.then((snapshot) => {
 					getDownloadURL(snapshot.ref).then(async (downloadURL) => {
 						await axios
-							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update/urlphoto`, {
+							.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/urlphoto`, {
 								id: id,
 								avatar_url: downloadURL,
 							})
@@ -267,12 +276,12 @@ const api = {
 		},
 
 		GetStudentByEmail: async (email) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentbyemail/${email}`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/studentbyemail/${email}`);
 			return response.data;
 		},
 
 		GetActiveStudents: async (name, email, course) => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/activestudents`, {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/activestudents`, {
 				params: {
 					name: name ?? "",
 					email: email ?? "",
@@ -283,21 +292,21 @@ const api = {
 		},
 
 		CreateStudent: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/create`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm`, data);
 			return response.data;
 		},
 
 		UpdateStudent: async (data) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/update`, data);
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/student`, data);
 			return response.data;
 		},
 
 		GetStudentUsers: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentusers`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/studentusers`);
 			return response.data;
 		},
 		GetStudentEmails: async () => {
-			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/professionals/load/studentemails`);
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/studentemails`);
 			return response.data;
 		},
 	},

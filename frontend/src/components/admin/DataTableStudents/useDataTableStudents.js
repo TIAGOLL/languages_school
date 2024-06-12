@@ -25,6 +25,7 @@ export const useDataTableStudents = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [diaglogOpen, setDialogOpen] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [recordsDiaglogOpen, setRecordsDialogOpen] = useState(false);
 
 	const page = searchParams.get("page");
 	const per_page = searchParams.get("per_page");
@@ -118,5 +119,7 @@ export const useDataTableStudents = () => {
 		watch,
 		setValue,
 		loading,
+		recordsDiaglogOpen,
+		setRecordsDialogOpen,
 	};
 };

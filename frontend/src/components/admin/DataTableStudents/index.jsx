@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useDataTableStudents } from './useDataTableStudents';
 import PaginationSection from './../../ui/PaginationSection';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { LoaderIcon, Power, Trash2, ScrollText, Save, KeyRound, Pencil } from 'lucide-react';
@@ -13,11 +14,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import mask from 'make-mask';
 import { cn } from '../../../lib/utils';
 import { BookCheck, LockKeyhole } from 'lucide-react';
+import { Text } from 'lucide-react';
+import { AlertDialog, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { format } from 'date-fns';
 
 function DataTableStudents() {
 
-  const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent } = useDataTableStudents();
-  
+  const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent, recordsDiaglogOpen, setRecordsDialogOpen, searchParams, setSearchParams, setValue } = useDataTableStudents();
+
   return (
     <>
       <div className='border rounded-lg rounded-b-none'>
@@ -82,20 +87,20 @@ function DataTableStudents() {
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <span className='pt-3'>
-                            <Dialog open={diaglogOpen} onOpenChange={setDialogOpen}>
-                              <DialogTrigger asChild>
-                                <button onClick={() => setValueOnDialogOpen(student)} className='bg-orange-300 p-1 m-0 rounded-md'>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <button onClick={() => setValue("email", student.email)} className='bg-orange-300 p-1 m-0 rounded-md'>
                                   <KeyRound className="w-4 h-4 dark:text-black" />
                                 </button>
-                              </DialogTrigger>
-                              <DialogContent >
+                              </AlertDialogTrigger>
+                              <AlertDialogContent >
                                 <form onSubmit={handleSubmit(UpdatePassword)} className='flex flex-col gap-6'>
-                                  <DialogHeader>
-                                    <DialogTitle>Editar senha</DialogTitle>
-                                    <DialogDescription>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Editar senha</AlertDialogTitle>
+                                    <AlertDialogDescription>
                                       Digite a nova senha para o usuário: <span className='font-bold'>{student?.name}</span>
-                                    </DialogDescription>
-                                  </DialogHeader>
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
                                   <div className='grid grid-cols-2 gap-3'>
                                     <div className='col-span-2 gap-1 grid w-8/12'>
                                       <Label htmlFor="email">Email</Label>
@@ -106,16 +111,17 @@ function DataTableStudents() {
                                       <Input type="password" {...register("password")} />
                                       {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
                                     </div>
-                                    <DialogFooter className="w-full flex !justify-start !items-start">
-                                      <Button type="submit">
+                                    <AlertDialogFooter className="col-span-2">
+                                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                      <AlertDialogAction type="submit">
                                         {loading ? <LoaderIcon className='animate-spin w-4 h-4 dark:text-black mr-2' /> : <Save className='w-4 h-4 dark:text-black mr-2' />}
                                         Salvar
-                                      </Button>
-                                    </DialogFooter>
+                                      </AlertDialogAction>
+                                    </AlertDialogFooter>
                                   </div>
                                 </form>
-                              </DialogContent>
-                            </Dialog>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           </span>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -126,14 +132,48 @@ function DataTableStudents() {
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
-                          <Button variant="link" className="p-0 m-0" onClick={() => desactiveStudent(student?.id)}>
-                            <div className='flex flex-row bg-red-300 justify-center items-center p-1 rounded-md'>
-                              <Power className='w-4 h-4 dark:text-black' />
-                            </div>
-                          </Button>
+                          <span className='pt-3'>
+                            <Dialog >
+                              <DialogTrigger asChild >
+                                <button className='bg-slate-400 p-1 m-0 rounded-md'>
+                                  <Text className="w-4 h-4 dark:text-black" />
+                                </button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-[calc(100vw-300px)] flex flex-col h-[calc(100vh-150px)]">
+                                <DialogHeader className="mb-10">
+                                  <DialogTitle>Registros do aluno</DialogTitle>
+                                  <DialogDescription>
+                                    Aqui você tem um histórico de registros do aluno: <span className='font-bold'>{student?.name}</span>
+                                  </DialogDescription>
+                                </DialogHeader>
+                                {student?.records_of_students?.length == 0 && <div className='h-auto'>
+                                  <Label>Nenhum registro encontrado</Label>
+                                </div>
+                                }
+                                {student?.records_of_students?.map((record) => {
+                                  return (
+                                    <div className='grid grid-cols-8 gap-3'>
+                                      <div className='col-span-2 gap-1 grid h-auto'>
+                                        <Label htmlFor="title">Título</Label>
+                                        <Textarea type="title" readOnly value={record.title} />
+                                      </div>
+                                      <div className='col-span-2 gap-1 grid'>
+                                        <Label htmlFor="date">Data</Label>
+                                        <Textarea type="date" readOnly value={format(record.date, "dd/MM/yyyy - hh:mm")} />
+                                      </div>
+                                      <div className='col-span-4 gap-1 grid'>
+                                        <Label htmlFor="description">Descrição</Label>
+                                        <Textarea type="description" readOnly value={record.description} />
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </DialogContent>
+                            </Dialog>
+                          </span>
                         </TooltipTrigger>
                         <TooltipContent>
-                          Desativar
+                          Ver registros
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -156,6 +196,10 @@ function DataTableStudents() {
                                   <DropdownMenuItem onSelect={() => window.location.assign(`/admin/registrations?tab=create&id=${student?.id}`)}>
                                     Matricular aluno
                                     <DropdownMenuShortcut><ScrollText className='w-4 h-4 dark:text-white' /></DropdownMenuShortcut>
+                                  </DropdownMenuItem>
+                                  <DropdownMenuItem onSelect={async () => await desactiveStudent(student?.id)}>
+                                    Desativar aluno
+                                    <DropdownMenuShortcut><Power className='w-4 h-4 dark:text-white' /></DropdownMenuShortcut>
                                   </DropdownMenuItem>
                                   <DropdownMenuItem onSelect={async () => await deleteStudent(student?.id, student?.adresses_id)}>
                                     Excluir

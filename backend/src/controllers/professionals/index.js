@@ -3,6 +3,15 @@ const prisma = new PrismaClient();
 const { hash } = require("bcrypt");
 
 const professionals = {
+  GetRecordsOfStudent: async (req, res) => {
+    const records = await prisma.records_of_students.findMany({
+      where: {
+        students_id: parseInt(req.query.studentId),
+      },
+    });
+    return res.status(200).json(records);
+  },
+
   CreateLesson: async (req, res) => {
     const { name, url, position, book } = req.body;
 
@@ -70,7 +79,33 @@ const professionals = {
       });
   },
 
-  
+  CreateRecordOfStudent: async (req, res) => {
+    const { studentId, description, reason } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.records_of_students.create({
+          data: {
+            description: description,
+            students: {
+              connect: {
+                id: parseInt(studentId),
+              },
+            },
+            reason: reason,
+          },
+        });
+      })
+      .then(() => {
+        return res.status(200).json({ message: "Registro criado!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res
+          .status(500)
+          .json({ message: "Ocorreu um erro ao criar o registro!" });
+      });
+  },
 
   GetLessonByBook: async (req, res) => {
     const { book } = req.params;
@@ -347,25 +382,22 @@ const professionals = {
   DeleteClassroom: async (req, res) => {
     const { id } = req.body;
 
-    if (
-      await prisma.registrations.findFirst({
-        where: { classrooms_id: parseInt(id) },
-      })
-    ) {
-      return res.status(400).json({
-        message:
-          "Delete as MATRICULAS associadas a essa turma antes de exclui-la!",
-      });
-    }
-
-    const classroom = prisma.classrooms.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
     await prisma
-      .$transaction([classroom])
+      .$transaction(async (trx) => {
+        // deleta todos os registros de alunos na turma
+        await trx.students_has_classrooms.deleteMany({
+          where: {
+            classrooms_id: parseInt(id),
+          },
+        });
+        
+        // deleta a turma
+        await trx.classrooms.delete({
+          where: {
+            id: parseInt(id),
+          },
+        });
+      })
       .then(() => {
         return res.status(200).json({ message: "Turma deletada!" });
       })
@@ -510,32 +542,50 @@ const professionals = {
   },
 
   HandleLockRegistration: async (req, res) => {
-    const { id } = req.params;
+    const { registrationId, studentId, description } = req.body;
 
     await prisma
       .$transaction(async (trx) => {
         // deleta a relação entre a matricula e a turma
         if (
           await trx.students_has_classrooms.findFirst({
-            where: { registrations_id: parseInt(id) },
+            where: { registrations_id: parseInt(registrationId) },
           })
         ) {
           await trx.students_has_classrooms.delete({
             where: {
-              registrations_id: parseInt(id),
+              registrations_id: parseInt(registrationId),
             },
           });
         }
+        // cria o registro de aluno
+        await trx.records_of_students.create({
+          data: {
+            description: description,
+            students: {
+              connect: {
+                id: parseInt(studentId),
+              },
+            },
+            title: (
+              await prisma.registrations.findFirst({
+                where: { id: parseInt(registrationId) },
+              })
+            ).locked
+              ? "Destrancamento de matricula"
+              : "Trancamento de matricula",
+          },
+        });
 
         // trancar ou destrancar a matricula
         return await trx.registrations.update({
           where: {
-            id: parseInt(id),
+            id: parseInt(registrationId),
           },
           data: {
             locked: (
               await prisma.registrations.findFirst({
-                where: { id: parseInt(id) },
+                where: { id: parseInt(registrationId) },
               })
             ).locked
               ? false
@@ -921,6 +971,7 @@ const professionals = {
             },
           },
           include: {
+            records_of_students: true,
             registrations: {
               include: {
                 courses: true,
@@ -970,6 +1021,7 @@ const professionals = {
                 courses: true,
               },
             },
+            records_of_students: true,
           },
           orderBy: {
             registrations: {

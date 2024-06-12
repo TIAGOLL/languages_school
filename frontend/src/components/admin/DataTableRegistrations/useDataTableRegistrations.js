@@ -34,9 +34,9 @@ export const useDataTableRegistrations = () => {
 
 	const registrationsPagination = CreatePaginationArray(registrations, page, per_page);
 
-	async function handleLockRegistration(id) {
+	async function handleLockRegistration(registrationId, studentId, description) {
 		await api.professionals
-			.HandleLockRegistration(id)
+			.HandleLockRegistration(registrationId, studentId, description)
 			.then((res) => {
 				toast.info(res.message);
 				refetch();

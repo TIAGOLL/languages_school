@@ -7,94 +7,137 @@ const { professionals } = require("./controllers/professionals");
 const router = Router();
 
 // Auth
-router.get("/auth/signin/:user/:password", auth.SignIn);
+router.get("/api/v1/auth/:user/:password", auth.SignIn);
 
 // Students
-router.get("/students/load/book/:email/:course", students.GetBook);
-router.put("/students/updateurlphoto", students.UpdateUrlPhoto);
-router.get("/book/getLessons/:book/:lesson", students.GetUrlLesson);
+router.put("/api/v1/std/uploadphoto", students.UploadPhoto);
+router.get("/api/v1/std/getLessons/:book/:lesson", students.GetUrlLesson);
 
 // Professionals
 router.get(
-  "/professionals/load/activestudents",
+  "/api/v1/adm/activestudents",
   professionals.GetActiveStudents
 );
 router.get(
-  "/professionals/load/studentbyemail/:email",
+  "/api/v1/adm/studentbyemail/:email",
   professionals.GetStudentByEmail
 );
-router.get("/professionals/load/studentusers", professionals.GetStudentUsers);
-router.get("/professionals/load/studentemails", professionals.GetStudentEmails);
-router.get("/professionals/load/emails", professionals.GetEmails);
-router.get("/professionals/load/users", professionals.GetUsers);
 router.get(
-  "/professionals/load/infoforcreateregistration",
+  "/api/v1/adm/studentusers",
+  professionals.GetStudentUsers
+);
+router.get(
+  "/api/v1/adm/studentemails",
+  professionals.GetStudentEmails
+);
+router.get("/api/v1/adm/emails", professionals.GetEmails);
+router.get("/api/v1/adm/users", professionals.GetUsers);
+router.get(
+  "/api/v1/adm/infoforcreateregistration",
   professionals.GetInfoForCreateRegistration
 );
-router.get("/professionals/load/courses", professionals.GetCourses);
-router.get("/professionals/load/coursesbyid/:id", professionals.GetCourseById);
-router.get("/professionals/load/classrooms", professionals.GetClassrooms);
+router.get("/api/v1/adm/courses", professionals.GetCourses);
 router.get(
-  "/professionals/load/classroombyid/:id",
+  "/api/v1/adm/coursesbyid/:id",
+  professionals.GetCourseById
+);
+router.get("/api/v1/adm/classrooms", professionals.GetClassrooms);
+router.get(
+  "/api/v1/adm/recordsofstudent",
+  professionals.GetRecordsOfStudent
+);
+router.get(
+  "/api/v1/adm/classroombyid/:id",
   professionals.GetClassroomsById
 );
-router.get("/professionals/load/registrations", professionals.GetRegistrations);
 router.get(
-  "/professionals/load/booksbycourse/:course",
+  "/api/v1/adm/registrations",
+  professionals.GetRegistrations
+);
+router.get(
+  "/api/v1/adm/booksbycourse/:course",
   professionals.GetBooksByCourse
 );
 router.get(
-  "/professionals/load/lessonbybook/:book",
+  "/api/v1/adm/lessonbybook/:book",
   professionals.GetLessonByBook
 );
 router.put(
-  "/professionals/update/studentpassword",
+  "/api/v1/adm/studentpassword",
   professionals.UpdateStudentPassword
 );
 router.put(
-  "/professionals/lock/registration/:id",
+  "/api/v1/adm/lock/registration",
   professionals.HandleLockRegistration
 );
-router.put("/professionals/handleclassroom", professionals.HandleClassroom);
-router.put("/professionals/update", professionals.UpdateStudent);
-router.put("/professionals/update/urlphoto", professionals.UpdateUrlPhoto);
-router.put("/professionals/update/lesson", professionals.UpdateLesson);
+router.put(
+  "/api/v1/adm/handleclassroom",
+  professionals.HandleClassroom
+);
+router.put("/api/v1/adm/student", professionals.UpdateStudent);
+router.put(
+  "/api/v1/adm/urlphoto",
+  professionals.UpdateUrlPhoto
+);
+router.put("/api/v1/adm/lesson", professionals.UpdateLesson);
 router.delete(
-  "/professionals/delete/registration/:id",
+  "/api/v1/adm/registration/:id",
   professionals.DeleteRegistration
 );
 router.post(
-  "/professionals/createregistration",
+  "/api/v1/adm/registration",
   professionals.CreateRegistration
 );
-router.post("/professionals/create/lesson", professionals.CreateLesson);
+router.post("/api/v1/adm/lesson", professionals.CreateLesson);
+router.post(
+  "/api/v1/adm/recordofregistration",
+  professionals.CreateRecordOfStudent
+);
 router.put(
-  "/professionals/update/desactivestudent",
+  "/api/v1/adm/desactivestudent",
   professionals.DesactiveStudent
 );
-router.put("/professionals/update/course", professionals.UpdateCourse);
+router.put("/api/v1/adm/course", professionals.UpdateCourse);
 router.put(
-  "/professionals/update/updateprofessionalpassword",
+  "/api/v1/admprofessionalpassword",
   professionals.UpdateProfessionalPassword
 );
-router.post("/professionals/create", professionals.CreateStudent);
-router.post("/professionals/createclassroom", professionals.CreateClassroom);
-router.put("/professionals/update/classroom", professionals.UpdateClassroom);
-router.post("/professionals/createcourse", professionals.CreateCourse);
-router.post("/professionals/create/book", professionals.CreateBook);
-router.put("/professionals/update/book", professionals.UpdateBook);
+router.post("/api/v1/adm/", professionals.CreateStudent);
 router.post(
-  "/professionals/createregistration",
+  "/api/v1/adm/classroom",
+  professionals.CreateClassroom
+);
+router.put(
+  "/api/v1/adm/classroom",
+  professionals.UpdateClassroom
+);
+router.post("/api/v1/adm/course", professionals.CreateCourse);
+router.post("/api/v1/adm/book", professionals.CreateBook);
+router.put("/api/v1/adm/book", professionals.UpdateBook);
+router.post(
+  "/api/v1/adm/registration",
   professionals.CreateRegistration
 );
-router.delete("/professionals/delete/student", professionals.DeleteStudent);
-router.delete("/professionals/delete/course", professionals.DeleteCourse);
-router.delete("/professionals/delete/book/:id", professionals.DeleteBook);
-router.delete("/professionals/delete/lesson/:id", professionals.DeleteLesson);
-router.delete("/professionals/delete/classroom", professionals.DeleteClassroom);
+router.delete(
+  "/api/v1/adm/student",
+  professionals.DeleteStudent
+);
+router.delete("/api/v1/adm/course", professionals.DeleteCourse);
+router.delete("/api/v1/adm/book/:id", professionals.DeleteBook);
+router.delete(
+  "/api/v1/adm/lesson/:id",
+  professionals.DeleteLesson
+);
+router.delete(
+  "/api/v1/adm/classroom",
+  professionals.DeleteClassroom
+);
 
 // Books
-router.get("/books/load/all", books.GetBooks);
-router.get("/students/load/infoofstudent/:email", students.GetInfoOfStudent);
+router.get("/api/v1/books/all", books.GetBooks);
+router.get(
+  "/api/v1/students/infoofstudent/:email",
+  students.GetInfoOfStudent
+);
 
 module.exports = { router };

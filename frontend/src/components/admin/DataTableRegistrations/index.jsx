@@ -13,10 +13,16 @@ import { useDataTableRegistrations } from './useDataTableRegistrations';
 import { Select } from '@radix-ui/react-select';
 import { SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
 import { DialogClose } from '../../ui/dialog';
+import { useState } from 'react';
+import { Label } from '@/components/ui/label';
+import { Textarea } from "@/components/ui/textarea"
 
 
 function DataTableRegistrations() {
   const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
+
+  const [descRecord, setDescRecord] = useState("")
+  const [reasonRecord, setReasonRecord] = useState("")
 
   return (
     <>
@@ -28,6 +34,7 @@ function DataTableRegistrations() {
               <TableHead>Nome</TableHead>
               <TableHead>Curso</TableHead>
               <TableHead>Turma</TableHead>
+              <TableHead>Book</TableHead>
               <TableHead>Valor da mensalidade</TableHead>
               <TableHead>Data de início</TableHead>
               <TableHead>Vencimento da matricula</TableHead>
@@ -48,6 +55,10 @@ function DataTableRegistrations() {
                         :
                         <span className='bg-red-200 text-black rounded-md p-1 font-semibold'>Não possui turma!</span>
                     }
+                  </TableCell>
+                  <TableCell className="font-medium">
+                    {regis.students_has_classrooms?.classrooms.books.name}
+                    {!regis.students_has_classrooms?.classrooms.books.name && <p>S/L</p>}
                   </TableCell>
                   <TableCell className="font-medium">R$ {regis.monthly_fee_amount}</TableCell>
                   <TableCell className="font-medium">{new Date(regis.start_date).toLocaleDateString('pt-br')}</TableCell>
@@ -77,7 +88,6 @@ function DataTableRegistrations() {
                                     <SelectGroup className="h-[10rem]">
                                       {
                                         classrooms?.map((classroom) => {
-                                          console.log(classroom)
                                           if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour} || {classroom?.books.name}</SelectItem>
                                         })
                                       }
@@ -140,8 +150,14 @@ function DataTableRegistrations() {
                                       <DialogHeader>
                                         <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
                                       </DialogHeader>
-                                      <DialogDescription className="flex text-white text-md p-3 mb-8">
+                                      <DialogDescription className="flex text-white text-md p-3 mb-8 flex-col gap-6">
                                         Você tem certeza que deseja {regis.locked == 0 ? "TRANCAR" : "DESTRANCAR"} a matricula do aluno: {regis.students.name}?
+                                        <form>
+                                          <div>
+                                            <Label>Description</Label>
+                                            <Textarea onChange={({ target }) => setDescRecord(target.value)} value={descRecord} />
+                                          </div>
+                                        </form>
                                       </DialogDescription>
                                       <DialogFooter className="w-full flex !justify-between !items-start">
                                         <Button variant="default" onClick={() => {
@@ -149,7 +165,9 @@ function DataTableRegistrations() {
                                         }}>
                                           Cancelar
                                         </Button>
-                                        <Button variant="destructive" onClick={async () => await handleLockRegistration(regis.id)}>
+                                        <Button variant="destructive" onClick={async () => {
+                                          await handleLockRegistration(regis.id, regis.students_id, descRecord)
+                                        }}>
                                           {regis.locked == 0 ? "Trancar matricula" : "Destrancar matricula"}
                                         </Button>
                                       </DialogFooter>
@@ -212,7 +230,7 @@ function DataTableRegistrations() {
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="text-right" colSpan={8}>Total de matrículas:</TableCell>
+              <TableCell className="text-right" colSpan={9}>Total de matrículas:</TableCell>
               <TableCell className="text-left">{registrations?.length}</TableCell>
             </TableRow>
           </TableFooter>

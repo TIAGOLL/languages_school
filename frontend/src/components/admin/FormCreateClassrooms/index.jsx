@@ -73,7 +73,7 @@ function FormCreateClassrooms() {
         </div>
         <div className='col-span-4'>
           <Label>Hora</Label>
-          <Input type="time" {...register("hour")} className="justify-" />
+          <Input type="time" {...register("hour")}  />
           {errors.hour && <p className='text-sm text-red-500'>{errors.hour.message}</p>}
         </div>
 

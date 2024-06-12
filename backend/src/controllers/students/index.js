@@ -95,7 +95,7 @@ const students = {
     return res.status(200).json({ ...student, books });
   },
 
-  UpdateUrlPhoto: async (req, res) => {
+  UploadPhoto: async (req, res) => {
     const { id, avatar_url } = req.body;
 
     const user = await prisma.students.update({

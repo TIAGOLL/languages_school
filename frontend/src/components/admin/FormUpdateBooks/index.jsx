@@ -10,7 +10,7 @@ import { Pencil } from 'lucide-react';
 
 function FormUpdateBooks() {
 
-  const { handleSubmit, updateCourse, errors, register, createBook, deleteBook, books, handleSubmitCreateBook, errorsCreateBook, registerCreateBook, course, alertCreateBookOpen, setAlertCreateBookOpen, errorsCreateLesson, watchCreateLesson, registerCreateLesson, setValueCreateLesson, handleSubmitCreateLesson, lessonByBook, setSearchParams, deleteLesson, registerUpdateBook, errorsUpdateBook, setValueUpdateBook, handleSubmitUpdateBook, updateBook, updateLesson, registerUpdateLesson, handleSubmitUpdateLesson, errorsUpdateLesson, watchUpdateLesson, setValueUpdateLesson, createLesson } = useFormUpdateBooks()
+  const { handleSubmit, updateCourse, errors, register, createBook, deleteBook, books, handleSubmitCreateBook, errorsCreateBook, registerCreateBook, course, alertCreateBookOpen, setAlertCreateBookOpen, errorsCreateLesson, watchCreateLesson, registerCreateLesson, setValueCreateLesson, handleSubmitCreateLesson, lessonByBook, setSearchParams, deleteLesson, registerUpdateBook, errorsUpdateBook, setValueUpdateBook, handleSubmitUpdateBook, updateBook, updateLesson, registerUpdateLesson, handleSubmitUpdateLesson, errorsUpdateLesson, watchUpdateLesson, setValueUpdateLesson, createLesson,  } = useFormUpdateBooks()
 
   return (
     <div className='flex flex-col mb-10'>
@@ -220,7 +220,6 @@ function FormUpdateBooks() {
                                     setValueCreateLesson("url", "")
                                     setValueCreateLesson("book", book.id)
                                   }}>
-                                    {console.log(errorsCreateLesson)}
                                     <PlusCircle className='w-4 h-4 mr-2' />
                                     Adicionar lição
                                   </Button>
