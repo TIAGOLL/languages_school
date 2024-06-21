@@ -21,7 +21,7 @@ function SignIn() {
       <div className="absolute left-10 bottom-10">
         <ThemeSwitcher />
       </div>
-      <Tabs defaultValue="account" className="w-[500px] sm:max-w-[425px]">
+      <Tabs defaultValue="account" className="w-[calc(100vw-135px)] sm:max-w-[425px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Login</TabsTrigger>
           <TabsTrigger value="password">Esqueci a senha</TabsTrigger>
@@ -49,7 +49,7 @@ function SignIn() {
                     <User className="w-4 h-4 mr-1" />
                     Usúario
                   </Label>
-                  <Input type="text" {...register("user")} />
+                  <Input type="text" {...register("user")} autoFocus />
                   {errors.user && <p className="text-red-500 text-xs">{errors.user.message}</p>}
                 </div>
                 <div className="space-y-1">

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
 import { toast } from "react-toastify";
+import { CreatePaginationArray } from "../../../lib/utils";
 
 export const useDataTableStudents = () => {
 	const {
@@ -23,23 +24,25 @@ export const useDataTableStudents = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [diaglogOpen, setDialogOpen] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [recordsDiaglogOpen, setRecordsDialogOpen] = useState(false);
 
 	const tab = searchParams.get("tab");
 	const page = searchParams.get("page");
 	const per_page = searchParams.get("per_page");
 	const name = searchParams.get("name");
 	const email = searchParams.get("email");
-	const book = searchParams.get("book");
+	const course = searchParams.get("course");
+	const activeTab = searchParams.get("tab");
 
-	const { data: students, isLoading } = useQuery({
-		queryKey: ["students", name, email, book],
-		queryFn: () => api.professionals.GetActiveStudents(name, email, book),
+	const {
+		data: students,
+		isLoading,
+		refetch,
+	} = useQuery({
+		queryKey: ["students1", name, email, course],
+		queryFn: () => api.professionals.GetActiveStudents(name, email, course),
 	});
-	console.log(students);
-
-	const lastPostIndex = page * per_page;
-	const firstPostIndex = lastPostIndex - per_page;
-	const currentPosts = students?.slice(firstPostIndex, lastPostIndex);
+	const studentsPages = CreatePaginationArray(students, page, per_page);
 
 	async function UpdatePassword(data) {
 		setLoading(true);
@@ -50,7 +53,7 @@ export const useDataTableStudents = () => {
 				setDialogOpen(false);
 			})
 			.catch((err) => {
-				toast.error(err.message);
+				toast.error(err.response.data.message);
 			})
 			.finally(() => setLoading(false));
 	}
@@ -59,25 +62,55 @@ export const useDataTableStudents = () => {
 		setValue("email", student.email);
 	}
 
+	async function deleteStudent(id, adresses_id) {
+		setLoading(true);
+		await api.professionals
+			.DeleteStudent(id, adresses_id)
+			.then((res) => {
+				toast.info(res.message);
+				refetch();
+				setDialogOpen(false);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
+	}
+
+	async function desactiveStudent(id) {
+		setLoading(true);
+		await api.professionals
+			.DesactiveStudent(id)
+			.then((res) => {
+				toast.info(res.message);
+				refetch();
+				setDialogOpen(false);
+			})
+			.catch((err) => {
+				toast.error(err.response.data.message);
+			})
+			.finally(() => setLoading(false));
+	}
+
 	useEffect(() => {
-		if (tab == "all" && !page && !per_page) {
+		if (!activeTab) {
 			setSearchParams((state) => {
 				state.set("tab", "all");
-				state.set("per_page", 10);
-				state.set("page", 1);
 				return state;
 			});
 		}
-	}, [page, per_page, setSearchParams, tab]);
+	}, [activeTab, setSearchParams]);
 
 	return {
 		students,
+		desactiveStudent,
+		deleteStudent,
 		setValueOnDialogOpen,
 		diaglogOpen,
 		UpdatePassword,
 		setDialogOpen,
 		isLoading,
-		currentPosts,
+		studentsPages,
 		searchParams,
 		setSearchParams,
 		register,
@@ -86,5 +119,7 @@ export const useDataTableStudents = () => {
 		watch,
 		setValue,
 		loading,
+		recordsDiaglogOpen,
+		setRecordsDialogOpen,
 	};
 };

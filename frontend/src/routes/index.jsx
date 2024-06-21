@@ -12,9 +12,12 @@ import Private from './private';
 import AdmDashboard from '../pages/admin/AdmDashboard';
 import AdmStudents from '../pages/admin/AdmStudents';
 import AdmProfessionals from '../pages/admin/AdmProfessionals';
-import AdmClasses from './../pages/admin/AdmClasses/index';
 import Admin from './admin';
-import Courses from './../pages/student/Courses/index';
+import Preferences from '../pages/admin/AdmPreferences';
+import AdmCourses from './../pages/admin/AdmCourses/index';
+import AdmClasses from './../pages/admin/AdmClasses/index';
+import AdmClassrooms from '../pages/admin/AdmClassrooms';
+import AdmRegistrations from '../pages/admin/AdmRegistrations';
 
 function RoutesApp() {
   return (
@@ -33,8 +36,11 @@ function RoutesApp() {
       <Route path='/admin/dashboard' element={<Admin><AdmDashboard /></Admin>} />
       <Route path='/admin/students' element={<Admin><AdmStudents /></Admin>} />
       <Route path='/admin/professionals' element={<Admin><AdmProfessionals /></Admin>} />
+      <Route path='/admin/courses' element={<Admin><AdmCourses /></Admin>} />
       <Route path='/admin/classes' element={<Admin><AdmClasses /></Admin>} />
-      <Route path='/admin/courses' element={<Admin><Courses /></Admin>} />
+      <Route path='/admin/preferences' element={<Admin><Preferences /></Admin>} />
+      <Route path='/admin/classrooms' element={<Admin><AdmClassrooms /></Admin>} />
+      <Route path='/admin/registrations' element={<Admin><AdmRegistrations /></Admin>} />
 
     </Routes>
   )
