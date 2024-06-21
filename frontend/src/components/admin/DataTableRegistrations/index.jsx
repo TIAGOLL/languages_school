@@ -22,7 +22,6 @@ function DataTableRegistrations() {
   const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
 
   const [descRecord, setDescRecord] = useState("")
-  const [reasonRecord, setReasonRecord] = useState("")
 
   return (
     <>
@@ -34,7 +33,7 @@ function DataTableRegistrations() {
               <TableHead>Nome</TableHead>
               <TableHead>Curso</TableHead>
               <TableHead>Turma</TableHead>
-              <TableHead>Book</TableHead>
+              <TableHead>Livro</TableHead>
               <TableHead>Valor da mensalidade</TableHead>
               <TableHead>Data de início</TableHead>
               <TableHead>Vencimento da matricula</TableHead>
@@ -150,13 +149,11 @@ function DataTableRegistrations() {
                                       <DialogHeader>
                                         <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
                                       </DialogHeader>
-                                      <DialogDescription className="flex text-white text-md p-3 mb-8 flex-col gap-6">
+                                      <DialogDescription className="flex text-black text-md p-3 mb-8 flex-col gap-6 dark:text-white">
                                         Você tem certeza que deseja {regis.locked == 0 ? "TRANCAR" : "DESTRANCAR"} a matricula do aluno: {regis.students.name}?
                                         <form>
-                                          <div>
-                                            <Label>Description</Label>
-                                            <Textarea onChange={({ target }) => setDescRecord(target.value)} value={descRecord} />
-                                          </div>
+                                          <Label>Description</Label>
+                                          <Textarea onChange={({ target }) => setDescRecord(target.value)} value={descRecord} />
                                         </form>
                                       </DialogDescription>
                                       <DialogFooter className="w-full flex !justify-between !items-start">
@@ -186,7 +183,7 @@ function DataTableRegistrations() {
                                       <DialogHeader>
                                         <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
                                       </DialogHeader>
-                                      <DialogDescription className="flex text-white text-md p-3 mb-8">
+                                      <DialogDescription className="flex text-black text-md p-3 mb-8 dark:text-white">
                                         Você tem certeza que deseja DELETAR a matricula do aluno: {regis.students.name}?
                                       </DialogDescription>
                                       <DialogFooter className="w-full flex !justify-between !items-start">
@@ -216,7 +213,8 @@ function DataTableRegistrations() {
               ))
             }
             {
-              isLoading && (
+              isLoading &&
+              (
                 <TableRow>
                   <TableCell className="font-medium">
                     <Skeleton className="h-6 w-4/12" />

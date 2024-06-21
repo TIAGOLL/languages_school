@@ -12,10 +12,14 @@
     "start": "node dist/server.js",
     "vercel-build": "npx prisma migrate deploy && npx prisma generate"
   },
+  "prisma": {
+    "sync": "npx @snaplet/seed sync",
+    "seed": "npx tsx prisma/seed.ts"
+  },
   "author": "Tiago Emanuel de Lima",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^5.10.2",
+    "@prisma/client": "^5.15.0",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
@@ -23,8 +27,10 @@
     "nodemon": "^3.1.0"
   },
   "devDependencies": {
-    "prisma": "^5.10.2",
+    "@snaplet/copycat": "^5.0.0",
+    "@snaplet/seed": "^0.97.20",
+    "prisma": "^5.15.0",
     "tsup": "^7.3.0",
-    "tsx": "^3.13.0"
+    "tsx": "^4.15.4"
   }
 }

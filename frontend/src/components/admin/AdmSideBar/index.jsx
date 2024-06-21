@@ -11,12 +11,14 @@ import { useAdmSideBar } from "./useAdmSideBar";
 import { ThemeSwitcher } from "../../ui/ThemeSwitcher";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from "@/components/ui/accordion"
 import { Settings } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { FaCircle } from "react-icons/fa";
 
 
 function AdmSideBar() {
 
   const { logout } = useContext(AuthContext);
-  const { diaglogOpen, setDialogOpen, professionalPhotoUrl, user, handleProfessionalPhoto, saveProfessionalPhoto, sheetOpen, setSheetOpen } = useAdmSideBar();
+  const { diaglogOpen, setDialogOpen, professionalPhotoUrl, user, handleProfessionalPhoto, saveProfessionalPhoto, sheetOpen, setSheetOpen, getLinks } = useAdmSideBar();
 
   return (
     <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -64,105 +66,31 @@ function AdmSideBar() {
             </DialogContent>
           </Dialog>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-          {/* Dashboard */}
-          <Accordion type="single" collapsible className="w-full space-y-2">
-            <AccordionItem value="item-1" className="border-2 border-[hsl(var(--input))] p-1 rounded-md">
-              <AccordionTrigger className="p-2">
-                Dashboard
-              </AccordionTrigger>
-              <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/dashboard?tab=home" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Home
-                </a>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Alunos */}
-            <AccordionItem value="item-2" className="border-2 border-[hsl(var(--input))] p-1 rounded-md">
-              <AccordionTrigger className="p-2">
-                Alunos
-              </AccordionTrigger>
-              <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/students?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver alunos
-                </a>
-                <a href="/admin/students?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar aluno
-                </a>
-                <a href="/admin/classes?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver aulas
-                </a>
-                <a href="/admin/classes?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar aula
-                </a>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Cursos */}
-            <AccordionItem value="item-3" className="border-2 border-[hsl(var(--input))] p-1 rounded-md">
-              <AccordionTrigger className="p-2">
-                Cursos
-              </AccordionTrigger>
-              <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/courses?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver todos
-                </a>
-                <a href="/admin/courses?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar curso
-                </a>
-                <a href="/admin/registrations?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver matrículas
-                </a>
-                <a href="/admin/registrations?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Matricular aluno
-                </a>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Turmas */}
-            <AccordionItem value="item-4" className="border-2 border-[hsl(var(--input))] p-1 rounded-md">
-              <AccordionTrigger className="p-2">
-                Turmas
-              </AccordionTrigger>
-              <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/classrooms?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver todas
-                </a>
-                <a href="/admin/classrooms?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar turma
-                </a>
-              </AccordionContent>
-            </AccordionItem>
-            {/* Professionals */}
-            <AccordionItem value="item-5" className="border-2 border-[hsl(var(--input))] p-1 rounded-md">
-              <AccordionTrigger className="p-2">
-                Funcionários
-              </AccordionTrigger>
-              <AccordionContent className="border-0 mt-2 space-y-1">
-                <a href="/admin/professionals?tab=all" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Ver todos
-                </a>
-                <a href="/admin/professionals?tab=create" className="hover:underline flex flex-row gap-2 items-center ml-5">
-                  <Circle className="w-2 h-2" />
-                  Cadastrar funcinário
-                </a>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
+        <Accordion type="single" collapsible className="w-full space-y-2 gap-4 mt-10">
+          {getLinks().map((item, index) => {
+            return (
+              <AccordionItem value={`item-${index}`} className="border-2 border-[hsl(var(--input))] p-1 rounded-md" key={item.title}>
+                <AccordionTrigger className="p-2">
+                  {item.title}
+                </AccordionTrigger >
+                <AccordionContent className="border-0 m-0 py-0.5 space-y-1">
+                  {item.links.map((link) => {
+                    return <>
+                      <NavLink to={link.to} className={({ isActive }) => isActive ? "hover:underline flex flex-row gap-2 items-center ml-5" : "hidden"} onClick={() => setSheetOpen(false)}>
+                        <FaCircle className="w-2 h-2" />
+                        {link.name}
+                      </NavLink>
+                      <NavLink to={link.to} className={({ isActive }) => isActive ? "hidden" : "hover:underline flex flex-row gap-2 items-center ml-5"} onClick={() => setSheetOpen(false)}>
+                        <Circle className="w-2 h-2" />
+                        {link.name}
+                      </NavLink>
+                    </>
+                  })}
+                </AccordionContent>
+              </AccordionItem>
+            )
+          })}
+        </Accordion>
         <SheetFooter className="absolute bottom-2 w-10/12">
           <div className="w-full !justify-between flex">
             <SheetClose asChild >

@@ -56,7 +56,7 @@ function DataTableCourses() {
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
                           <span className='pt-3'>
-                            <AlertDialog open={diaglogHandleCourseOpen} onOpenChange={setDiaglogHandleCourseOpen}>
+                            <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 <button className='bg-orange-300 p-1 m-0 rounded-md' onClick={() => {
                                   setValueHandleCourse("id", course.id)
@@ -128,7 +128,7 @@ function DataTableCourses() {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Aviso</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Você tem certeza que deseja DELETAR o livro: <strong>{course?.name}</strong>?
+                                  Você tem certeza que deseja DELETAR o curso: <strong>{course?.name}</strong>?
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>

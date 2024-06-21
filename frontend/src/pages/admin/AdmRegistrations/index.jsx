@@ -2,8 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
 import { PlusCircleIcon, User } from "lucide-react";
 import AdmSideBar from "../../../components/admin/AdmSideBar";
 import DataTableRegistrations from "../../../components/admin/DataTableRegistrations";
-import FormCreateRegistration from "../../../components/admin/FormCreateRegistration";
 import { useRegistration } from './useRegistration';
+import { CreateRegistration } from "../../../components/admin/Forms/CreateRegistration";
 
 function AdmRegistrations() {
 
@@ -29,7 +29,7 @@ function AdmRegistrations() {
               <DataTableRegistrations />
             </TabsContent>
             <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
-              <FormCreateRegistration />
+              <CreateRegistration />
             </TabsContent>
           </Tabs>
         </div>

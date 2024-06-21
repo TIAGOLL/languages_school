@@ -209,7 +209,7 @@ model students {
   name                String?               @db.VarChar(90)
   first_name          String                @db.VarChar(45)
   last_name           String                @db.VarChar(45)
-  cpf                 String                @db.VarChar(11)
+  cpf                 String                @unique(map: "cpf_UNIQUE") @db.VarChar(11)
   phone               String                @db.VarChar(11)
   gender              String                @db.VarChar(1)
   date_of_birth       DateTime              @db.DateTime(0)

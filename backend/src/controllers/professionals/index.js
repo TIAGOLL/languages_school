@@ -390,7 +390,7 @@ const professionals = {
             classrooms_id: parseInt(id),
           },
         });
-        
+
         // deleta a turma
         await trx.classrooms.delete({
           where: {
@@ -536,6 +536,11 @@ const professionals = {
           },
         },
         courses: true,
+      },
+      orderBy: {
+        students_has_classrooms: {
+          classrooms_id: "asc",
+        },
       },
     });
     return res.status(200).json(registrations);
@@ -997,7 +1002,7 @@ const professionals = {
               some: {
                 courses: {
                   name: {
-                    contains: req.query.course,
+                    equals: req.query.course,
                   },
                 },
               },

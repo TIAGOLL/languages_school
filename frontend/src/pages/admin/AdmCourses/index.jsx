@@ -7,9 +7,9 @@ import { User } from "lucide-react";
 import { useCourses } from './useCourses';
 import { PlusCircleIcon } from "lucide-react";
 import DataTableCourses from "../../../components/admin/DataTableCourses";
-import FormCreateCourse from './../../../components/admin/FormCreateCourse/index';
 import { Replace } from "lucide-react";
-import FormUpdateBooks from "../../../components/admin/FormUpdateBooks";
+import { UpdateBooks } from "../../../components/admin/Forms/UpdateBooks";
+import { CreateCourse } from "../../../components/admin/Forms/CreateCourse";
 
 function AdmCourses() {
 
@@ -39,10 +39,10 @@ function AdmCourses() {
               <DataTableCourses />
             </TabsContent>
             <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
-              <FormCreateCourse />
+              <CreateCourse />
             </TabsContent>
             <TabsContent value="updatebooks" className="w-[calc(100vw-140px-150px)] mt-10">
-              <FormUpdateBooks />
+              <UpdateBooks />
             </TabsContent>
           </Tabs>
         </div>

@@ -10,8 +10,6 @@ import { useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import FormCreateStudents from '../../../components/admin/FormCreateStudents';
-import FormUpdateStudents from '../../../components/admin/FormUpdateStudents';
 import { StudentsFilterSchema } from './schemas';
 import { useStudent } from './useStudent';
 import { Select } from '@/components/ui/select';
@@ -21,6 +19,8 @@ import { SelectContent } from '@/components/ui/select';
 import { SelectGroup } from '@/components/ui/select';
 import { SelectItem } from '@/components/ui/select';
 import { cn } from '../../../lib/utils';
+import { CreateStudents } from '../../../components/admin/Forms/CreateStudents';
+import { UpdateStudents } from '../../../components/admin/Forms/UpdateStudents';
 
 
 function AdmStudents() {
@@ -95,10 +95,10 @@ function AdmStudents() {
               <DataTableStudents />
             </TabsContent>
             <TabsContent value="create" className="w-[calc(100vw-140px-150px)] justify-center flex">
-              <FormCreateStudents />
+              <CreateStudents />
             </TabsContent>
             <TabsContent value="update" className="w-[calc(100vw-140px-150px)] justify-center flex" >
-              <FormUpdateStudents />
+              <UpdateStudents />
             </TabsContent>
           </Tabs>
         </div>

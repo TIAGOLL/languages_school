@@ -7,9 +7,9 @@ import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
 import { Tabs } from '@/components/ui/tabs';
-import FormCreateClassrooms from "../../../components/admin/FormCreateClassrooms";
 import { Replace } from "lucide-react";
-import FormUpdateClassrooms from './../../../components/admin/FormUpdateClassrooms/index';
+import { CreateClassrooms } from "../../../components/admin/Forms/CreateClassrooms";
+import { UpdateClassrooms } from "../../../components/admin/Forms/UpdateClassrooms";
 
 function AdmClassrooms() {
 
@@ -39,10 +39,10 @@ function AdmClassrooms() {
               <DataTableClassrooms />
             </TabsContent>
             <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
-              <FormCreateClassrooms />
+              <CreateClassrooms />
             </TabsContent>
             <TabsContent value="update" className="w-[calc(100vw-140px-150px)] mt-10">
-              <FormUpdateClassrooms />
+              <UpdateClassrooms />
             </TabsContent>
           </Tabs>
         </div>

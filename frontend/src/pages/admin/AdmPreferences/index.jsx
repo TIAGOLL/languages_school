@@ -1,7 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BellRing, LockKeyhole, User } from "lucide-react";
+import { BellRing, LockKeyhole } from "lucide-react";
 import AdmSideBar from "../../../components/admin/AdmSideBar";
 import { usePreferences } from "./usePreferences";
+import { Settings } from 'lucide-react';
+import { UpdateTimeRegistrations } from '../../../components/admin/Forms/UpdateTimeRegistrations';
 
 function Preferences() {
 
@@ -12,11 +14,11 @@ function Preferences() {
       <div className='flex flex-row mt-1'>
         <AdmSideBar />
         <div className='flex w-full justify-center items-center'>
-          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="all" className="w-[calc(100vw-135px)] mt-5 justify-center items-center flex flex-col">
+          <Tabs value={activeTab} onValueChange={handleTab} defaultValue="general" className="w-[calc(100vw-135px)] mt-5 justify-center items-center flex flex-col">
             <TabsList className=" grid-cols-3 h-full">
-              <TabsTrigger value="profile" className="h-12" >
-                <User className='w-[20px] h-[20px] mr-2' />
-                Perfil
+              <TabsTrigger value="general" className="h-12" >
+                <Settings className='w-[20px] h-[20px] mr-2' />
+                Geral
               </TabsTrigger>
               <TabsTrigger value="credentials" className="h-12">
                 <LockKeyhole className='w-[20px] h-[20px] mr-2' />
@@ -27,9 +29,9 @@ function Preferences() {
                 Notificações
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="profile" className="w-[calc(100vw-140px-150px)] mt-10">
-              <div className=" justify-center items-center flex">
-                <h1>Esse recurso ainda não esta disponivel!</h1>
+            <TabsContent value="general" className="items-center flex justify-center w-[calc(100vw-60rem)] mt-10 gap-6">
+              <div className='border-2 rounded-md p-4 border-zinc-600 flex justify-start items-start w-full flex-wrap'>
+                <UpdateTimeRegistrations />
               </div>
             </TabsContent>
             <TabsContent value="credentials" className="w-[calc(100vw-140px-150px)] mt-10">

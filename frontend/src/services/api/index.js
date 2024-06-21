@@ -204,7 +204,7 @@ const api = {
 		},
 
 		CreateCourse: async (data) => {
-			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/admcourse`, data);
+			const response = await axios.post(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/course`, data);
 			return response.data;
 		},
 

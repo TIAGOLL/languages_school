@@ -5,7 +5,7 @@ export const usePreferences = () => {
 	const activeTab = searchParams.get("tab");
 
 	const cleanParams = () => {
-		setSearchParams(null);
+		// setSearchParams();
 	};
 
 	function handleTab(e) {
