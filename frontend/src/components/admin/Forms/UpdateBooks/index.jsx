@@ -7,6 +7,7 @@ import { PlusCircle, PlusSquare, Save, Trash2 } from 'lucide-react';
 import { FaTasks } from "react-icons/fa";
 import { useFormUpdateBooks } from './useFormUpdateBooks';
 import { Pencil } from 'lucide-react';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 export function UpdateBooks() {
 
@@ -83,109 +84,111 @@ export function UpdateBooks() {
                         <AlertDialogTrigger className="bg-orange-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md" onClick={() => setSearchParams((state) => { state.set("book", book.id); return state; })} >
                           <FaTasks className='w-4 h-4' />
                         </AlertDialogTrigger>
-                        <AlertDialogContent className="max-w-[calc(100vw-100px)] flex flex-col h-[calc(100vh-50px)] justify-between">
+                        <AlertDialogContent className="max-w-[calc(100vw-100px)] flex flex-col max-h-[calc(100vh-50px)] justify-between">
                           <AlertDialogTitle>Lições</AlertDialogTitle>
                           <AlertDialogDescription>
                             curso: {course?.name} | Livro: {book?.name}
                           </AlertDialogDescription>
-                          <form className='overflow-y-auto gap-2 flex flex-col justify-center w-full items-center'>
+                          <ScrollArea className='h-[calc(100vh-400px)] flex justify-center items-center gap-2'>
                             {
                               lessonByBook && lessonByBook?.map((lesson, index) => (
-                                <div key={index} className='grid grid-cols-12 gap-4 w-8/12 justify-center'>
-                                  <div className='col-span-1 flex flex-col space-y-1'>
-                                    <Label htmlFor={`lessons.${index}.position`}>Posição</Label>
-                                    <Input type="text" id={`lessons.${index}.position`} {...registerCreateLesson(`lessons.${index}.position`)} value={lesson.position} readOnly />
-                                    {errors?.lessons?.[index]?.position && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.position?.message}</span>}
-                                  </div>
-                                  <div className='col-span-3 flex flex-col space-y-1'>
-                                    <Label htmlFor={`lessons.${index}.name`}>Nome</Label>
-                                    <Input type="text" id={`lessons.${index}.name`} {...registerCreateLesson(`lessons.${index}.name`)} value={lesson.name} readOnly />
-                                    {errors?.lessons?.[index]?.name && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.name?.message}</span>}
-                                  </div>
-                                  <div className='col-span-7 flex flex-col space-y-1'>
-                                    <Label htmlFor={`lessons.${index}.url`}>URL (Canva)</Label>
-                                    <Input type="text" id={`lessons.${index}.url`} {...registerCreateLesson(`lessons.${index}.url`)} value={lesson.url} readOnly />
-                                    {console.log(lesson)}
-                                    {errors?.lessons?.[index]?.url && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.url?.message}</span>}
-                                  </div>
-                                  <div className='col-span-1 flex flex-row justify-start items-end gap-2'>
-                                    <TooltipProvider>
-                                      <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                          <AlertDialog>
-                                            <AlertDialogTrigger className="bg-green-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md" onClick={() => {
-                                              setValueUpdateLesson("id", lesson?.id)
-                                              setValueUpdateLesson("position", lesson?.position)
-                                              setValueUpdateLesson("name", lesson?.name)
-                                              setValueUpdateLesson("url", lesson?.url)
-                                            }}>
-                                              <Pencil className="w-4 h-4 dark:text-black" />
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                              <AlertDialogTitle>Editar</AlertDialogTitle>
-                                              <form onSubmit={handleSubmitUpdateLesson(updateLesson)} className='gap-2 flex flex-col'>
-                                                <div className='col-span-2 gap-1 grid w-8/12'>
-                                                  <Label htmlFor="lessonName">Nome</Label>
-                                                  <Input type="lessonName" {...registerUpdateLesson("name")} />
-                                                  {errorsUpdateLesson.name && <span className="text-red-500 text-sm">{errorsUpdateLesson.name.message}</span>}
-                                                </div>
-                                                <div className='col-span-2 gap-1 grid w-8/12'>
-                                                  <Label htmlFor="lessonPosition">Posição</Label>
-                                                  <Input type="lessonPosition" {...registerUpdateLesson("position")} />
-                                                  {errorsUpdateLesson.position && <span className="text-red-500 text-sm">{errorsUpdateLesson.position.message}</span>}
-                                                </div>
-                                                <div className='col-span-2 gap-1 grid w-8/12'>
-                                                  <Label htmlFor="lessonURL">URL (Canva)</Label>
-                                                  <Input type="lessonURL" {...registerUpdateLesson("url")} />
-                                                  {errorsUpdateLesson.url && <span className="text-red-500 text-sm">{errorsUpdateLesson.url.message}</span>}
-                                                </div>
+                                <div className='w-full flex h-full justify-center items-center'>
+                                  <div key={index} className='grid grid-cols-12 w-8/12 space-x-2 mb-3 justify-center items-center'>
+                                    <div className='col-span-1 flex flex-col space-y-1'>
+                                      <Label htmlFor={`lessons.${index}.position`}>Posição</Label>
+                                      <Input type="text" id={`lessons.${index}.position`} {...registerCreateLesson(`lessons.${index}.position`)} value={lesson.position} readOnly />
+                                      {errors?.lessons?.[index]?.position && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.position?.message}</span>}
+                                    </div>
+                                    <div className='col-span-3 flex flex-col space-y-1'>
+                                      <Label htmlFor={`lessons.${index}.name`}>Nome</Label>
+                                      <Input type="text" id={`lessons.${index}.name`} {...registerCreateLesson(`lessons.${index}.name`)} value={lesson.name} readOnly />
+                                      {errors?.lessons?.[index]?.name && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.name?.message}</span>}
+                                    </div>
+                                    <div className='col-span-7 flex flex-col space-y-1'>
+                                      <Label htmlFor={`lessons.${index}.url`}>URL (Canva)</Label>
+                                      <Input type="text" id={`lessons.${index}.url`} {...registerCreateLesson(`lessons.${index}.url`)} value={lesson.url} readOnly />
+                                      {console.log(lesson)}
+                                      {errors?.lessons?.[index]?.url && <span className='text-sm text-red-500'>{errors?.lessons?.[index]?.url?.message}</span>}
+                                    </div>
+                                    <div className='col-span-1 flex flex-row justify-center items-end gap-2 h-full'>
+                                      <TooltipProvider>
+                                        <Tooltip delayDuration={0}>
+                                          <TooltipTrigger>
+                                            <AlertDialog>
+                                              <AlertDialogTrigger className="bg-green-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md" onClick={() => {
+                                                setValueUpdateLesson("id", lesson?.id)
+                                                setValueUpdateLesson("position", lesson?.position)
+                                                setValueUpdateLesson("name", lesson?.name)
+                                                setValueUpdateLesson("url", lesson?.url)
+                                              }}>
+                                                <Pencil className="w-4 h-4 dark:text-black" />
+                                              </AlertDialogTrigger>
+                                              <AlertDialogContent>
+                                                <AlertDialogTitle>Editar</AlertDialogTitle>
+                                                <form onSubmit={handleSubmitUpdateLesson(updateLesson)} className='gap-2 flex flex-col'>
+                                                  <div className='col-span-2 gap-1 grid w-8/12'>
+                                                    <Label htmlFor="lessonName">Nome</Label>
+                                                    <Input type="lessonName" {...registerUpdateLesson("name")} />
+                                                    {errorsUpdateLesson.name && <span className="text-red-500 text-sm">{errorsUpdateLesson.name.message}</span>}
+                                                  </div>
+                                                  <div className='col-span-2 gap-1 grid w-8/12'>
+                                                    <Label htmlFor="lessonPosition">Posição</Label>
+                                                    <Input type="lessonPosition" {...registerUpdateLesson("position")} />
+                                                    {errorsUpdateLesson.position && <span className="text-red-500 text-sm">{errorsUpdateLesson.position.message}</span>}
+                                                  </div>
+                                                  <div className='col-span-2 gap-1 grid w-8/12'>
+                                                    <Label htmlFor="lessonURL">URL (Canva)</Label>
+                                                    <Input type="lessonURL" {...registerUpdateLesson("url")} />
+                                                    {errorsUpdateLesson.url && <span className="text-red-500 text-sm">{errorsUpdateLesson.url.message}</span>}
+                                                  </div>
+                                                  <AlertDialogFooter>
+                                                    <AlertDialogCancel onClick={() => {
+                                                      setValueUpdateLesson("name", "")
+                                                      setValueUpdateLesson("position", "")
+                                                      setValueUpdateLesson("url", "")
+                                                    }}>Cancelar</AlertDialogCancel>
+                                                    <AlertDialogAction type="submit">
+                                                      <Save className='w-4 h-4 mr-2' />
+                                                      Salvar
+                                                    </AlertDialogAction>
+                                                  </AlertDialogFooter>
+                                                </form>
+                                              </AlertDialogContent>
+                                            </AlertDialog>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            Editar
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </TooltipProvider>
+                                      <TooltipProvider>
+                                        <Tooltip delayDuration={0}>
+                                          <TooltipTrigger>
+                                            <AlertDialog>
+                                              <AlertDialogTrigger className="bg-red-400 text-black col-span-1 justify-center flex items-center p-2 rounded-md">
+                                                <Trash2 className='w-4 h-4' />
+                                              </AlertDialogTrigger>
+                                              <AlertDialogContent>
+                                                <AlertDialogTitle>Aviso</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                  Você tem certeza que deseja DELETAR a lição: {lesson?.name}?
+                                                </AlertDialogDescription>
                                                 <AlertDialogFooter>
-                                                  <AlertDialogCancel onClick={() => {
-                                                    setValueUpdateLesson("name", "")
-                                                    setValueUpdateLesson("position", "")
-                                                    setValueUpdateLesson("url", "")
-                                                  }}>Cancelar</AlertDialogCancel>
-                                                  <AlertDialogAction type="submit">
-                                                    <Save className='w-4 h-4 mr-2' />
-                                                    Salvar
+                                                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                                                  <AlertDialogAction onClick={async () => await deleteLesson(lesson.id)}>
+                                                    <Trash2 className='w-4 h-4 mr-2' />
+                                                    Deletar
                                                   </AlertDialogAction>
                                                 </AlertDialogFooter>
-                                              </form>
-                                            </AlertDialogContent>
-                                          </AlertDialog>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          Editar
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
-                                    <TooltipProvider>
-                                      <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                          <AlertDialog>
-                                            <AlertDialogTrigger className="bg-red-400 text-black col-span-1 justify-center flex items-center p-2 rounded-md">
-                                              <Trash2 className='w-4 h-4' />
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                              <AlertDialogTitle>Aviso</AlertDialogTitle>
-                                              <AlertDialogDescription>
-                                                Você tem certeza que deseja DELETAR a lição: {lesson?.name}?
-                                              </AlertDialogDescription>
-                                              <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                                <AlertDialogAction onClick={async () => await deleteLesson(lesson.id)}>
-                                                  <Trash2 className='w-4 h-4 mr-2' />
-                                                  Deletar
-                                                </AlertDialogAction>
-                                              </AlertDialogFooter>
-                                            </AlertDialogContent>
-                                          </AlertDialog>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                          Excluir
-                                        </TooltipContent>
-                                      </Tooltip>
-                                    </TooltipProvider>
+                                              </AlertDialogContent>
+                                            </AlertDialog>
+                                          </TooltipTrigger>
+                                          <TooltipContent>
+                                            Excluir
+                                          </TooltipContent>
+                                        </Tooltip>
+                                      </TooltipProvider>
+                                    </div>
                                   </div>
                                 </div>
                               ))
@@ -193,11 +196,12 @@ export function UpdateBooks() {
                             {
                               lessonByBook?.length === 0 && <span className='text-md text-red-500 font-bold justify-center overflow-y-hidden w-full flex'>Nenhuma lição cadastrada</span>
                             }
-                          </form>
+                            <ScrollBar orientation="horizontal" />
+                          </ScrollArea>
                           <AlertDialogFooter className="justify-center !flex-col flex items-center gap-2">
                             <div className='w-[10rem] flex flex-col justify-center items-center gap-2'>
                               <AlertDialog open={alertCreateBookOpen} onOpenChange={setAlertCreateBookOpen}>
-                                <AlertDialogTrigger className="w-full mb-5" onClick={() => {
+                                <AlertDialogTrigger variant="default" className="w-full mb-5 flex-row flex" onClick={() => {
                                   setValueCreateLesson("name", "")
                                   setValueCreateLesson("position", "")
                                   setValueCreateLesson("url", "")
