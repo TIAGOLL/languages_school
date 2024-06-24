@@ -245,13 +245,14 @@ const professionals = {
   },
 
   HandleClassroom: async (req, res) => {
-    const { registrationId, classroomId } = req.body;
+    const { registration, classroom } = req.body;
+
     await prisma
       .$transaction(async (trx) => {
         // deleta a relação entre a matricula e a turma
         await trx.students_has_classrooms.deleteMany({
           where: {
-            registrations_id: parseInt(registrationId),
+            registrations_id: parseInt(registration),
           },
         });
 
@@ -260,12 +261,12 @@ const professionals = {
           data: {
             registrations: {
               connect: {
-                id: parseInt(registrationId),
+                id: parseInt(registration),
               },
             },
             classrooms: {
               connect: {
-                id: parseInt(classroomId),
+                id: parseInt(classroom),
               },
             },
           },

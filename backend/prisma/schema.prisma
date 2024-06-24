@@ -22,20 +22,6 @@ model adresses {
   students      students[]
 }
 
-model auth {
-  token         String   @id @unique(map: "token_UNIQUE") @db.VarChar(500)
-  type          String   @default("Bearer") @db.VarChar(45)
-  expires_at    DateTime @db.DateTime(0)
-  refresh_token String   @db.VarChar(45)
-}
-
-model boleto_api {
-  id                        Int    @id @default(autoincrement())
-  developer_application_key String @db.VarChar(200)
-  client_id                 String @db.VarChar(200)
-  client_secret             String @db.VarChar(200)
-}
-
 model books {
   id         Int          @id @default(autoincrement())
   courses_id Int
@@ -60,9 +46,9 @@ model classes {
   presence_list    presence_list @relation(fields: [presence_list_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_classes_presence_list1")
   professionals    professionals @relation(fields: [professionals_id], references: [id], onUpdate: Restrict, map: "fk_classes_professionals1")
 
+  @@index([professionals_id], map: "fk_classes_professionals1_idx")
   @@index([classrooms_id], map: "fk_classes_classrooms1_idx")
   @@index([presence_list_id], map: "fk_classes_presence_list1_idx")
-  @@index([professionals_id], map: "fk_classes_professionals1_idx")
 }
 
 model classrooms {
@@ -78,11 +64,6 @@ model classrooms {
   @@index([books_id], map: "fk_classrooms_books1_idx")
 }
 
-model configs {
-  id                 Int  @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  registrations_time Int? @default(6)
-}
-
 model courses {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(45)
@@ -90,6 +71,96 @@ model courses {
   created_at    DateTime        @default(now()) @db.DateTime(0)
   books         books[]
   registrations registrations[]
+}
+
+model professionals {
+  id            Int       @id @default(autoincrement())
+  role_id       Int
+  adresses_id   Int
+  cpf           String    @unique(map: "cpf_UNIQUE") @db.VarChar(11)
+  name          String?   @db.VarChar(90)
+  first_name    String    @db.VarChar(45)
+  last_name     String    @db.VarChar(45)
+  phone         String    @db.VarChar(11)
+  email         String    @unique(map: "email_UNIQUE") @db.VarChar(100)
+  gender        String    @db.VarChar(1)
+  date_of_birth DateTime  @db.Date
+  active        Boolean   @default(dbgenerated("b'1'")) @db.Bit(1)
+  admin         Boolean   @default(dbgenerated("b'1'")) @db.Bit(1)
+  avatar_url    String?   @db.VarChar(200)
+  password      String    @db.VarChar(128)
+  user          String    @db.VarChar(128)
+  hour_value    Float?    @db.Float
+  created_at    DateTime? @default(now()) @db.DateTime(0)
+  updated_at    DateTime? @db.DateTime(0)
+  classes       classes[]
+  adresses      adresses  @relation(fields: [adresses_id], references: [id], onUpdate: Restrict, map: "fk_professionals_adresses1")
+  role          role      @relation(fields: [role_id], references: [id], onUpdate: Restrict, map: "fk_professionals_role1")
+
+  @@index([adresses_id], map: "fk_professionals_adresses1_idx")
+  @@index([role_id], map: "fk_professionals_role1_idx")
+}
+
+model role {
+  id            Int             @id
+  name          String          @db.VarChar(45)
+  professionals professionals[]
+}
+
+model students {
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  adresses_id         Int
+  email               String                @unique(map: "email_UNIQUE") @db.VarChar(45)
+  name                String?               @db.VarChar(90)
+  first_name          String                @db.VarChar(45)
+  last_name           String                @db.VarChar(45)
+  cpf                 String                @unique(map: "cpf_UNIQUE") @db.VarChar(11)
+  phone               String                @db.VarChar(11)
+  gender              String                @db.VarChar(1)
+  date_of_birth       DateTime              @db.DateTime(0)
+  password            String                @db.VarChar(128)
+  user                String                @unique(map: "user_UNIQUE") @db.VarChar(128)
+  created_at          DateTime?             @default(now()) @db.DateTime(0)
+  created_by          Int?
+  avatar_url          String?               @db.VarChar(500)
+  updated_at          DateTime?             @db.DateTime(0)
+  updated_by          Int?
+  active              Boolean               @default(dbgenerated("b'1'")) @db.Bit(1)
+  records_of_students records_of_students[]
+  registrations       registrations[]
+  adresses            adresses              @relation(fields: [adresses_id], references: [id], onUpdate: Restrict, map: "fk_students_adresses1")
+
+  @@index([adresses_id], map: "fk_students_adresses1_idx")
+}
+
+model students_has_classrooms {
+  id               Int           @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  registrations_id Int           @unique(map: "registrations_id_UNIQUE")
+  classrooms_id    Int
+  classrooms       classrooms    @relation(fields: [classrooms_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_has_classrooms_classrooms1")
+  registrations    registrations @relation(fields: [registrations_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_has_classrooms_registrations1")
+
+  @@index([classrooms_id], map: "fk_students_has_classrooms_classrooms1_idx")
+  @@index([registrations_id], map: "fk_students_has_classrooms_registrations1_idx")
+}
+
+model auth {
+  token         String   @id @unique(map: "token_UNIQUE") @db.VarChar(500)
+  type          String   @default("Bearer") @db.VarChar(45)
+  expires_at    DateTime @db.DateTime(0)
+  refresh_token String   @db.VarChar(45)
+}
+
+model boleto_api {
+  id                        Int    @id @default(autoincrement())
+  developer_application_key String @db.VarChar(200)
+  client_id                 String @db.VarChar(200)
+  client_secret             String @db.VarChar(200)
+}
+
+model configs {
+  id                 Int  @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  registrations_time Int? @default(6)
 }
 
 model lessons {
@@ -147,32 +218,15 @@ model presence_list {
   classes classes[]
 }
 
-model professionals {
-  id            Int       @id @default(autoincrement())
-  role_id       Int
-  adresses_id   Int
-  cpf           String    @unique(map: "cpf_UNIQUE") @db.VarChar(11)
-  name          String?   @db.VarChar(90)
-  first_name    String    @db.VarChar(45)
-  last_name     String    @db.VarChar(45)
-  phone         String    @db.VarChar(11)
-  email         String    @unique(map: "email_UNIQUE") @db.VarChar(100)
-  gender        String    @db.VarChar(1)
-  date_of_birth DateTime  @db.Date
-  active        Boolean   @default(dbgenerated("b'1'")) @db.Bit(1)
-  admin         Boolean   @default(dbgenerated("b'1'")) @db.Bit(1)
-  avatar_url    String?   @db.VarChar(200)
-  password      String    @db.VarChar(128)
-  user          String    @db.VarChar(128)
-  hour_value    Float?    @db.Float
-  created_at    DateTime? @default(now()) @db.DateTime(0)
-  updated_at    DateTime? @db.DateTime(0)
-  classes       classes[]
-  adresses      adresses  @relation(fields: [adresses_id], references: [id], onUpdate: Restrict, map: "fk_professionals_adresses1")
-  role          role      @relation(fields: [role_id], references: [id], onUpdate: Restrict, map: "fk_professionals_role1")
+model records_of_students {
+  id          Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  students_id Int
+  description String?   @db.VarChar(1000)
+  title       String?   @db.VarChar(100)
+  date        DateTime? @default(now()) @db.DateTime(0)
+  students    students  @relation(fields: [students_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_records_students1")
 
-  @@index([adresses_id], map: "fk_professionals_adresses1_idx")
-  @@index([role_id], map: "fk_professionals_role1_idx")
+  @@index([students_id], map: "fk_records_students1")
 }
 
 model registrations {
@@ -196,49 +250,6 @@ model registrations {
   @@index([students_id], map: "fk_registrations_students1_idx")
 }
 
-model role {
-  id            Int             @id
-  name          String          @db.VarChar(45)
-  professionals professionals[]
-}
-
-model students {
-  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  adresses_id         Int
-  email               String                @unique(map: "email_UNIQUE") @db.VarChar(45)
-  name                String?               @db.VarChar(90)
-  first_name          String                @db.VarChar(45)
-  last_name           String                @db.VarChar(45)
-  cpf                 String                @unique(map: "cpf_UNIQUE") @db.VarChar(11)
-  phone               String                @db.VarChar(11)
-  gender              String                @db.VarChar(1)
-  date_of_birth       DateTime              @db.DateTime(0)
-  password            String                @db.VarChar(128)
-  user                String                @unique(map: "user_UNIQUE") @db.VarChar(128)
-  created_at          DateTime?             @default(now()) @db.DateTime(0)
-  created_by          Int?
-  avatar_url          String?               @db.VarChar(500)
-  updated_at          DateTime?             @db.DateTime(0)
-  updated_by          Int?
-  active              Boolean               @default(dbgenerated("b'1'")) @db.Bit(1)
-  records_of_students records_of_students[]
-  registrations       registrations[]
-  adresses            adresses              @relation(fields: [adresses_id], references: [id], onUpdate: Restrict, map: "fk_students_adresses1")
-
-  @@index([adresses_id], map: "fk_students_adresses1_idx")
-}
-
-model students_has_classrooms {
-  id               Int           @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  registrations_id Int           @unique(map: "registrations_id_UNIQUE")
-  classrooms_id    Int
-  classrooms       classrooms    @relation(fields: [classrooms_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_has_classrooms_classrooms1")
-  registrations    registrations @relation(fields: [registrations_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_students_has_classrooms_registrations1")
-
-  @@index([classrooms_id], map: "fk_students_has_classrooms_classrooms1_idx")
-  @@index([registrations_id], map: "fk_students_has_classrooms_registrations1_idx")
-}
-
 model tasks {
   scores_id        Int           @id
   registrations_id Int
@@ -253,15 +264,4 @@ model tasks {
 
   @@index([lessons_id], map: "fk_responses_lessons1_idx")
   @@index([registrations_id], map: "fk_responses_registrations1_idx")
-}
-
-model records_of_students {
-  id          Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  students_id Int
-  description String?   @db.VarChar(1000)
-  title       String?   @db.VarChar(100)
-  date        DateTime? @default(now()) @db.DateTime(0)
-  students    students  @relation(fields: [students_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_records_students1")
-
-  @@index([students_id], map: "fk_records_students1")
 }
