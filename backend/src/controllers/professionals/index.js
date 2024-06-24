@@ -964,81 +964,91 @@ const professionals = {
   },
 
   GetActiveStudents: async (req, res) => {
-    if (!req.query.course) {
-      const students = await prisma.students
-        .findMany({
-          where: {
-            active: true,
-            name: {
-              contains: req.query.name,
-            },
-            email: {
-              contains: req.query.email,
-            },
-          },
-          include: {
-            records_of_students: true,
-            registrations: {
-              include: {
-                courses: true,
+    await prisma
+      .$transaction(async (trx) => {
+        if (!req.query.course) {
+          const students = await trx.students
+            .findMany({
+              where: {
+                active: true,
+                name: {
+                  contains: req.query.name,
+                },
+                email: {
+                  contains: req.query.email,
+                },
               },
-            },
-          },
-          orderBy: {
-            registrations: {
-              _count: "desc",
-            },
-          },
-        })
-        .catch((error) => console.log(error));
-
-      return res.status(200).json({ students: students });
-    }
-    if (req.query.course) {
-      const students = await prisma.students
-        .findMany({
-          where: {
-            active: true,
-            registrations: {
-              some: {
-                courses: {
-                  name: {
-                    equals: req.query.course,
+              include: {
+                records_of_students: true,
+                registrations: {
+                  include: {
+                    courses: true,
                   },
                 },
               },
-            },
-            name: {
-              contains: req.query.name,
-            },
-            email: {
-              contains: req.query.email,
-            },
-          },
-          select: {
-            email: true,
-            cpf: true,
-            id: true,
-            name: true,
-            adresses_id: true,
-            user: true,
-            registrations: {
-              include: {
-                courses: true,
+              orderBy: {
+                registrations: {
+                  _count: "desc",
+                },
+              },
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+
+          return { students };
+        }
+        if (req.query.course) {
+          const students = await trx.students.findMany({
+            where: {
+              active: true,
+              registrations: {
+                some: {
+                  courses: {
+                    name: {
+                      equals: req.query.course,
+                    },
+                  },
+                },
+              },
+              name: {
+                contains: req.query.name,
+              },
+              email: {
+                contains: req.query.email,
               },
             },
-            records_of_students: true,
-          },
-          orderBy: {
-            registrations: {
-              _count: "desc",
+            select: {
+              email: true,
+              cpf: true,
+              id: true,
+              name: true,
+              adresses_id: true,
+              user: true,
+              registrations: {
+                include: {
+                  courses: true,
+                },
+              },
+              records_of_students: true,
             },
-          },
-        })
-        .catch((error) => console.log(error));
-
-      return res.status(200).json({ students: students });
-    }
+            orderBy: {
+              registrations: {
+                _count: "desc",
+              },
+              name: "asc",
+            },
+          });
+          return { students };
+        }
+      })
+      .then((value) => {
+        return res.status(200).json({ students: value.students });
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(500);
+      });
   },
 
   CreateStudent: async (req, res) => {

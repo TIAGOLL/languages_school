@@ -35,7 +35,7 @@ function AdmSideBar() {
         <Accordion type="single" collapsible className="w-full space-y-2 gap-4 mt-10">
           {getLinks().map((item, index) => {
             return (
-              <AccordionItem value={`item-${index}`} className="border-2 border-[hsl(var(--input))] p-1 rounded-md" key={item.title}>
+              <AccordionItem value={`item-${index}`} className="border-2 border-[hsl(var(--input))] p-1 rounded-md" key={index}>
                 <AccordionTrigger className="p-2">
                   {item.title}
                 </AccordionTrigger >

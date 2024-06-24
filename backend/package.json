@@ -3,17 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server.js",
-  "engines": {
-    "node": "18"
-  },
   "scripts": {
     "dev": "nodemon src/server.js",
     "build": "tsup src",
     "start": "node dist/server.js",
-    "vercel-build": "npx prisma migrate deploy && npx prisma generate"
+    "vercel-build": "npx prisma migrate deploy && npx prisma generate",
+    "sync": "npx @snaplet/seed sync"
   },
   "prisma": {
-    "sync": "npx @snaplet/seed sync",
     "seed": "npx tsx prisma/seed.ts"
   },
   "author": "Tiago Emanuel de Lima",

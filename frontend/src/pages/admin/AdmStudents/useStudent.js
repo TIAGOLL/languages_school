@@ -198,7 +198,6 @@ export const useStudent = () => {
 		student: Data().student,
 		datesForCalendar,
 		handleFilterStudents,
-		cleanParams,
 		cleanFilter,
 		searchParams,
 		registerUpdate,
