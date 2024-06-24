@@ -1036,7 +1036,6 @@ const professionals = {
               registrations: {
                 _count: "desc",
               },
-              name: "asc",
             },
           });
           return { students };
