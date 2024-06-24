@@ -35,7 +35,7 @@ const main = async () => {
     }))
   );
 
-  console.log("Criando registros fictícios de alunos...");
+  console.log("Criando registros de alunos...");
   const { records_of_students } = await seed.records_of_students(
     (x) => x(2000),
     {
