@@ -40,18 +40,20 @@ function AdmSideBar() {
                   {item.title}
                 </AccordionTrigger >
                 <AccordionContent className="border-0 m-0 py-0.5 space-y-1">
-                  {item.links.map((link) => {
-                    return <div key={link.name}>
-                      <NavLink to={link.to} className={({ isActive }) => isActive ? "hover:underline flex flex-row gap-2 items-center ml-5" : "hidden"} onClick={() => setSheetOpen(false)}>
-                        <FaCircle className="w-2 h-2" />
-                        {link.name}
-                      </NavLink>
-                      <NavLink to={link.to} className={({ isActive }) => isActive ? "hidden" : "hover:underline flex flex-row gap-2 items-center ml-5"} onClick={() => setSheetOpen(false)}>
-                        <Circle className="w-2 h-2" />
-                        {link.name}
-                      </NavLink>
-                    </div>
-                  })}
+                  {
+                    item.links.map((link) => {
+                      return <div key={link.name}>
+                        <NavLink to={link.to} className={({ isActive }) => isActive ? "hover:underline flex flex-row gap-2 items-center ml-5" : "hidden"} onClick={() => setSheetOpen(false)}>
+                          <FaCircle className="w-2 h-2" />
+                          {link.name}
+                        </NavLink>
+                        <NavLink to={link.to} className={({ isActive }) => isActive ? "hidden" : "hover:underline flex flex-row gap-2 items-center ml-5"} onClick={() => setSheetOpen(false)}>
+                          <Circle className="w-2 h-2" />
+                          {link.name}
+                        </NavLink>
+                      </div>
+                    })
+                  }
                 </AccordionContent>
               </AccordionItem>
             )
