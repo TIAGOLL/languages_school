@@ -1,14 +1,13 @@
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFooter } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import PaginationSection from './../../ui/PaginationSection';
-import { useDataTableClassrooms } from './useDataTableClassrooms';
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
-import { Pencil } from 'lucide-react';
-import { Trash2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Pencil, Trash2 } from 'lucide-react';
+import { useDataTableClassrooms } from './useDataTableClassrooms';
+import PaginationSection from '../../../ui/PaginationSection';
 
 
-function DataTableClassrooms() {
+export function DataTableClassrooms() {
   const { isLoading, classrooms, classroomPages, deleteClassroom } = useDataTableClassrooms();
 
   return (
@@ -101,5 +100,3 @@ function DataTableClassrooms() {
     </>
   );
 }
-
-export default DataTableClassrooms;

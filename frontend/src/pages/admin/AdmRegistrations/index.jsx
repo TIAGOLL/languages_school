@@ -1,9 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs";
 import { PlusCircleIcon, User } from "lucide-react";
 import AdmSideBar from "../../../components/admin/AdmSideBar";
-import DataTableRegistrations from "../../../components/admin/DataTableRegistrations";
 import { useRegistration } from './useRegistration';
 import { CreateRegistration } from "../../../components/admin/Forms/CreateRegistration";
+import { DataTableRegistrations } from "../../../components/admin/DataTables/Registrations";
 
 function AdmRegistrations() {
 

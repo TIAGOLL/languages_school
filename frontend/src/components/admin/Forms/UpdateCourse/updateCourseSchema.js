@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const updatedCourse = z.object({
+export const updatedCourseSchema = z.object({
 	id: z
 		.string()
 		.min(1, {

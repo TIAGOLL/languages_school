@@ -6,10 +6,10 @@ import { Tabs } from '@/components/ui/tabs';
 import { User } from "lucide-react";
 import { useCourses } from './useCourses';
 import { PlusCircleIcon } from "lucide-react";
-import DataTableCourses from "../../../components/admin/DataTableCourses";
 import { Replace } from "lucide-react";
 import { UpdateBooks } from "../../../components/admin/Forms/UpdateBooks";
 import { CreateCourse } from "../../../components/admin/Forms/CreateCourse";
+import { DataTableCourses } from "../../../components/admin/DataTables/Courses";
 
 function AdmCourses() {
 

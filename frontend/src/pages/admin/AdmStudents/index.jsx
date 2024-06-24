@@ -1,7 +1,6 @@
 import { Eye, PlusCircle, Replace, Search, X } from 'lucide-react';
 import AdmSideBar from '../../../components/admin/AdmSideBar/index';
 import { Button } from '@/components/ui/button';
-import DataTableStudents from '../../../components/admin/DataTableStudents';
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
@@ -21,12 +20,12 @@ import { SelectItem } from '@/components/ui/select';
 import { cn } from '../../../lib/utils';
 import { CreateStudents } from '../../../components/admin/Forms/CreateStudents';
 import { UpdateStudents } from '../../../components/admin/Forms/UpdateStudents';
+import { DataTableStudents } from '../../../components/admin/DataTables/Students';
 
 
 function AdmStudents() {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchParams, _] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const { handleFilterStudents, cleanFilter, handleTab, courses } = useStudent();
 
   const name = searchParams.get('name')
@@ -67,11 +66,11 @@ function AdmStudents() {
               <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-8/12 mb-10'>
                 <Input placeholder="Nome" {...register('name')} />
                 <Input placeholder="E-mail" {...register('email')} />
-                <Select {...register('course')} onValueChange={(value) => setValue('course', value)} value={watch("course")}>
+                <Select onValueChange={(value) => setValue('course', value)} value={watch("course")}>
                   <SelectTrigger className={cn(watch("course") ? "" : "text-muted-foreground")}>
                     <SelectValue placeholder="Curso" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent {...register('course')}>
                     <SelectGroup>
                       {
                         courses?.map((courses) => (

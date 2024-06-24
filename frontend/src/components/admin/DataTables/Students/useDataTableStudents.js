@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import api from "../../../services/api";
+import api from "../../../../services/api";
 import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import { CreatePaginationArray } from "../../../lib/utils";
+import { CreatePaginationArray } from "../../../../lib/utils";
 
 export const useDataTableStudents = () => {
 	const {

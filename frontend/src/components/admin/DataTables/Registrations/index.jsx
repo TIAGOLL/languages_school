@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -7,18 +7,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { LockKeyholeIcon, Trash2 } from 'lucide-react';
-import { SiGoogleclassroom } from "react-icons/si";
-import PaginationSection from './../../ui/PaginationSection';
 import { useDataTableRegistrations } from './useDataTableRegistrations';
-import { Select } from '@radix-ui/react-select';
-import { SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from '@/components/ui/select';
-import { DialogClose } from '../../ui/dialog';
 import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Textarea } from "@/components/ui/textarea"
+import PaginationSection from '../../../ui/PaginationSection';
+import { UpdateClassroomForm } from '../../Forms/UpdateClassroom';
 
 
-function DataTableRegistrations() {
+export function DataTableRegistrations() {
   const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
 
   const [descRecord, setDescRecord] = useState("")
@@ -65,60 +62,7 @@ function DataTableRegistrations() {
                   <TableCell className="font-medium">{regis.locked == 1 ? <span className='mx-1 bg-red-300 text-black p-0.5 rounded-md'>Trancada</span> : <span className='mx-1 p-0.5 rounded-md'>Ativa</span>}</TableCell>
                   <TableCell className="space-x-2">
                     <TooltipProvider>
-                      {regis.locked == 0 && <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild >
-                          <button variant="link" className="bg-green-300 p-1 rounded-md">
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <SiGoogleclassroom className='w-4 h-4 dark:text-black' />
-                              </DialogTrigger>
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle className="!justify-center flex w-full">Mudar sala</DialogTitle>
-                                </DialogHeader>
-                                <DialogDescription className="flex text-white text-md p-3">
-                                  Mudando a sala do estudante {regis.students.name} no curso de {regis.courses.name}?
-                                </DialogDescription>
-                                <Select className="mb-10" onValueChange={(value) => setCurrentClassroom(value)} value={currentClassroom}>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Selecione" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectGroup className="h-[10rem]">
-                                      {
-                                        classrooms?.map((classroom) => {
-                                          if (classroom.books.courses.id == regis.courses.id) return <SelectItem key={classroom.id} value={classroom.id.toString()}>{classroom?.date} às {classroom?.hour} || {classroom?.books.name}</SelectItem>
-                                        })
-                                      }
-                                    </SelectGroup>
-                                  </SelectContent>
-                                </Select>
-                                <DialogFooter className="w-full flex !justify-between !items-start mt-10">
-                                  <DialogClose>
-                                    <Button variant="ghost" onClick={() => {
-                                      setCurrentClassroom("")
-                                    }}>
-                                      Cancelar
-                                    </Button>
-                                  </DialogClose>
-                                  <DialogClose>
-                                    <Button variant="default" onClick={async () => {
-                                      await handleClassroom(currentClassroom, regis?.id)
-                                      setCurrentClassroom("")
-                                    }}>
-                                      Mudar sala
-                                    </Button>
-                                  </DialogClose>
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
-                          </button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          Alterar sala
-                        </TooltipContent>
-                      </Tooltip>
-                      }
+                      {regis.locked == 0 && <UpdateClassroomForm data={{ regis, classrooms }} />}
                     </TooltipProvider>
 
                     <TooltipProvider>
@@ -146,9 +90,7 @@ function DataTableRegistrations() {
                                       </button>
                                     </DialogTrigger>
                                     <DialogContent >
-                                      <DialogHeader>
-                                        <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
-                                      </DialogHeader>
+                                      <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
                                       <DialogDescription className="flex text-black text-md p-3 mb-8 flex-col gap-6 dark:text-white">
                                         Você tem certeza que deseja {regis.locked == 0 ? "TRANCAR" : "DESTRANCAR"} a matricula do aluno: {regis.students.name}?
                                         <form>
@@ -180,9 +122,7 @@ function DataTableRegistrations() {
                                       </button>
                                     </DialogTrigger>
                                     <DialogContent >
-                                      <DialogHeader>
-                                        <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
-                                      </DialogHeader>
+                                      <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
                                       <DialogDescription className="flex text-black text-md p-3 mb-8 dark:text-white">
                                         Você tem certeza que deseja DELETAR a matricula do aluno: {regis.students.name}?
                                       </DialogDescription>
@@ -242,5 +182,3 @@ function DataTableRegistrations() {
     </>
   );
 }
-
-export default DataTableRegistrations;

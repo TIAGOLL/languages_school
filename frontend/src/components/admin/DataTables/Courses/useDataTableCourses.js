@@ -1,13 +1,11 @@
-import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import api from "../../../services/api";
-import { toast } from "react-toastify";
-import { CreatePaginationArray } from "../../../lib/utils";
-import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { updatedCourse } from "./schemas";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { CreatePaginationArray } from "../../../../lib/utils";
+import api from "../../../../services/api";
 
 export const useDataTableCourses = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -15,18 +13,6 @@ export const useDataTableCourses = () => {
 	const page = searchParams.get("page");
 	const per_page = searchParams.get("per_page");
 	const [diaglogHandleCourseOpen, setDiaglogHandleCourseOpen] = useState(false);
-
-	const {
-		register: registerHandleCourse,
-		handleSubmit: handleSubmitHandleCourse,
-		formState: { errors: errorsHandleCourse },
-		watch: watchHandleCourse,
-		setValue: setValueHandleCourse,
-	} = useForm({
-		resolver: zodResolver(updatedCourse),
-		mode: "all",
-		criteriaMode: "all",
-	});
 
 	const {
 		data: courses,
@@ -38,19 +24,6 @@ export const useDataTableCourses = () => {
 	});
 
 	const coursesPagination = CreatePaginationArray(courses, page, per_page);
-
-	async function handleCourse(data) {
-		await api.professionals
-			.UpdateCourse(data)
-			.then((res) => {
-				toast.success(res.message);
-				setDiaglogHandleCourseOpen(false);
-				refetch();
-			})
-			.catch((error) => {
-				toast.error(error?.response.data.message);
-			});
-	}
 
 	async function deleteCourse(id) {
 		await api.professionals
@@ -80,13 +53,8 @@ export const useDataTableCourses = () => {
 		courses,
 		deleteCourse,
 		setDiaglogHandleCourseOpen,
-		handleCourse,
 		diaglogHandleCourseOpen,
 		coursesPagination,
-		registerHandleCourse,
-		handleSubmitHandleCourse,
-		errorsHandleCourse,
-		watchHandleCourse,
-		setValueHandleCourse,
+		refetch,
 	};
 };

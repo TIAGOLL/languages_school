@@ -1,10 +1,9 @@
-import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import api from "../../../services/api";
-import { CreatePaginationArray } from "./../../../lib/utils";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CreatePaginationArray } from "../../../../lib/utils";
+import api from "../../../../services/api";
 
 export const useDataTableClassrooms = () => {
 	const [searchParams, setSearchParams] = useSearchParams();

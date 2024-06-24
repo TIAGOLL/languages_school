@@ -1,11 +1,9 @@
-import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import api from "../../../services/api";
-import { CreatePaginationArray } from "../../../lib/utils";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { CreatePaginationArray } from "../../../../lib/utils";
+import api from "../../../../services/api";
 
 export const useDataTableRegistrations = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -23,7 +21,7 @@ export const useDataTableRegistrations = () => {
 		isLoading,
 		refetch,
 	} = useQuery({
-		queryKey: ["registrations1"],
+		queryKey: ["registrations"],
 		queryFn: () => api.professionals.GetRegistrations(),
 	});
 
@@ -60,18 +58,6 @@ export const useDataTableRegistrations = () => {
 			});
 	}
 
-	async function handleClassroom(currentClassroom, registrationId) {
-		await api.professionals
-			.HandleClassroom(currentClassroom, registrationId)
-			.then((res) => {
-				toast.success(res.message);
-				refetch();
-			})
-			.catch((err) => {
-				toast.error(err.response.data.message);
-			});
-	}
-
 	useEffect(() => {
 		if (!activeTab) {
 			setSearchParams((state) => {
@@ -86,7 +72,6 @@ export const useDataTableRegistrations = () => {
 		registrations,
 		registrationsPagination,
 		handleLockRegistration,
-		handleClassroom,
 		dialogLockedOpen,
 		setDialogLockedOpen,
 		dialogDeleteOpen,

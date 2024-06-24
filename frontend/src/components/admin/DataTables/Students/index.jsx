@@ -2,9 +2,7 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFoo
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useDataTableStudents } from './useDataTableStudents';
-import PaginationSection from './../../ui/PaginationSection';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { LoaderIcon, Power, Trash2, ScrollText, Save, KeyRound, Pencil } from 'lucide-react';
@@ -12,14 +10,15 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/com
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
 import mask from 'make-mask';
-import { cn } from '../../../lib/utils';
+import { cn } from '../../../../lib/utils';
 import { BookCheck, LockKeyhole } from 'lucide-react';
 import { Text } from 'lucide-react';
 import { AlertDialog, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
+import PaginationSection from '../../../ui/PaginationSection';
 
-function DataTableStudents() {
+export function DataTableStudents() {
 
   const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent, recordsDiaglogOpen, setRecordsDialogOpen, searchParams, setSearchParams, setValue } = useDataTableStudents();
 
@@ -88,19 +87,15 @@ function DataTableStudents() {
                         <TooltipTrigger asChild>
                           <span className='pt-3'>
                             <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <button onClick={() => setValue("email", student.email)} className='bg-orange-300 p-1 m-0 rounded-md'>
-                                  <KeyRound className="w-4 h-4 dark:text-black" />
-                                </button>
+                              <AlertDialogTrigger onClick={() => setValue("email", student.email)} className='bg-orange-300 p-1 m-0 rounded-md'>
+                                <KeyRound className="w-4 h-4 dark:text-black" />
                               </AlertDialogTrigger>
                               <AlertDialogContent >
                                 <form onSubmit={handleSubmit(UpdatePassword)} className='flex flex-col gap-6'>
-                                  <AlertDialogHeader>
-                                    <AlertDialogTitle>Editar senha</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      Digite a nova senha para o usuário: <span className='font-bold'>{student?.name}</span>
-                                    </AlertDialogDescription>
-                                  </AlertDialogHeader>
+                                  <AlertDialogTitle>Editar senha</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Digite a nova senha para o usuário: <span className='font-bold'>{student?.name}</span>
+                                  </AlertDialogDescription>
                                   <div className='grid grid-cols-2 gap-3'>
                                     <div className='col-span-2 gap-1 grid w-8/12'>
                                       <Label htmlFor="email">Email</Label>
@@ -140,12 +135,10 @@ function DataTableStudents() {
                                 </button>
                               </DialogTrigger>
                               <DialogContent className="max-w-[calc(100vw-300px)] flex flex-col h-[calc(100vh-150px)]">
-                                <DialogHeader className="mb-10">
-                                  <DialogTitle>Registros do aluno</DialogTitle>
-                                  <DialogDescription>
-                                    Aqui você tem um histórico de registros do aluno: <span className='font-bold'>{student?.name}</span>
-                                  </DialogDescription>
-                                </DialogHeader>
+                                <DialogTitle>Registros do aluno</DialogTitle>
+                                <DialogDescription>
+                                  Aqui você tem um histórico de registros do aluno: <span className='font-bold'>{student?.name}</span>
+                                </DialogDescription>
                                 {student?.records_of_students?.length == 0 && <div className='h-auto'>
                                   <Label>Nenhum registro encontrado</Label>
                                 </div>
@@ -251,5 +244,3 @@ function DataTableStudents() {
     </>
   );
 }
-
-export default DataTableStudents;

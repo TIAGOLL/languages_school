@@ -108,11 +108,8 @@ const api = {
 			return response.data;
 		},
 
-		HandleClassroom: async (classroomId, registrationId) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/handleclassroom`, {
-				classroomId,
-				registrationId,
-			});
+		HandleClassroom: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/handleclassroom`, data);
 			return response.data;
 		},
 
