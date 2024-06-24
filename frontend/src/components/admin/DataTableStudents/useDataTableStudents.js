@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../services/api";
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentsUpdatePasswordSchema } from "./schema";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 import { CreatePaginationArray } from "../../../lib/utils";
 
 export const useDataTableStudents = () => {
@@ -26,7 +27,6 @@ export const useDataTableStudents = () => {
 	const [loading, setLoading] = useState(false);
 	const [recordsDiaglogOpen, setRecordsDialogOpen] = useState(false);
 
-	const tab = searchParams.get("tab");
 	const page = searchParams.get("page");
 	const per_page = searchParams.get("per_page");
 	const name = searchParams.get("name");

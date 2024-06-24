@@ -140,8 +140,8 @@ function DataTableStudents() {
                                 </button>
                               </DialogTrigger>
                               <DialogContent className="max-w-[calc(100vw-300px)] flex flex-col h-[calc(100vh-150px)]">
+                                <DialogTitle>Registros do aluno</DialogTitle>
                                 <DialogHeader className="mb-10">
-                                  <DialogTitle>Registros do aluno</DialogTitle>
                                   <DialogDescription>
                                     Aqui você tem um histórico de registros do aluno: <span className='font-bold'>{student?.name}</span>
                                   </DialogDescription>

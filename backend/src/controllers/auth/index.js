@@ -12,7 +12,6 @@ const auth = {
       const professionals = await prisma.professionals.findFirst({
         where: { user: user },
       });
-
       if (!students && !professionals) {
         throw new Error("Usúario não encontrado!");
       }
@@ -28,7 +27,7 @@ const auth = {
           return res.status(200).send(professionals);
         }
       }
-      
+
       throw new Error("Usúario ou senha inválidos!");
     } catch (error) {
       res.status(500).send({ message: error.message, error: error });
