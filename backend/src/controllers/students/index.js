@@ -88,7 +88,7 @@ const students = {
       },
     });
 
-    const books = student.registrations.map((registration) => {
+    const books = student?.registrations?.map((registration) => {
       return registration.students_has_classrooms.classrooms.books;
     });
 

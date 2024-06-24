@@ -25,7 +25,7 @@ function Book() {
                 <SelectContent>
                   <SelectGroup>
                     {
-                      infoOfStudent?.books.map((book) => {
+                      infoOfStudent?.books?.map((book) => {
                         return <SelectItem value={book.id} key={book.id}>{book?.courses?.name} | {book.name}</SelectItem>
                       })
                     }
@@ -42,7 +42,7 @@ function Book() {
                 <SelectContent>
                   <SelectGroup>
                     {
-                      infoOfStudent?.books.map((item) => {
+                      infoOfStudent?.books?.map((item) => {
                         if (item.id == parseInt(book)) {
                           return item.lessons.map((lesson) => {
                             return <SelectItem value={lesson.id} key={lesson.id}>{lesson.name}</SelectItem>

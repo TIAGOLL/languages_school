@@ -17,6 +17,11 @@ const main = async () => {
   console.log("Criando livros...");
   const { books } = await seed.books((x) => x(400), { connect: { courses } });
 
+  console.log("Criando lições...");
+  const { lessons } = await seed.lessons((x) => x(4000), {
+    connect: { books },
+  });
+
   console.log("Criando salas de aula...");
   const { classrooms } = await seed.classrooms((x) => x(1000), {
     connect: { books },
