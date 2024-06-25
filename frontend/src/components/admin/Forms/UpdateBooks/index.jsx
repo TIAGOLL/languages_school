@@ -84,12 +84,12 @@ export function UpdateBooks() {
                         <AlertDialogTrigger className="bg-orange-300 col-span-1 text-black justify-center flex items-center p-2 rounded-md" onClick={() => setSearchParams((state) => { state.set("book", book.id); return state; })} >
                           <FaTasks className='w-4 h-4' />
                         </AlertDialogTrigger>
-                        <AlertDialogContent className="max-w-[calc(100vw-100px)] flex flex-col max-h-[calc(100vh-50px)] justify-between">
+                        <AlertDialogContent className="max-w-[calc(100vw-100px)] flex flex-col max-h-[calc(100vh-50px)] justify-center items-center">
                           <AlertDialogTitle>Lições</AlertDialogTitle>
                           <AlertDialogDescription>
                             curso: {course?.name} | Livro: {book?.name}
                           </AlertDialogDescription>
-                          <ScrollArea className='h-[calc(100vh-400px)] flex justify-center items-center gap-2'>
+                          <ScrollArea className='h-[calc(100vh-400px)] flex justify-center items-center gap-2 mt-10'>
                             {
                               lessonByBook && lessonByBook?.map((lesson, index) => (
                                 <div className='w-full flex h-full justify-center items-center'>
@@ -124,8 +124,8 @@ export function UpdateBooks() {
                                                 <Pencil className="w-4 h-4 dark:text-black" />
                                               </AlertDialogTrigger>
                                               <AlertDialogContent>
-                                                <AlertDialogTitle>Editar</AlertDialogTitle>
-                                                <form onSubmit={handleSubmitUpdateLesson(updateLesson)} className='gap-2 flex flex-col'>
+                                                <AlertDialogTitle>Editar lição</AlertDialogTitle>
+                                                <form onSubmit={handleSubmitUpdateLesson(updateLesson)} className='gap-4 flex flex-col'>
                                                   <div className='col-span-2 gap-1 grid w-8/12'>
                                                     <Label htmlFor="lessonName">Nome</Label>
                                                     <Input type="lessonName" {...registerUpdateLesson("name")} />
@@ -211,11 +211,11 @@ export function UpdateBooks() {
                                   Adicionar lição
                                 </AlertDialogTrigger>
                                 <AlertDialogContent>
-                                  <form onSubmit={handleSubmitCreateLesson(createLesson)}>
-                                    <AlertDialogTitle>Nova lição</AlertDialogTitle>
-                                    <AlertDialogDescription>
-                                      Descreva a lição que deseja adicionar
-                                    </AlertDialogDescription>
+                                  <AlertDialogTitle>Nova lição</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Descreva a lição que deseja adicionar
+                                  </AlertDialogDescription>
+                                  <form onSubmit={handleSubmitCreateLesson(createLesson)} className='gap-2 flex flex-col'>
                                     <div className='col-span-2 gap-1 grid w-8/12'>
                                       <Label htmlFor="lessonName">Nome</Label>
                                       <Input type="lessonName" {...registerCreateLesson("name")} />
@@ -291,7 +291,7 @@ export function UpdateBooks() {
         {errors?.books && <span className='text-sm text-red-500'>{errors?.books?.root?.message}</span>}
 
         <AlertDialog open={alertCreateBookOpen} onOpenChange={setAlertCreateBookOpen}>
-          <AlertDialogTrigger className="gap-2">
+          <AlertDialogTrigger className="gap-2 flex flex-row items-center justify-center">
             <PlusSquare />
             Adicionar livro
           </AlertDialogTrigger>
