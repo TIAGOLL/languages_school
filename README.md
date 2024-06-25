@@ -34,7 +34,7 @@
 
 ## ⚙️ Funcionalidades
 
-# Admin
+### Admin
   - [x] Cadastro de alunos
   - [x] Cadastro de cursos
   - [x] Cadastro de turmas
@@ -47,7 +47,7 @@
   - [ ] Cadastro de permissões
   - [ ] Quadro de funcionários
 
-# Aluno
+### Aluno
   - [x] Vizualização do seu livro
   - [x] Vizualização das suas tarefas
   - [ ] Vizualização das suas aulas
