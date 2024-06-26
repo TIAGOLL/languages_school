@@ -17,6 +17,7 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent,
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
 import PaginationSection from '../../../ui/PaginationSection';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 export function DataTableStudents() {
 
@@ -143,24 +144,29 @@ export function DataTableStudents() {
                                   <Label>Nenhum registro encontrado</Label>
                                 </div>
                                 }
-                                {student?.records_of_students?.map((record) => {
-                                  return (
-                                    <div className='grid grid-cols-8 gap-3'>
-                                      <div className='col-span-2 gap-1 grid h-auto'>
-                                        <Label htmlFor="title">Título</Label>
-                                        <Textarea type="title" readOnly value={record.title} />
-                                      </div>
-                                      <div className='col-span-2 gap-1 grid'>
-                                        <Label htmlFor="date">Data</Label>
-                                        <Textarea type="date" readOnly value={format(record.date, "dd/MM/yyyy - hh:mm")} />
-                                      </div>
-                                      <div className='col-span-4 gap-1 grid'>
-                                        <Label htmlFor="description">Descrição</Label>
-                                        <Textarea type="description" readOnly value={record.description} />
-                                      </div>
-                                    </div>
-                                  )
-                                })}
+                                <ScrollArea>
+                                  {
+                                    student?.records_of_students?.map((record) => {
+                                      return (
+                                        <div className='grid grid-cols-8 gap-3 w-[calc(100%-1rem)] mt-3'>
+                                          <div className='col-span-2 gap-1 grid h-auto'>
+                                            <Label htmlFor="title">Título</Label>
+                                            <Textarea type="title" readOnly value={record.title} />
+                                          </div>
+                                          <div className='col-span-2 gap-1 grid'>
+                                            <Label htmlFor="date">Data</Label>
+                                            <Textarea type="date" readOnly value={format(record.date, "dd/MM/yyyy - hh:mm")} />
+                                          </div>
+                                          <div className='col-span-4 gap-1 grid'>
+                                            <Label htmlFor="description">Descrição</Label>
+                                            <Textarea type="description" readOnly value={record.description} />
+                                          </div>
+                                        </div>
+                                      )
+                                    })
+                                  }
+                                  <ScrollBar orientation="horizontal" />
+                                </ScrollArea>
                               </DialogContent>
                             </Dialog>
                           </span>
