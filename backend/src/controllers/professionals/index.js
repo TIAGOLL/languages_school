@@ -12,6 +12,30 @@ const professionals = {
     return res.status(200).json(records);
   },
 
+  GetStudentCpfs: async (req, res) => {
+    const cpfs = await prisma.students.findMany({
+      select: {
+        cpf: true,
+      },
+      orderBy: {
+        cpf: "asc",
+      },
+    });
+    return res.status(200).json(cpfs);
+  },
+
+  GetProfessionalsCpfs: async (req, res) => {
+    const cpfs = await prisma.professionals.findMany({
+      select: {
+        cpf: true,
+      },
+      orderBy: {
+        cpf: "asc",
+      },
+    });
+    return res.status(200).json(cpfs);
+  },
+
   CreateLesson: async (req, res) => {
     const { name, url, position, book } = req.body;
 
@@ -109,6 +133,7 @@ const professionals = {
 
   GetLessonByBook: async (req, res) => {
     const { book } = req.params;
+
     const lessons = await prisma.lessons.findMany({
       where: {
         books_id: parseInt(book),
@@ -169,15 +194,12 @@ const professionals = {
       where: {
         courses_id: parseInt(courseId),
       },
-    });
-
-    const course = await prisma.courses.findFirst({
-      where: {
-        id: parseInt(courseId),
+      include: {
+        courses: true,
       },
     });
 
-    return res.status(200).json({ books, course });
+    return res.status(200).json(books);
   },
 
   GetCourseById: async (req, res) => {
@@ -323,6 +345,12 @@ const professionals = {
 
     await prisma
       .$transaction(async (trx) => {
+        await trx.lessons.deleteMany({
+          where: {
+            books_id: parseInt(id),
+          },
+        });
+
         await trx.books.delete({
           where: {
             id: parseInt(id),
@@ -547,20 +575,20 @@ const professionals = {
     return res.status(200).json(registrations);
   },
 
-  HandleLockRegistration: async (req, res) => {
-    const { registrationId, studentId, description } = req.body;
-
+  UpdateLockRegistration: async (req, res) => {
+    const { registration, student, description } = req.body;
+    console.log(req.body);
     await prisma
       .$transaction(async (trx) => {
         // deleta a relação entre a matricula e a turma
         if (
           await trx.students_has_classrooms.findFirst({
-            where: { registrations_id: parseInt(registrationId) },
+            where: { registrations_id: parseInt(registration) },
           })
         ) {
           await trx.students_has_classrooms.delete({
             where: {
-              registrations_id: parseInt(registrationId),
+              registrations_id: parseInt(registration),
             },
           });
         }
@@ -570,12 +598,12 @@ const professionals = {
             description: description,
             students: {
               connect: {
-                id: parseInt(studentId),
+                id: parseInt(student),
               },
             },
             title: (
               await prisma.registrations.findFirst({
-                where: { id: parseInt(registrationId) },
+                where: { id: parseInt(registration) },
               })
             ).locked
               ? "Destrancamento de matricula"
@@ -586,12 +614,12 @@ const professionals = {
         // trancar ou destrancar a matricula
         return await trx.registrations.update({
           where: {
-            id: parseInt(registrationId),
+            id: parseInt(registration),
           },
           data: {
             locked: (
               await prisma.registrations.findFirst({
-                where: { id: parseInt(registrationId) },
+                where: { id: parseInt(registration) },
               })
             ).locked
               ? false
@@ -611,6 +639,43 @@ const professionals = {
         return res
           .status(500)
           .json({ message: "Ocorreu um erro ao trancar matricula!" });
+      });
+  },
+
+  GetRegistrationsTime: async (req, res) => {
+    const registrationsTime = await prisma.configs.findFirst({
+      select: {
+        registrations_time: true,
+      },
+    });
+
+    return res.status(200).json(registrationsTime);
+  },
+
+  UpdateRegistrationsTime: async (req, res) => {
+    const { time } = req.body;
+
+    await prisma
+      .$transaction(async (trx) => {
+        await trx.configs.update({
+          where: {
+            id: 1,
+          },
+          data: {
+            registrations_time: parseInt(time),
+          },
+        });
+      })
+      .then(() => {
+        return res
+          .status(200)
+          .json({ message: "Tempo de matrícula atualizado!" });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        return res.status(500).json({
+          message: "Ocorreu um erro ao atualizar tempo de matrícula!",
+        });
       });
   },
 
@@ -1118,7 +1183,6 @@ const professionals = {
       id,
       firstName,
       lastName,
-      cpf,
       phone,
       dateOfBirth,
       gender,
@@ -1131,6 +1195,10 @@ const professionals = {
       number,
       updatedBy,
     } = req.body;
+
+    let { cpf } = req.body;
+    //remove os caracteres especiais do cpf
+    cpf = cpf.replace(/[^a-zA-Z0-9]/g, "");
 
     const student = await prisma.students.update({
       where: {
@@ -1153,8 +1221,8 @@ const professionals = {
               street: street,
               district: district,
               complement: complement,
-              zip_code: zipCode,
-              number: number,
+              zip_code: parseInt(zipCode),
+              number: parseInt(number),
             },
           },
         },

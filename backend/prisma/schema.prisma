@@ -10,13 +10,13 @@ datasource db {
 
 model adresses {
   id            Int             @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  street        String?         @db.VarChar(45)
-  zip_code      String?         @db.VarChar(45)
-  district      String?         @db.VarChar(45)
-  complement    String?         @db.VarChar(45)
-  city          String?         @db.VarChar(45)
-  state         String?         @db.VarChar(45)
-  number        String?         @db.VarChar(45)
+  street        String          @db.VarChar(45)
+  zip_code      Int
+  district      String          @db.VarChar(45)
+  complement    String          @db.VarChar(45)
+  city          String          @db.VarChar(45)
+  state         String          @db.VarChar(45)
+  number        Int
   active        Boolean         @default(dbgenerated("b'1'")) @db.Bit(1)
   professionals professionals[]
   students      students[]
@@ -159,16 +159,16 @@ model boleto_api {
 }
 
 model configs {
-  id                 Int  @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  registrations_time Int? @default(6)
+  id                 Int @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  registrations_time Int @default(6)
 }
 
 model lessons {
   id       Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   books_id Int
-  name     String? @db.VarChar(100)
-  url      String? @db.VarChar(200)
-  position Int?
+  name     String  @db.VarChar(100)
+  url      String  @db.VarChar(200)
+  position Int
   books    books   @relation(fields: [books_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_lesson_books1")
   tasks    tasks[]
 

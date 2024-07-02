@@ -28,14 +28,6 @@
         "confidenceContext": 0
       },
       {
-        "input": "languages_school_db adresses number",
-        "column": "number",
-        "shape": "COMPANY_CATCH_PHRASE_NOUN",
-        "confidence": 0.1053664982318878,
-        "context": "GENERAL",
-        "confidenceContext": 0
-      },
-      {
         "input": "languages_school_db adresses state",
         "column": "state",
         "shape": "STATE",
@@ -48,14 +40,6 @@
         "column": "street",
         "shape": "STREET_ADDRESS",
         "confidence": 0.973577082157135,
-        "context": "GENERAL",
-        "confidenceContext": 0
-      },
-      {
-        "input": "languages_school_db adresses zip_code",
-        "column": "zip_code",
-        "shape": "ZIP_CODE",
-        "confidence": 0.9966627955436707,
         "context": "GENERAL",
         "confidenceContext": 0
       }
