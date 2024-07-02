@@ -12,7 +12,7 @@ export function UpdateProfessionalPhotoForm() {
 
   return (
     <Dialog open={diaglogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger onClick={() => setDialogOpen(true)}>
+      <DialogTrigger className="gap-2 flex flex-col" onClick={() => setDialogOpen(true)}>
         <Avatar>
           <AvatarImage src={professionalPhotoUrl} alt="Avatar" />
           <AvatarFallback><img src="/images/empty.png" /></AvatarFallback>

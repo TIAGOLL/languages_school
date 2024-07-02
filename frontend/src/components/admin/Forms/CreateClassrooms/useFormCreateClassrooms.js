@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../../services/api";
-import { classroomCreateSchema } from "./classroomCreateSchema";
+import { createClassroomSchema } from "./createClassroomSchema";
 
 export const useFormCreateClassrooms = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -17,9 +17,12 @@ export const useFormCreateClassrooms = () => {
 		watch,
 		setValue,
 	} = useForm({
-		resolver: zodResolver(classroomCreateSchema),
+		resolver: zodResolver(createClassroomSchema),
 		mode: "all",
 		criteriaMode: "all",
+		defaultValues: {
+			hour: undefined,
+		},
 	});
 	const currentCourse = watch("course");
 
@@ -27,6 +30,7 @@ export const useFormCreateClassrooms = () => {
 		queryKey: ["books"],
 		queryFn: () => api.books.GetBooks(),
 	});
+
 	const { data: courses } = useQuery({
 		queryKey: ["courses"],
 		queryFn: () => api.professionals.GetCourses(),

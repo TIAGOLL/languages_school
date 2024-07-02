@@ -21,9 +21,9 @@ export function CreateRegistration() {
   if (!infoForCreate) return <p>Carregando...</p>
 
   return (
-    <div className='mt-10 flex flex-col'>
+    <div className='mt-10 flex flex-col w-[1000px]'>
       <form onSubmit={handleSubmit(createRegistration)} className='grid grid-cols-12 gap-2'>
-        <div className='col-span-4 flex flex-col space-y-1'>
+        <div className='col-span-4 grid space-y-1'>
           <Label>Estudante</Label>
           <Popover open={openInputStudent} onOpenChange={setOpenInputStudent}>
             <PopoverTrigger asChild>
@@ -174,11 +174,12 @@ export function CreateRegistration() {
           </Popover>
           {errors.startDate && <p className='text-sm text-red-500'>{errors.startDate.message}</p>}
         </div>
-
-        <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Cadastrar
-        </Button>
+        <div className='col-span-12 flex items-center justify-center'>
+          <Button type="submit" variant="default" className="mt-5">
+            <PlusCircle className='w-4 h-4 mr-2' />
+            Cadastrar
+          </Button>
+        </div>
       </form >
     </div >
   );

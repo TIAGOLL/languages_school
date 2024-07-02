@@ -2,10 +2,9 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableFoo
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useDataTableStudents } from './useDataTableStudents';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { LoaderIcon, Power, Trash2, ScrollText, Save, KeyRound, Pencil } from 'lucide-react';
+import { Power, Trash2, ScrollText, Pencil } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip"
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu"
@@ -13,23 +12,22 @@ import mask from 'make-mask';
 import { cn } from '../../../../lib/utils';
 import { BookCheck, LockKeyhole } from 'lucide-react';
 import { Text } from 'lucide-react';
-import { AlertDialog, AlertDialogTrigger, AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { format } from 'date-fns';
 import PaginationSection from '../../../ui/PaginationSection';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { UpdateStudentPasswordForm } from '../../Forms/UpdateStudentPassword';
 
 export function DataTableStudents() {
 
-  const { isLoading, studentsPages, students, diaglogOpen, setDialogOpen, register, handleSubmit, errors, UpdatePassword, setValueOnDialogOpen, loading, deleteStudent, desactiveStudent, recordsDiaglogOpen, setRecordsDialogOpen, searchParams, setSearchParams, setValue } = useDataTableStudents();
+  const { isLoading, studentsPages, students, deleteStudent, desactiveStudent, } = useDataTableStudents();
 
   return (
     <>
       <div className='border rounded-lg rounded-b-none'>
-        <Table>
+        <Table data-test="studentsDataTable">
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
               <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Curso(s)</TableHead>
@@ -42,23 +40,23 @@ export function DataTableStudents() {
             {
               !isLoading && studentsPages?.map((student) => (
                 <TableRow key={student?.email}>
-                  <TableCell>{student?.id}</TableCell>
-                  <TableCell className="font-medium">{student?.name}</TableCell>
-                  <TableCell>{student?.email}</TableCell>
-                  <TableCell className="flex flex-row gap-1">
+                  <TableCell className="font-medium" data-test="studentsName">{student?.name}</TableCell>
+                  <TableCell data-test="studentsEmail">{student?.email}</TableCell>
+                  <TableCell className="flex flex-row gap-1" data-test="studentsCourses">
                     {
                       student?.registrations?.map((registration) => registration).length == 0 ? 'S/C' : student?.registrations?.map((registration) => {
                         return (
-                          <a href={`/admin/registrations?id=${registration.id}`} key={registration?.id} className={cn('hover:!bg-zinc-600 flex gap-1 flex-row items-center justify-center bg-zinc-100 dark:bg-zinc-700 p-1 rounded-md', registration?.locked == 1 ? "text-red-400" : "text-green-400")}>
+                          <a href={`/admin/registrations?id=${registration.id}`} key={registration?.id}
+                            className={cn('hover:bg-zinc-200 dark:hover:bg-zinc-600 flex gap-1 flex-row items-center justify-center bg-zinc-100 dark:bg-zinc-700 p-1 rounded-md', registration?.locked == 1 ? "text-red-400" : "text-emerald-600 font-semibold dark:text-green-400")}>
                             {registration?.locked == 1 ? <LockKeyhole className='w-4 h-4' /> : <BookCheck className='w-4 h-4' />}
-                            <span >{registration?.courses.name}</span>
+                            <span>{registration?.courses.name}</span>
                           </a>
                         )
                       })
                     }
                   </TableCell>
-                  <TableCell>{mask(student?.cpf, '000.000.000-00', { reverse: true })}</TableCell>
-                  <TableCell>
+                  <TableCell data-test="studentsCpf">{mask(student?.cpf, '000.000.000-00', { reverse: true })}</TableCell>
+                  <TableCell data-test="studentsMonthly">
                     R$ {
                       student?.registrations?.reduce((acc, item) => {
                         if (!item.completed && !item.locked) {
@@ -83,48 +81,7 @@ export function DataTableStudents() {
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
-                    <TooltipProvider>
-                      <Tooltip delayDuration={0}>
-                        <TooltipTrigger asChild>
-                          <span className='pt-3'>
-                            <AlertDialog>
-                              <AlertDialogTrigger onClick={() => setValue("email", student.email)} className='bg-orange-300 p-1 m-0 rounded-md'>
-                                <KeyRound className="w-4 h-4 dark:text-black" />
-                              </AlertDialogTrigger>
-                              <AlertDialogContent >
-                                <form onSubmit={handleSubmit(UpdatePassword)} className='flex flex-col gap-6'>
-                                  <AlertDialogTitle>Editar senha</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Digite a nova senha para o usuário: <span className='font-bold'>{student?.name}</span>
-                                  </AlertDialogDescription>
-                                  <div className='grid grid-cols-2 gap-3'>
-                                    <div className='col-span-2 gap-1 grid w-8/12'>
-                                      <Label htmlFor="email">Email</Label>
-                                      <Input type="email" {...register("email")} readOnly />
-                                    </div>
-                                    <div className='col-span-2 gap-1 grid w-8/12'>
-                                      <Label htmlFor="password">Senha</Label>
-                                      <Input type="password" {...register("password")} />
-                                      {errors.password && <span className="text-red-500 text-sm">{errors.password.message}</span>}
-                                    </div>
-                                    <AlertDialogFooter className="col-span-2">
-                                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                      <AlertDialogAction type="submit">
-                                        {loading ? <LoaderIcon className='animate-spin w-4 h-4 dark:text-black mr-2' /> : <Save className='w-4 h-4 dark:text-black mr-2' />}
-                                        Salvar
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </div>
-                                </form>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          Mudar senha
-                        </TooltipContent>
-                      </Tooltip >
-                    </TooltipProvider>
+                    <UpdateStudentPasswordForm data={student} />
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild>
@@ -140,15 +97,16 @@ export function DataTableStudents() {
                                 <DialogDescription>
                                   Aqui você tem um histórico de registros do aluno: <span className='font-bold'>{student?.name}</span>
                                 </DialogDescription>
-                                {student?.records_of_students?.length == 0 && <div className='h-auto'>
-                                  <Label>Nenhum registro encontrado</Label>
-                                </div>
+                                {
+                                  student?.records_of_students?.length == 0 && <div className='h-auto'>
+                                    <Label>Nenhum registro encontrado</Label>
+                                  </div>
                                 }
                                 <ScrollArea>
                                   {
                                     student?.records_of_students?.map((record) => {
                                       return (
-                                        <div className='grid grid-cols-8 gap-3 w-[calc(100%-1rem)] mt-3'>
+                                        <div className='grid grid-cols-8 gap-3 w-[calc(100%-1rem)] mt-3' key={record.id}>
                                           <div className='col-span-2 gap-1 grid h-auto'>
                                             <Label htmlFor="title">Título</Label>
                                             <Textarea type="title" readOnly value={record.title} />
@@ -230,6 +188,13 @@ export function DataTableStudents() {
                   <TableCell>
                     <Skeleton className="h-6 w-4/12" />
                   </TableCell>
+                </TableRow>
+              )
+            }
+            {
+              students?.length == 0 && (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center text-red-500 font-bold text-md">Nenhum aluno encontrado</TableCell>
                 </TableRow>
               )
             }

@@ -31,7 +31,6 @@ export const useUpdateProfessionalPhoto = () => {
 				GetUser().avatarUrl = professionalPhotoUrl;
 				// setar o avatarUrl atual no localStorage
 				localStorage.setItem("@ticketsPRO", JSON.stringify({ ...JSON.parse(localStorage.getItem("@ticketsPRO")), avatarUrl: professionalPhotoUrl }));
-				toast.success("Foto salva com sucesso");
 				setDialogOpen(false);
 			})
 			.catch((error) => {

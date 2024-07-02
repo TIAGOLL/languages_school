@@ -7,7 +7,6 @@ import api from "../../../../services/api";
 
 export const useDataTableRegistrations = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [dialogLockedOpen, setDialogLockedOpen] = useState(false);
 	const [dialogDeleteOpen, setDialogDeleteOpen] = useState(false);
 	const [dialogHandleClassroomOpen, setDialogHandleClassroomOpen] = useState(false);
 	const [currentClassroom, setCurrentClassroom] = useState("");
@@ -31,19 +30,6 @@ export const useDataTableRegistrations = () => {
 	});
 
 	const registrationsPagination = CreatePaginationArray(registrations, page, per_page);
-
-	async function handleLockRegistration(registrationId, studentId, description) {
-		await api.professionals
-			.HandleLockRegistration(registrationId, studentId, description)
-			.then((res) => {
-				toast.info(res.message);
-				refetch();
-				setDialogLockedOpen(false);
-			})
-			.catch((err) => {
-				toast.error(err.response.data.message);
-			});
-	}
 
 	async function deleteRegistration(id) {
 		await api.professionals
@@ -71,9 +57,6 @@ export const useDataTableRegistrations = () => {
 		isLoading,
 		registrations,
 		registrationsPagination,
-		handleLockRegistration,
-		dialogLockedOpen,
-		setDialogLockedOpen,
 		dialogDeleteOpen,
 		setDialogDeleteOpen,
 		deleteRegistration,
