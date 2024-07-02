@@ -78,3 +78,37 @@ export function GetUser() {
 	const user = JSON.parse(localStorage.getItem("@ticketsPRO"));
 	return user;
 }
+
+export function DatesForCalendar() {
+	var date = new Date();
+	var end = date.getFullYear();
+	var start = new Date(date.getFullYear() - 70, 0, 0).getFullYear();
+	var ans = [];
+	for (let i = start; i <= end; i++) {
+		ans.push(i);
+	}
+	return ans;
+}
+
+export async function VerifyCpfExistsStudents(cpf) {
+	const studentsCpf = await api.professionals.GetStudentCpfs();
+	let res = true;
+	studentsCpf.map((item) => {
+		if (item.cpf == cpf) {
+			return (res = false);
+		}
+	});
+
+	return res;
+}
+export async function VerifyCpfExistsProfessionals(cpf) {
+	const professionalsCpf = await api.professionals.GetProfessionalsCpfs();
+	let res = true;
+	professionalsCpf.map((item) => {
+		if (item.cpf == cpf) {
+			return (res = false);
+		}
+	});
+
+	return res;
+}

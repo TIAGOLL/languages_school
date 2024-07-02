@@ -1,46 +1,16 @@
-import { Eye, PlusCircle, Replace, Search, X } from 'lucide-react';
+import { Eye, PlusCircle, Replace, } from 'lucide-react';
 import AdmSideBar from '../../../components/admin/AdmSideBar/index';
-import { Button } from '@/components/ui/button';
-import { TabsContent } from '@/components/ui/tabs';
-import { TabsTrigger } from '@/components/ui/tabs';
-import { TabsList } from '@/components/ui/tabs';
-import { Tabs } from '@/components/ui/tabs';
-import { useSearchParams } from 'react-router-dom';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { StudentsFilterSchema } from './schemas';
+import { TabsContent, TabsTrigger, TabsList, Tabs } from '@/components/ui/tabs';
 import { useStudent } from './useStudent';
-import { Select } from '@/components/ui/select';
-import { SelectTrigger } from '@/components/ui/select';
-import { SelectValue } from '@/components/ui/select';
-import { SelectContent } from '@/components/ui/select';
-import { SelectGroup } from '@/components/ui/select';
-import { SelectItem } from '@/components/ui/select';
-import { cn } from '../../../lib/utils';
 import { CreateStudents } from '../../../components/admin/Forms/CreateStudents';
 import { UpdateStudents } from '../../../components/admin/Forms/UpdateStudents';
 import { DataTableStudents } from '../../../components/admin/DataTables/Students';
+import { SearchOfStudents } from '../../../components/admin/Forms/SearchOfStudents';
 
 
 function AdmStudents() {
 
-  const [searchParams] = useSearchParams()
-  const { handleFilterStudents, cleanFilter, handleTab, courses } = useStudent();
-
-  const name = searchParams.get('name')
-  const email = searchParams.get('email')
-  const course = searchParams.get('course') || null
-  const activeTab = searchParams.get('tab')
-
-  const { register, handleSubmit, setValue, watch } = useForm({
-    resolver: zodResolver(StudentsFilterSchema),
-    values: {
-      name: name ?? '',
-      email: email ?? '',
-      course: course ?? ''
-    }
-  })
+  const { handleTab, activeTab } = useStudent();
 
   return (
     <div className="h-full w-full overflow-x-hidden mb-10">
@@ -63,34 +33,7 @@ function AdmStudents() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
-              <form onSubmit={handleSubmit(handleFilterStudents)} className='flex items-center gap-2 w-8/12 mb-10'>
-                <Input placeholder="Nome" {...register('name')} />
-                <Input placeholder="E-mail" {...register('email')} />
-                <Select onValueChange={(value) => setValue('course', value)} value={watch("course")}>
-                  <SelectTrigger className={cn(watch("course") ? "" : "text-muted-foreground")}>
-                    <SelectValue placeholder="Curso" />
-                  </SelectTrigger>
-                  <SelectContent {...register('course')}>
-                    <SelectGroup>
-                      {
-                        courses?.map((courses) => (
-                          <SelectItem key={courses.id} value={courses.name}>{courses.name}</SelectItem>
-                        ))
-                      }
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-
-                <Button type="submit" variant="link">
-                  <Search className='w-4 h-4 mr-2' />
-                  Pesquisar
-                </Button>
-
-                <Button type="submit" variant="link" onClick={() => cleanFilter()}>
-                  <X className='w-4 h-4 mr-2' />
-                  Limpar filtros
-                </Button>
-              </form>
+              <SearchOfStudents />
               <DataTableStudents />
             </TabsContent>
             <TabsContent value="create" className="w-[calc(100vw-140px-150px)] justify-center flex">

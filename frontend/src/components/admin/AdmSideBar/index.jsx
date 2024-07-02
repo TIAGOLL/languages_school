@@ -65,7 +65,7 @@ function AdmSideBar() {
               <Button variant="link" className="gap-2" onClick={() => logout()}><Power width={20} />Desconectar</Button>
             </SheetClose>
             <SheetClose asChild >
-              <a href="/admin/preferences">
+              <a href="/admin/preferences?tab=general">
                 <Button variant="ghost" className="gap-2" >
                   <Settings width={20} />
                 </Button>

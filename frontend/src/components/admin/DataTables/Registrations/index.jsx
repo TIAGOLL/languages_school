@@ -1,24 +1,21 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger, } from "@/components/ui/dialog";
 import { DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { DropdownMenu, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { LockKeyholeIcon, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useDataTableRegistrations } from './useDataTableRegistrations';
-import { useState } from 'react';
-import { Label } from '@/components/ui/label';
-import { Textarea } from "@/components/ui/textarea"
 import PaginationSection from '../../../ui/PaginationSection';
-import { UpdateClassroomForm } from '../../Forms/UpdateClassroom';
+import { UpdateActiveClassroomForm } from '../../Forms/UpdateActiveClassroom';
+import { UpdateLockRegistrationForm } from '../../Forms/UpdateLockRegistration';
 
 
 export function DataTableRegistrations() {
-  const { registrationsPagination, isLoading, registrations, deleteRegistration, handleLockRegistration, handleClassroom, dialogLockedOpen, setDialogLockedOpen, dialogDeleteOpen, setDialogDeleteOpen, classrooms, setCurrentClassroom, currentClassroom } = useDataTableRegistrations();
+  const { registrationsPagination, isLoading, registrations, deleteRegistration, dialogDeleteOpen, setDialogDeleteOpen, classrooms, } = useDataTableRegistrations();
 
-  const [descRecord, setDescRecord] = useState("")
 
   return (
     <>
@@ -62,7 +59,7 @@ export function DataTableRegistrations() {
                   <TableCell className="font-medium">{regis.locked == 1 ? <span className='mx-1 bg-red-300 text-black p-0.5 rounded-md'>Trancada</span> : <span className='mx-1 p-0.5 rounded-md'>Ativa</span>}</TableCell>
                   <TableCell className="space-x-2">
                     <TooltipProvider>
-                      {regis.locked == 0 && <UpdateClassroomForm data={{ regis, classrooms }} />}
+                      {regis.locked == 0 && <UpdateActiveClassroomForm data={{ regis, classrooms }} />}
                     </TooltipProvider>
 
                     <TooltipProvider>
@@ -82,36 +79,7 @@ export function DataTableRegistrations() {
                                 <DropdownMenuSeparator />
                                 <DropdownMenuGroup >
                                   {/* Trancar/Destrancar matricula */}
-                                  <Dialog open={dialogLockedOpen} onOpenChange={setDialogLockedOpen}>
-                                    <DialogTrigger asChild>
-                                      <button className='flex flex-row justify-between w-full p-2 text-sm rounded-md hover:bg-accent cursor-default'>
-                                        {regis.locked == 0 ? "Trancar matricula" : "Destrancar matricula"}
-                                        <LockKeyholeIcon className='w-4 h-4 text-muted-foreground' />
-                                      </button>
-                                    </DialogTrigger>
-                                    <DialogContent >
-                                      <DialogTitle className="!justify-center flex w-full">Aviso</DialogTitle>
-                                      <DialogDescription className="flex text-black text-md p-3 mb-8 flex-col gap-6 dark:text-white">
-                                        Você tem certeza que deseja {regis.locked == 0 ? "TRANCAR" : "DESTRANCAR"} a matricula do aluno: {regis.students.name}?
-                                        <form>
-                                          <Label>Description</Label>
-                                          <Textarea onChange={({ target }) => setDescRecord(target.value)} value={descRecord} />
-                                        </form>
-                                      </DialogDescription>
-                                      <DialogFooter className="w-full flex !justify-between !items-start">
-                                        <Button variant="default" onClick={() => {
-                                          setDialogLockedOpen(false)
-                                        }}>
-                                          Cancelar
-                                        </Button>
-                                        <Button variant="destructive" onClick={async () => {
-                                          await handleLockRegistration(regis.id, regis.students_id, descRecord)
-                                        }}>
-                                          {regis.locked == 0 ? "Trancar matricula" : "Destrancar matricula"}
-                                        </Button>
-                                      </DialogFooter>
-                                    </DialogContent>
-                                  </Dialog>
+                                  <UpdateLockRegistrationForm data={regis} />
 
                                   {/* Excluir matricula */}
                                   <Dialog open={dialogDeleteOpen} onOpenChange={setDialogDeleteOpen}>

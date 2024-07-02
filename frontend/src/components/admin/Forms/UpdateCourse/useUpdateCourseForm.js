@@ -4,9 +4,11 @@ import { updatedCourseSchema } from "./updateCourseSchema";
 import api from "../../../../services/api";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useUpdateCourseForm = () => {
 	const queryClient = useQueryClient();
+	const [dialogOpen, setDialogOpen] = useState(false);
 
 	const {
 		register,
@@ -25,6 +27,7 @@ export const useUpdateCourseForm = () => {
 			.then((res) => {
 				toast.success(res.message);
 				queryClient.invalidateQueries("courses");
+				setDialogOpen(false);
 			})
 			.catch((error) => {
 				toast.error(error?.response.data.message);
@@ -37,5 +40,7 @@ export const useUpdateCourseForm = () => {
 		setValue,
 		errors,
 		register,
+		dialogOpen,
+		setDialogOpen,
 	};
 };

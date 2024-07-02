@@ -5,6 +5,7 @@ import { useFormCreateCourse } from './useFormCreateCourse';
 import { PlusCircle } from 'lucide-react';
 import { PlusSquare } from 'lucide-react';
 import { Trash2 } from 'lucide-react';
+import { cn } from './../../../../lib/utils';
 
 export function CreateCourse() {
 
@@ -24,7 +25,7 @@ export function CreateCourse() {
           </div>
           <div className='col-span-2 flex flex-col space-y-1'>
             <Label htmlFor="price">Preço</Label>
-            <Input type="text" id="price" {...register('course.price')} />
+            <Input type="text" id="price" {...register('course.price', { valueAsNumber: true })} />
             {errors?.course?.price && <span className='text-sm text-red-500'>{errors?.course?.price.message}</span>}
           </div>
         </div>
@@ -46,7 +47,7 @@ export function CreateCourse() {
                 {errors?.books?.[index]?.position && <span className='text-sm text-red-500'>{errors?.books?.[index]?.position?.message}</span>}
               </div>
 
-              <div className='col-span-1 items-center flex'>
+              <div className={cn('col-span-1 items-end flex', errors?.books?.[index] ? "items-center" : "items-end")}>
                 <Button type="button" variant="destructive" onClick={removeBook} className="w-[55px] col-span-1">
                   <Trash2 className='w-4 h-4' />
                 </Button>

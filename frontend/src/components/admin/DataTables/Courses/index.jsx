@@ -10,7 +10,7 @@ import { UpdateCourseForm } from '../../Forms/UpdateCourse';
 
 
 export function DataTableCourses() {
-  const { isLoading, courses, coursesPagination, deleteCourse, refetch } = useDataTableCourses();
+  const { isLoading, courses, coursesPagination, deleteCourse } = useDataTableCourses();
 
   return (
     <div className='mb-10'>
@@ -47,7 +47,7 @@ export function DataTableCourses() {
                     }
                   </TableCell>
                   <TableCell className="space-x-2">
-                    <UpdateCourseForm data={course} refetch={refetch} />
+                    <UpdateCourseForm data={course} />
                     <TooltipProvider>
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger className="py-0 px-0 m-0">

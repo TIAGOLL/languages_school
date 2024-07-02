@@ -8,53 +8,50 @@ import { format, isSameMonth, setYear as setYearFns } from "date-fns";
 import { CalendarIcon, PlusCircle } from 'lucide-react';
 import mask from 'make-mask';
 import { useEffect } from 'react';
-import { PasswordGenerator, UserGenerator, cn } from '../../../../lib/utils';
-import { useStudent } from "../../../../pages/admin/AdmStudents/useStudent";
+import { DatesForCalendar, PasswordGenerator, UserGenerator, cn } from '../../../../lib/utils';
+import { useCreateStudent } from './useCreateStudent';
 
 export function CreateStudents() {
 
-  const { watchCreate, handleSubmitCreate, errorsCreate, registerCreate, setValueCreate, createStudent, datesForCalendar } = useStudent()
-
-  const dateOfBirth = watchCreate('dateOfBirth')
-  const firstName = watchCreate('firstName')
+  const { watch, handleSubmit, errors, register, setValue, createStudent, dateOfBirth, firstName } = useCreateStudent()
 
   useEffect(() => {
-    setValueCreate("password", PasswordGenerator(dateOfBirth, firstName?.toLowerCase()))
-    setValueCreate("user", UserGenerator(dateOfBirth, firstName?.toLowerCase()))
+    setValue("password", PasswordGenerator(dateOfBirth, firstName?.toLowerCase()))
+    setValue("user", UserGenerator(dateOfBirth, firstName?.toLowerCase()))
     if (!dateOfBirth) {
-      setValueCreate('dateOfBirth', new Date())
+      setValue('dateOfBirth', new Date())
     }
-  }, [dateOfBirth, firstName, setValueCreate])
+  }, [dateOfBirth, firstName, setValue])
 
   return (
     <div className='mt-10 flex flex-col w-[1000px]'>
-      <form onSubmit={handleSubmitCreate(createStudent)} className='grid grid-cols-8 gap-2'>
+      <form onSubmit={handleSubmit(createStudent)} className='grid grid-cols-8 gap-2'>
         <div className='col-span-8 justify-center items-center grid'>
           <p className='font-semibold'>Perfil</p>
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Primeiro nome</Label>
-          <Input placeholder="Primeiro nome" {...registerCreate('firstName')} />
-          {errorsCreate.firstName && <p className='text-sm text-red-500'>{errorsCreate.firstName.message}</p>}
+          <Input placeholder="Primeiro nome" {...register('firstName')} />
+          {errors.firstName && <p className='text-sm text-red-500'>{errors.firstName.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Sobrenome</Label>
-          <Input placeholder="Sobrenome" {...registerCreate('lastName')} />
-          {errorsCreate.lastName && <p className='text-sm text-red-500'>{errorsCreate.lastName.message}</p>}
+          <Input placeholder="Sobrenome" {...register('lastName')} />
+          {errors.lastName && <p className='text-sm text-red-500'>{errors.lastName.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>CPF</Label>
-          <Input placeholder="CPF" {...registerCreate('cpf')} value={mask(watchCreate("cpf") || "", '000.000.000-00', { reverse: true })} />
-          {errorsCreate.cpf && <p className='text-sm text-red-500'>{errorsCreate.cpf.message}</p>}
+          <Input placeholder="CPF" {...register('cpf')} value={mask(watch("cpf") || "", '000.000.000-00', { reverse: true })} />
+          {errors.cpf && <p className='text-sm text-red-500'>{errors.cpf.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Telefone</Label>
-          <Input placeholder="Telefone" {...registerCreate('phone')} maxLength={11} />
-          {errorsCreate.phone && <p className='text-sm text-red-500'>{errorsCreate.phone.message}</p>}
+          <Input placeholder="Telefone" {...register('phone')} maxLength={11} />
+          {errors.phone && <p className='text-sm text-red-500'>{errors.phone.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Gênero</Label>
-          <Select {...registerCreate('gender')} onValueChange={(value) => setValueCreate('gender', value)} >
+          <Select {...register('gender')} onValueChange={(value) => setValue('gender', value)} >
             <SelectTrigger>
               <SelectValue placeholder="Gênero" />
             </SelectTrigger>
@@ -65,9 +62,9 @@ export function CreateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errorsCreate.gender && <p className='text-sm text-red-500'>{errorsCreate.gender.message}</p>}
+          {errors.gender && <p className='text-sm text-red-500'>{errors.gender.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Data de nascimento</Label>
           <Popover>
             <PopoverTrigger asChild>
@@ -84,25 +81,25 @@ export function CreateStudents() {
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
               <Calendar
-                {...registerCreate('dateOfBirth')}
+                {...register('dateOfBirth', { valueAsDate: true })}
                 mode="single"
                 selected={(new Date(dateOfBirth))}
-                onSelect={(value) => setValueCreate("dateOfBirth", value)}
+                onSelect={(value) => setValue("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
                 onMonthChange={(month) => {
                   if (!isSameMonth(month, dateOfBirth)) {
-                    setValueCreate('dateOfBirth', month)
+                    setValue('dateOfBirth', month)
                   }
                 }}
                 footer={
-                  <Select onValueChange={(value) => { setValueCreate('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                  <Select onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Ano" />
                     </SelectTrigger>
                     <SelectContent position="popper">
                       {
-                        datesForCalendar()?.map((date) => (
+                        DatesForCalendar()?.map((date) => (
                           <SelectItem value={date} key={date}>{date}</SelectItem>
                         ))
                       }
@@ -112,72 +109,73 @@ export function CreateStudents() {
               />
             </PopoverContent>
           </Popover>
-          {errorsCreate.dateOfBirth && <p className='text-sm text-red-500'>{errorsCreate.dateOfBirth.message}</p>}
+          {errors.dateOfBirth && <p className='text-sm text-red-500'>{errors.dateOfBirth.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>CEP</Label>
-          <Input placeholder="CEP" {...registerCreate('zipCode')} maxLength={8} />
-          {errorsCreate.zipCode && <p className='text-sm text-red-500'>{errorsCreate.zipCode.message}</p>}
+          <Input placeholder="CEP" {...register('zipCode')} maxLength={8} />
+          {errors.zipCode && <p className='text-sm text-red-500'>{errors.zipCode.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Rua</Label>
-          <Input placeholder="Rua" {...registerCreate('street')} />
-          {errorsCreate.street && <p className='text-sm text-red-500'>{errorsCreate.street.message}</p>}
+          <Input placeholder="Rua" {...register('street')} />
+          {errors.street && <p className='text-sm text-red-500'>{errors.street.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Bairro</Label>
-          <Input placeholder="Bairro" {...registerCreate('district')} />
-          {errorsCreate.district && <p className='text-sm text-red-500'>{errorsCreate.district.message}</p>}
+          <Input placeholder="Bairro" {...register('district')} />
+          {errors.district && <p className='text-sm text-red-500'>{errors.district.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Número</Label>
-          <Input placeholder="Número" {...registerCreate('number')} />
-          {errorsCreate.number && <p className='text-sm text-red-500'>{errorsCreate.number.message}</p>}
+          <Input placeholder="Número" {...register('number', { valueAsNumber: true })} />
+          {errors.number && <p className='text-sm text-red-500'>{errors.number.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Complemento</Label>
-          <Input placeholder="Complemento" {...registerCreate('complement')} />
-          {errorsCreate.complement && <p className='text-sm text-red-500'>{errorsCreate.complement.message}</p>}
+          <Input placeholder="Complemento" {...register('complement')} />
+          {errors.complement && <p className='text-sm text-red-500'>{errors.complement.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Estado</Label>
-          <Input placeholder="Estado" {...registerCreate('state')} />
-          {errorsCreate.state && <p className='text-sm text-red-500'>{errorsCreate.state.message}</p>}
+          <Input placeholder="Estado" {...register('state')} />
+          {errors.state && <p className='text-sm text-red-500'>{errors.state.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Cidade</Label>
-          <Input placeholder="Cidade" {...registerCreate('city')} />
-          {errorsCreate.city && <p className='text-sm text-red-500'>{errorsCreate.city.message}</p>}
+          <Input placeholder="Cidade" {...register('city')} />
+          {errors.city && <p className='text-sm text-red-500'>{errors.city.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4'>
           <p className='font-semibold'>Credenciais</p>
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Email</Label>
           <div className='grid grid-cols-2'>
-            <Input placeholder="Email" {...registerCreate('email')} className="rounded-r-none" />
+            <Input placeholder="Email" {...register('email')} className="rounded-r-none" />
             <Input placeholder="@school.com" disabled className="rounded-l-none" />
           </div>
-          {errorsCreate.email && <p className='text-sm text-red-500'>{errorsCreate.email.message}</p>}
+          {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
         </div>
-        <div className='col-span-4'>
-          <div>
-            <Label>Usúario</Label>
-            <Input placeholder="Usúario" type="text" value={UserGenerator(dateOfBirth, firstName?.toLowerCase())} {...registerCreate('user')} />
-          </div>
-          {errorsCreate.user && <p className='text-sm text-red-500'>{errorsCreate.user.message}</p>}
+        <div className='col-span-4 gap-1 flex flex-col'>
+          <Label>Usúario</Label>
+          <Input placeholder="Usúario" type="text" value={UserGenerator(dateOfBirth, firstName?.toLowerCase())} {...register('user')} />
+          {errors.user && <p className='text-sm text-red-500'>{errors.user.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Senha</Label>
-          <Input placeholder="Senha" type="text" value={PasswordGenerator(dateOfBirth, firstName?.toLowerCase())}  {...registerCreate('password')} />
+          <Input placeholder="Senha" type="text" value={PasswordGenerator(dateOfBirth, firstName?.toLowerCase())}  {...register('password')} />
+          {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
         </div>
-        <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Cadastrar
-        </Button>
+        <div className='col-span-8 flex items-center justify-center'>
+          <Button type="submit" variant="default" className="mt-5">
+            <PlusCircle className='w-4 h-4 mr-2' />
+            Cadastrar
+          </Button>
+        </div>
       </form >
     </div >
   );
