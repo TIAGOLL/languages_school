@@ -6,51 +6,49 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { format, isSameMonth, setYear as setYearFns } from "date-fns";
 import { CalendarIcon, Save } from 'lucide-react';
-import { cn } from '../../../../lib/utils';
-import { useStudent } from "../../../../pages/admin/AdmStudents/useStudent";
+import { DatesForCalendar, cn } from '../../../../lib/utils';
+import { useUpdateStudentForm } from './useUpdateStudentForm';
 
 
 export function UpdateStudents() {
 
-  const { watchUpdate, handleSubmitUpdate, errorsUpdate, registerUpdate, setValueUpdate, updateStudent, datesForCalendar, } = useStudent()
-  const dateOfBirth = watchUpdate('dateOfBirth')
-  const gender = watchUpdate('gender')
+  const { dateOfBirth, gender, handleSubmit, errors, register, setValue, updateStudent } = useUpdateStudentForm()
 
   return (
-    <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmitUpdate(updateStudent)} className='grid grid-cols-8 gap-2'>
+    <div className='mt-10 flex flex-col w-[1000px]'>
+      <form onSubmit={handleSubmit(updateStudent)} className='grid grid-cols-8 gap-2'>
         <div className='col-span-8 justify-center items-center grid'>
           <p className='font-semibold'>Perfil</p>
         </div>
         <div className='col-span-4'>
           <Label>ID</Label>
-          <Input placeholder="ID" {...registerUpdate('id')} disabled />
-          {errorsUpdate.id && <p className='text-sm text-red-500'>{errorsUpdate.id.message}</p>}
+          <Input data-test="id" placeholder="ID" {...register('id', { valueAsNumber: true })} disabled />
+          {errors.id && <p className='text-sm text-red-500'>{errors.id.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Primeiro nome</Label>
-          <Input placeholder="Primeiro nome" {...registerUpdate('firstName')} />
-          {errorsUpdate.firstName && <p className='text-sm text-red-500'>{errorsUpdate.firstName.message}</p>}
+          <Input data-test="firstName" placeholder="Primeiro nome" {...register('firstName')} />
+          {errors.firstName && <p className='text-sm text-red-500'>{errors.firstName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Sobrenome</Label>
-          <Input placeholder="Sobrenome" {...registerUpdate('lastName')} />
-          {errorsUpdate.lastName && <p className='text-sm text-red-500'>{errorsUpdate.lastName.message}</p>}
+          <Input data-test="lastName" placeholder="Sobrenome" {...register('lastName')} />
+          {errors.lastName && <p className='text-sm text-red-500'>{errors.lastName.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>CPF</Label>
-          <Input placeholder="CPF" {...registerUpdate('cpf')} maxLength={11} />
-          {errorsUpdate.cpf && <p className='text-sm text-red-500'>{errorsUpdate.cpf.message}</p>}
+          <Input data-test="cpf" placeholder="CPF" {...register('cpf')} disabled />
+          {errors.cpf && <p className='text-sm text-red-500'>{errors.cpf.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Telefone</Label>
-          <Input placeholder="Telefone" {...registerUpdate('phone')} maxLength={11} />
-          {errorsUpdate.phone && <p className='text-sm text-red-500'>{errorsUpdate.phone.message}</p>}
+          <Input data-test="phone" placeholder="Telefone" {...register('phone')} maxLength={11} />
+          {errors.phone && <p className='text-sm text-red-500'>{errors.phone.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Gênero</Label>
-          <Select {...registerUpdate('gender')} onValueChange={(value) => setValueUpdate('gender', value)} value={gender}>
-            <SelectTrigger>
+          <Select {...register('gender')} onValueChange={(value) => setValue('gender', value)} value={gender}>
+            <SelectTrigger data-test="gender">
               <SelectValue placeholder="Gênero" />
             </SelectTrigger>
             <SelectContent>
@@ -60,11 +58,11 @@ export function UpdateStudents() {
               </SelectGroup>
             </SelectContent>
           </Select>
-          {errorsUpdate.gender && <p className='text-sm text-red-500'>{errorsUpdate.gender.message}</p>}
+          {errors.gender && <p className='text-sm text-red-500'>{errors.gender.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Data de nascimento</Label>
-          <Popover {...registerUpdate('dateOfBirth')} onValueChange={(value) => setValueUpdate('dateOfBirth', value)}>
+          <Popover {...register('dateOfBirth', { valueAsDate: true })} onValueChange={(value) => setValue('dateOfBirth', value)}>
             <PopoverTrigger asChild>
               <Button
                 variant={"outline"}
@@ -72,6 +70,7 @@ export function UpdateStudents() {
                   "justify-start text-left font-normal w-full",
                   !dateOfBirth && "text-muted-foreground"
                 )}
+                data-test="dateOfBirth"
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {dateOfBirth ? format(dateOfBirth, "dd/MM/yyyy") : <span>Data de nascimento</span>}
@@ -81,23 +80,23 @@ export function UpdateStudents() {
               <Calendar
                 mode="single"
                 selected={new Date(dateOfBirth)}
-                onSelect={(value) => setValueUpdate("dateOfBirth", value)}
+                onSelect={(value) => setValue("dateOfBirth", value)}
                 initialFocus
                 month={dateOfBirth}
                 onMonthChange={(month) => {
                   if (!isSameMonth(month, dateOfBirth)) {
-                    setValueUpdate('dateOfBirth', month)
+                    setValue('dateOfBirth', month)
                   }
                 }}
                 footer={
                   <Select
-                    onValueChange={(value) => { setValueUpdate('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
+                    onValueChange={(value) => { setValue('dateOfBirth', setYearFns(new Date(dateOfBirth), parseInt(value))) }}>
                     <SelectTrigger>
                       <SelectValue placeholder="Ano" />
                     </SelectTrigger>
                     <SelectContent position="popper">
                       {
-                        datesForCalendar()?.map((date) => (
+                        DatesForCalendar()?.map((date) => (
                           <SelectItem value={date} key={date}>{date}</SelectItem>
                         ))
                       }
@@ -107,63 +106,65 @@ export function UpdateStudents() {
               />
             </PopoverContent>
           </Popover>
-          {errorsUpdate.dateOfBirth && <p className='text-sm text-red-500'>{errorsUpdate.dateOfBirth.message}</p>}
+          {errors.dateOfBirth && <p className='text-sm text-red-500'>{errors.dateOfBirth.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4 mb-2'>
           <p className='font-semibold'>Endereço</p>
         </div>
         <div className='col-span-4'>
           <Label>CEP</Label>
-          <Input placeholder="CEP" {...registerUpdate('zipCode')} />
-          {errorsUpdate.zipCode && <p className='text-sm text-red-500'>{errorsUpdate.zipCode.message}</p>}
+          <Input data-test="zipCode" placeholder="CEP" {...register('zipCode')} />
+          {errors.zipCode && <p className='text-sm text-red-500'>{errors.zipCode.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Rua</Label>
-          <Input placeholder="Rua" {...registerUpdate('street')} />
-          {errorsUpdate.street && <p className='text-sm text-red-500'>{errorsUpdate.street.message}</p>}
+          <Input data-test="street" placeholder="Rua" {...register('street')} />
+          {errors.street && <p className='text-sm text-red-500'>{errors.street.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Bairro</Label>
-          <Input placeholder="Bairro" {...registerUpdate('district')} />
-          {errorsUpdate.district && <p className='text-sm text-red-500'>{errorsUpdate.district.message}</p>}
+          <Input data-test="district" placeholder="Bairro" {...register('district')} />
+          {errors.district && <p className='text-sm text-red-500'>{errors.district.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Número</Label>
-          <Input placeholder="Número" {...registerUpdate('number')} />
-          {errorsUpdate.number && <p className='text-sm text-red-500'>{errorsUpdate.number.message}</p>}
+          <Input data-test="number" placeholder="Número" {...register('number', { valueAsNumber: true })} />
+          {errors.number && <p className='text-sm text-red-500'>{errors.number.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Complemento</Label>
-          <Input placeholder="Complemento" {...registerUpdate('complement')} />
-          {errorsUpdate.complement && <p className='text-sm text-red-500'>{errorsUpdate.complement.message}</p>}
+          <Input data-test="complement" placeholder="Complemento" {...register('complement')} />
+          {errors.complement && <p className='text-sm text-red-500'>{errors.complement.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Estado</Label>
-          <Input placeholder="Estado" {...registerUpdate('state')} />
-          {errorsUpdate.state && <p className='text-sm text-red-500'>{errorsUpdate.state.message}</p>}
+          <Input data-test="state" placeholder="Estado" {...register('state')} />
+          {errors.state && <p className='text-sm text-red-500'>{errors.state.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Cidade</Label>
-          <Input placeholder="Cidade" {...registerUpdate('city')} />
-          {errorsUpdate.city && <p className='text-sm text-red-500'>{errorsUpdate.city.message}</p>}
+          <Input data-test="city" placeholder="Cidade" {...register('city')} />
+          {errors.city && <p className='text-sm text-red-500'>{errors.city.message}</p>}
         </div>
         <div className='col-span-8 justify-center items-center grid mt-4'>
           <p className='font-semibold'>Credenciais</p>
         </div>
         <div className='col-span-4'>
           <Label>Email</Label>
-          <Input placeholder="Email" {...registerUpdate('email')} disabled className="rounded-r-none" />
-          {errorsUpdate.email && <p className='text-sm text-red-500'>{errorsUpdate.email.message}</p>}
+          <Input data-test="email" placeholder="Email" {...register('email')} disabled className="rounded-r-none" />
+          {errors.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
         </div>
         <div className='col-span-4'>
           <Label>Usuário</Label>
-          <Input placeholder="Usuário" {...registerUpdate('user')} disabled />
-          {errorsUpdate.user && <p className='text-sm text-red-500'>{errorsUpdate.user.message}</p>}
+          <Input data-test="user" placeholder="Usuário" {...register('user')} disabled />
+          {errors.user && <p className='text-sm text-red-500'>{errors.user.message}</p>}
         </div>
-        <Button type="submit" variant="default" className="mt-5">
-          <Save className='w-4 h-4 mr-2' />
-          Salvar
-        </Button>
+        <div className='col-span-8 flex items-center justify-center'>
+          <Button type="submit" variant="default" className="mt-5">
+            <Save className='w-4 h-4 mr-2' />
+            Salvar
+          </Button>
+        </div>
       </form>
     </div>
   );

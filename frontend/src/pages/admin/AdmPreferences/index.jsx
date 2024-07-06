@@ -3,7 +3,7 @@ import { BellRing, LockKeyhole } from "lucide-react";
 import AdmSideBar from "../../../components/admin/AdmSideBar";
 import { usePreferences } from "./usePreferences";
 import { Settings } from 'lucide-react';
-import { UpdateTimeRegistrations } from '../../../components/admin/Forms/UpdateTimeRegistrations';
+import { UpdateRegistrationsTime } from '../../../components/admin/Forms/UpdateRegistrationsTime';
 
 function Preferences() {
 
@@ -29,17 +29,17 @@ function Preferences() {
                 Notificações
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="general" className="items-center flex justify-center w-[calc(100vw-60rem)] mt-10 gap-6">
+            <TabsContent value="general" className="w-[calc(100vw-300)] items-center flex justify-center 2xl:w-[calc(100vw-60rem)] xl:w-[calc(100vw-300)] mt-10 gap-6">
               <div className='border-2 rounded-md p-4 border-zinc-600 flex justify-start items-start w-full flex-wrap'>
-                <UpdateTimeRegistrations />
+                <UpdateRegistrationsTime />
               </div>
             </TabsContent>
-            <TabsContent value="credentials" className="w-[calc(100vw-140px-150px)] mt-10">
+            <TabsContent value="credentials" className="w-[calc(100vw-300)] mt-10">
               <div className=" justify-center items-center flex">
                 <h1>Esse recurso ainda não esta disponivel!</h1>
               </div>
             </TabsContent>
-            <TabsContent value="notifications" className="w-[calc(100vw-140px-150px)] mt-10">
+            <TabsContent value="notifications" className="w-[calc(100vw-300)] mt-10">
               <div className=" justify-center items-center flex">
                 <h1>Esse recurso ainda não esta disponivel!</h1>
               </div>

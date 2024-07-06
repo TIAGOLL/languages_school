@@ -2,7 +2,6 @@ import AdmSideBar from "../../../components/admin/AdmSideBar";
 import { User } from "lucide-react";
 import { PlusCircleIcon } from "lucide-react";
 import { useClassrooms } from "./useClassrooms";
-import DataTableClassrooms from "../../../components/admin/DataTableClassrooms";
 import { TabsContent } from '@/components/ui/tabs';
 import { TabsTrigger } from '@/components/ui/tabs';
 import { TabsList } from '@/components/ui/tabs';
@@ -10,6 +9,7 @@ import { Tabs } from '@/components/ui/tabs';
 import { Replace } from "lucide-react";
 import { CreateClassrooms } from "../../../components/admin/Forms/CreateClassrooms";
 import { UpdateClassrooms } from "../../../components/admin/Forms/UpdateClassrooms";
+import { DataTableClassrooms } from "../../../components/admin/DataTables/Classrooms";
 
 function AdmClassrooms() {
 
@@ -35,13 +35,13 @@ function AdmClassrooms() {
                 Atualizar
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10">
+            <TabsContent value="all" className="w-[calc(100vw-140px-150px)] mt-10 justify-center items-center flex-col">
               <DataTableClassrooms />
             </TabsContent>
-            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10">
+            <TabsContent value="create" className="w-[calc(100vw-140px-150px)] mt-10 justify-center items-center flex">
               <CreateClassrooms />
             </TabsContent>
-            <TabsContent value="update" className="w-[calc(100vw-140px-150px)] mt-10">
+            <TabsContent value="update" className="w-[calc(100vw-140px-150px)] mt-10 justify-center items-center flex">
               <UpdateClassrooms />
             </TabsContent>
           </Tabs>

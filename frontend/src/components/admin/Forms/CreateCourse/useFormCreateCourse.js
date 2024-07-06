@@ -49,7 +49,7 @@ export const useFormCreateCourse = () => {
 			...books,
 			{
 				name: "",
-				position: "",
+				position: 0,
 			},
 		]);
 	}

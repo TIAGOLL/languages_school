@@ -9,13 +9,32 @@ const main = async () => {
   console.log("Resetando banco de dados...");
   await seed.$resetDatabase();
 
+  console.log("Criando casos para testes...");
+  await prisma.$executeRaw`INSERT INTO adresses (id, street,zip_code,district,complement,city,state,number) VALUES (1, "Rua dos bobos", "75765178", "Centro", "casa", "Curitiba", "Paraná", 1200);`;
+  await prisma.$executeRaw`insert into students(id, cpf, name, first_name, last_name, email, phone, gender, date_of_birth,   user, password, adresses_id) values (1, '11122233344', "student", 'student', 'student', 'student@school.com', '42984099378', 'M', '2000-09-7', "teste1", "$2b$06$m416xpOaQ5qjUYzfPyjHLO6gpV/8S3tPjxjze9FwtYAAqrKsnsTmi", 1);`;
+  await prisma.$executeRaw`insert into students(id, cpf, name, first_name, last_name, email, phone, gender, date_of_birth,   user, password, adresses_id) values (2001, '11122133344', "student1", 'student1', 'student1', 'student1@school.com', '00000100000', 'M', '2000-09-7', "teste2", "$2b$06$m416xpOaQ5qjUYzfPyjHLO6gpV/8S3tPjxjze9FwtYAAqrKsnsTmi", 1);`;
+  await prisma.$executeRaw`INSERT INTO courses (id, name, price) values (30, "Inglês", 240);`;
+  await prisma.$executeRaw`INSERT INTO courses (id, name, price) values (31, "Espanhol", 300);`;
+  await prisma.$executeRaw`INSERT INTO registrations (id, start_date, end_date, monthly_fee_amount, students_id, courses_id) values (1, now(), DATE_ADD(now(),INTERVAL 6 month), 240, 1, 30);`;
+  await prisma.$executeRaw`INSERT INTO registrations (id, start_date, end_date, monthly_fee_amount, students_id, courses_id) values (3, now(), DATE_ADD(now(),INTERVAL 6 month), 240, 1, 31);`;
+  await prisma.$executeRaw`insert into books(id, name, position, courses_id) values (500, 'Book 1', 1, 30);`;
+  await prisma.$executeRaw`INSERT INTO classrooms (id, books_id, date, hour) values (1, 500, "Segunda", "10:00");`;
+  await prisma.$executeRaw`INSERT INTO students_has_classrooms (registrations_id, classrooms_id) values (1, 1);`;
+
   console.log("Criando cursos...");
   const { courses } = await seed.courses((x) =>
-    x(20, ({ seed }) => ({ name: `curso${seed.substring(10, 12)}` }))
+    x(20, ({ seed }) => ({
+      name: `curso${seed.substring(10, 12)}`,
+    }))
   );
 
   console.log("Criando livros...");
   const { books } = await seed.books((x) => x(400), { connect: { courses } });
+
+  console.log("Criando lições...");
+  const { lessons } = await seed.lessons((x) => x(4000), {
+    connect: { books },
+  });
 
   console.log("Criando salas de aula...");
   const { classrooms } = await seed.classrooms((x) => x(1000), {
@@ -27,15 +46,21 @@ const main = async () => {
 
   console.log("Criando alunos...");
   const { students } = await seed.students((x) =>
-    x(1000, ({ seed }) => ({
-      cpf: `12345678${seed.substring(11, 14)}`,
+    x(500, ({ seed }) => ({
+      cpf: () => {
+        let cpf = "";
+        for (let i = 0; i < 11; i++) {
+          cpf += Math.floor(Math.random() * 10);
+        }
+        return cpf;
+      },
       name: `aluno${seed.substring(11, 14)}`,
       email: `aluno${seed.substring(11, 14)}@school.com`,
       phone: `12345678${seed.substring(11, 14)}`,
     }))
   );
 
-  console.log("Criando registros fictícios de alunos...");
+  console.log("Criando registros de alunos...");
   const { records_of_students } = await seed.records_of_students(
     (x) => x(2000),
     {

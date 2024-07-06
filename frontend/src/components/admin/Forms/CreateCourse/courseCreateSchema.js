@@ -8,12 +8,9 @@ export const courseCreateSchema = z.object({
 				message: "O nome deve ter no mínimo 3 caracteres",
 			})
 			.trim(),
-		price: z
-			.string()
-			.min(1, {
-				message: "Digite um preço",
-			})
-			.trim(),
+		price: z.number({ invalid_type_error: "Digite um número" }).positive({
+			message: "O preço deve ser maior que 0",
+		}),
 	}),
 	books: z
 		.array(
@@ -24,7 +21,9 @@ export const courseCreateSchema = z.object({
 						message: "O nome deve ter no mínimo 3 caracteres",
 					})
 					.trim(),
-				position: z.number({ invalid_type_error: "Digite um número" }),
+				position: z.number({ invalid_type_error: "Digite um número" }).positive({
+					message: "A posição deve ser maior que 0",
+				}),
 			})
 		)
 		.min(1, {

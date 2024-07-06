@@ -1,0 +1,2928 @@
+{
+  "models": {
+    "adresses": {
+      "id": "languages_school_db.adresses",
+      "schemaName": "languages_school_db",
+      "tableName": "adresses",
+      "fields": [
+        {
+          "id": "languages_school_db.adresses.active",
+          "name": "active",
+          "columnName": "active",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.adresses.city",
+          "name": "city",
+          "columnName": "city",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.adresses.complement",
+          "name": "complement",
+          "columnName": "complement",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.adresses.district",
+          "name": "district",
+          "columnName": "district",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.adresses.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.adresses.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.adresses.number",
+          "name": "number",
+          "columnName": "number",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.adresses.state",
+          "name": "state",
+          "columnName": "state",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.adresses.street",
+          "name": "street",
+          "columnName": "street",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.adresses.zip_code",
+          "name": "zip_code",
+          "columnName": "zip_code",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "professionals",
+          "type": "professionals",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "professionalsToadresses",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students",
+          "type": "students",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "studentsToadresses",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.adresses.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.adresses.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "auth": {
+      "id": "languages_school_db.auth",
+      "schemaName": "languages_school_db",
+      "tableName": "auth",
+      "fields": [
+        {
+          "id": "languages_school_db.auth.expires_at",
+          "name": "expires_at",
+          "columnName": "expires_at",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.auth.refresh_token",
+          "name": "refresh_token",
+          "columnName": "refresh_token",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.auth.token",
+          "name": "token",
+          "columnName": "token",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": 500
+        },
+        {
+          "id": "languages_school_db.auth.type",
+          "name": "type",
+          "columnName": "type",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": 45
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.auth.token",
+          "fields": [
+            "token"
+          ]
+        },
+        {
+          "name": "languages_school_db.auth.token",
+          "fields": [
+            "token"
+          ]
+        }
+      ]
+    },
+    "boleto_api": {
+      "id": "languages_school_db.boleto_api",
+      "schemaName": "languages_school_db",
+      "tableName": "boleto_api",
+      "fields": [
+        {
+          "id": "languages_school_db.boleto_api.client_id",
+          "name": "client_id",
+          "columnName": "client_id",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "id": "languages_school_db.boleto_api.client_secret",
+          "name": "client_secret",
+          "columnName": "client_secret",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "id": "languages_school_db.boleto_api.developer_application_key",
+          "name": "developer_application_key",
+          "columnName": "developer_application_key",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "id": "languages_school_db.boleto_api.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.boleto_api.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.boleto_api.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "books": {
+      "id": "languages_school_db.books",
+      "schemaName": "languages_school_db",
+      "tableName": "books",
+      "fields": [
+        {
+          "id": "languages_school_db.books.courses_id",
+          "name": "courses_id",
+          "columnName": "courses_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.books.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.books.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.books.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.books.position",
+          "name": "position",
+          "columnName": "position",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "courses",
+          "type": "courses",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "booksTocourses",
+          "relationFromFields": [
+            "courses_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "classrooms",
+          "type": "classrooms",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "classroomsTobooks",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "lessons",
+          "type": "lessons",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "lessonsTobooks",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.books.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "classes": {
+      "id": "languages_school_db.classes",
+      "schemaName": "languages_school_db",
+      "tableName": "classes",
+      "fields": [
+        {
+          "id": "languages_school_db.classes.classrooms_id",
+          "name": "classrooms_id",
+          "columnName": "classrooms_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.end_date",
+          "name": "end_date",
+          "columnName": "end_date",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.classes.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.presence_list_id",
+          "name": "presence_list_id",
+          "columnName": "presence_list_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.professionals_id",
+          "name": "professionals_id",
+          "columnName": "professionals_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.start_date",
+          "name": "start_date",
+          "columnName": "start_date",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classes.theme",
+          "name": "theme",
+          "columnName": "theme",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "name": "classrooms",
+          "type": "classrooms",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "classesToclassrooms",
+          "relationFromFields": [
+            "classrooms_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "presence_list",
+          "type": "presence_list",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "classesTopresence_list",
+          "relationFromFields": [
+            "presence_list_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "professionals",
+          "type": "professionals",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "classesToprofessionals",
+          "relationFromFields": [
+            "professionals_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.classes.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "classrooms": {
+      "id": "languages_school_db.classrooms",
+      "schemaName": "languages_school_db",
+      "tableName": "classrooms",
+      "fields": [
+        {
+          "id": "languages_school_db.classrooms.books_id",
+          "name": "books_id",
+          "columnName": "books_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classrooms.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.classrooms.date",
+          "name": "date",
+          "columnName": "date",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.classrooms.hour",
+          "name": "hour",
+          "columnName": "hour",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.classrooms.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.classrooms.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "name": "books",
+          "type": "books",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "classroomsTobooks",
+          "relationFromFields": [
+            "books_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "classes",
+          "type": "classes",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "classesToclassrooms",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students_has_classrooms",
+          "type": "students_has_classrooms",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "students_has_classroomsToclassrooms",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.classrooms.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.classrooms.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "configs": {
+      "id": "languages_school_db.configs",
+      "schemaName": "languages_school_db",
+      "tableName": "configs",
+      "fields": [
+        {
+          "id": "languages_school_db.configs.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.configs.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.configs.registrations_time",
+          "name": "registrations_time",
+          "columnName": "registrations_time",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.configs.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.configs.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "courses": {
+      "id": "languages_school_db.courses",
+      "schemaName": "languages_school_db",
+      "tableName": "courses",
+      "fields": [
+        {
+          "id": "languages_school_db.courses.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.courses.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.courses.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.courses.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.courses.price",
+          "name": "price",
+          "columnName": "price",
+          "type": "float",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "books",
+          "type": "books",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "booksTocourses",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "registrations",
+          "type": "registrations",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "registrationsTocourses",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.courses.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "lessons": {
+      "id": "languages_school_db.lessons",
+      "schemaName": "languages_school_db",
+      "tableName": "lessons",
+      "fields": [
+        {
+          "id": "languages_school_db.lessons.books_id",
+          "name": "books_id",
+          "columnName": "books_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.lessons.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.lessons.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.lessons.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 100
+        },
+        {
+          "id": "languages_school_db.lessons.position",
+          "name": "position",
+          "columnName": "position",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.lessons.url",
+          "name": "url",
+          "columnName": "url",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "name": "books",
+          "type": "books",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "lessonsTobooks",
+          "relationFromFields": [
+            "books_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "tasks",
+          "type": "tasks",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "tasksTolessons",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.lessons.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.lessons.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "monthly_fee": {
+      "id": "languages_school_db.monthly_fee",
+      "schemaName": "languages_school_db",
+      "tableName": "monthly_fee",
+      "fields": [
+        {
+          "id": "languages_school_db.monthly_fee.amount_paid",
+          "name": "amount_paid",
+          "columnName": "amount_paid",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.amount_to_be_paid",
+          "name": "amount_to_be_paid",
+          "columnName": "amount_to_be_paid",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.date_of_paid",
+          "name": "date_of_paid",
+          "columnName": "date_of_paid",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.due_date",
+          "name": "due_date",
+          "columnName": "due_date",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.monthly_fee.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.paid",
+          "name": "paid",
+          "columnName": "paid",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.monthly_fee.payment_method",
+          "name": "payment_method",
+          "columnName": "payment_method",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.monthly_fee.registrations_id",
+          "name": "registrations_id",
+          "columnName": "registrations_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "registrations",
+          "type": "registrations",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "monthly_feeToregistrations",
+          "relationFromFields": [
+            "registrations_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.monthly_fee.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.monthly_fee.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "permissions": {
+      "id": "languages_school_db.permissions",
+      "schemaName": "languages_school_db",
+      "tableName": "permissions",
+      "fields": [
+        {
+          "id": "languages_school_db.permissions.create_classes",
+          "name": "create_classes",
+          "columnName": "create_classes",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.create_classrooms",
+          "name": "create_classrooms",
+          "columnName": "create_classrooms",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.create_courses",
+          "name": "create_courses",
+          "columnName": "create_courses",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.create_professionals",
+          "name": "create_professionals",
+          "columnName": "create_professionals",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.create_registrations",
+          "name": "create_registrations",
+          "columnName": "create_registrations",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.create_students",
+          "name": "create_students",
+          "columnName": "create_students",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.dashboard",
+          "name": "dashboard",
+          "columnName": "dashboard",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_classes",
+          "name": "delete_classes",
+          "columnName": "delete_classes",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_classrooms",
+          "name": "delete_classrooms",
+          "columnName": "delete_classrooms",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_courses",
+          "name": "delete_courses",
+          "columnName": "delete_courses",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_professionals",
+          "name": "delete_professionals",
+          "columnName": "delete_professionals",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_registrations",
+          "name": "delete_registrations",
+          "columnName": "delete_registrations",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.delete_students",
+          "name": "delete_students",
+          "columnName": "delete_students",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.permissions.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_classes",
+          "name": "update_classes",
+          "columnName": "update_classes",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_classrooms",
+          "name": "update_classrooms",
+          "columnName": "update_classrooms",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_courses",
+          "name": "update_courses",
+          "columnName": "update_courses",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_professionals",
+          "name": "update_professionals",
+          "columnName": "update_professionals",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_registrations",
+          "name": "update_registrations",
+          "columnName": "update_registrations",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.permissions.update_students",
+          "name": "update_students",
+          "columnName": "update_students",
+          "type": "bit",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.permissions.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.permissions.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "presence_list": {
+      "id": "languages_school_db.presence_list",
+      "schemaName": "languages_school_db",
+      "tableName": "presence_list",
+      "fields": [
+        {
+          "id": "languages_school_db.presence_list.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "name": "classes",
+          "type": "classes",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "classesTopresence_list",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.presence_list.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "professionals": {
+      "id": "languages_school_db.professionals",
+      "schemaName": "languages_school_db",
+      "tableName": "professionals",
+      "fields": [
+        {
+          "id": "languages_school_db.professionals.active",
+          "name": "active",
+          "columnName": "active",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.admin",
+          "name": "admin",
+          "columnName": "admin",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.adresses_id",
+          "name": "adresses_id",
+          "columnName": "adresses_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.avatar_url",
+          "name": "avatar_url",
+          "columnName": "avatar_url",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 200
+        },
+        {
+          "id": "languages_school_db.professionals.cpf",
+          "name": "cpf",
+          "columnName": "cpf",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 11
+        },
+        {
+          "id": "languages_school_db.professionals.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.date_of_birth",
+          "name": "date_of_birth",
+          "columnName": "date_of_birth",
+          "type": "date",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.email",
+          "name": "email",
+          "columnName": "email",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 100
+        },
+        {
+          "id": "languages_school_db.professionals.first_name",
+          "name": "first_name",
+          "columnName": "first_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.professionals.gender",
+          "name": "gender",
+          "columnName": "gender",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 1
+        },
+        {
+          "id": "languages_school_db.professionals.hour_value",
+          "name": "hour_value",
+          "columnName": "hour_value",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.professionals.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.last_name",
+          "name": "last_name",
+          "columnName": "last_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.professionals.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 90
+        },
+        {
+          "id": "languages_school_db.professionals.password",
+          "name": "password",
+          "columnName": "password",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 128
+        },
+        {
+          "id": "languages_school_db.professionals.phone",
+          "name": "phone",
+          "columnName": "phone",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 11
+        },
+        {
+          "id": "languages_school_db.professionals.role_id",
+          "name": "role_id",
+          "columnName": "role_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.updated_at",
+          "name": "updated_at",
+          "columnName": "updated_at",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.professionals.user",
+          "name": "user",
+          "columnName": "user",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 128
+        },
+        {
+          "name": "adresses",
+          "type": "adresses",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "professionalsToadresses",
+          "relationFromFields": [
+            "adresses_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "role",
+          "type": "role",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "professionalsTorole",
+          "relationFromFields": [
+            "role_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "classes",
+          "type": "classes",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "classesToprofessionals",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.professionals.cpf",
+          "fields": [
+            "cpf"
+          ]
+        },
+        {
+          "name": "languages_school_db.professionals.email",
+          "fields": [
+            "email"
+          ]
+        },
+        {
+          "name": "languages_school_db.professionals.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "records_of_students": {
+      "id": "languages_school_db.records_of_students",
+      "schemaName": "languages_school_db",
+      "tableName": "records_of_students",
+      "fields": [
+        {
+          "id": "languages_school_db.records_of_students.date",
+          "name": "date",
+          "columnName": "date",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.records_of_students.description",
+          "name": "description",
+          "columnName": "description",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 1000
+        },
+        {
+          "id": "languages_school_db.records_of_students.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.records_of_students.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.records_of_students.students_id",
+          "name": "students_id",
+          "columnName": "students_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.records_of_students.title",
+          "name": "title",
+          "columnName": "title",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 100
+        },
+        {
+          "name": "students",
+          "type": "students",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "records_of_studentsTostudents",
+          "relationFromFields": [
+            "students_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.records_of_students.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.records_of_students.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "registrations": {
+      "id": "languages_school_db.registrations",
+      "schemaName": "languages_school_db",
+      "tableName": "registrations",
+      "fields": [
+        {
+          "id": "languages_school_db.registrations.completed",
+          "name": "completed",
+          "columnName": "completed",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.courses_id",
+          "name": "courses_id",
+          "columnName": "courses_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.created_by",
+          "name": "created_by",
+          "columnName": "created_by",
+          "type": "int",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.end_date",
+          "name": "end_date",
+          "columnName": "end_date",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.registrations.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.locked",
+          "name": "locked",
+          "columnName": "locked",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.monthly_fee_amount",
+          "name": "monthly_fee_amount",
+          "columnName": "monthly_fee_amount",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.start_date",
+          "name": "start_date",
+          "columnName": "start_date",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.registrations.students_id",
+          "name": "students_id",
+          "columnName": "students_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "courses",
+          "type": "courses",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "registrationsTocourses",
+          "relationFromFields": [
+            "courses_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students",
+          "type": "students",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "registrationsTostudents",
+          "relationFromFields": [
+            "students_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "monthly_fee",
+          "type": "monthly_fee",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "monthly_feeToregistrations",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "students_has_classrooms",
+          "type": "students_has_classrooms",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "students_has_classroomsToregistrations",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "tasks",
+          "type": "tasks",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "tasksToregistrations",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.registrations.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.registrations.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "role": {
+      "id": "languages_school_db.role",
+      "schemaName": "languages_school_db",
+      "tableName": "role",
+      "fields": [
+        {
+          "id": "languages_school_db.role.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.role.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "name": "professionals",
+          "type": "professionals",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "professionalsTorole",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.role.id",
+          "fields": [
+            "id"
+          ]
+        }
+      ]
+    },
+    "students": {
+      "id": "languages_school_db.students",
+      "schemaName": "languages_school_db",
+      "tableName": "students",
+      "fields": [
+        {
+          "id": "languages_school_db.students.active",
+          "name": "active",
+          "columnName": "active",
+          "type": "bit",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.adresses_id",
+          "name": "adresses_id",
+          "columnName": "adresses_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.avatar_url",
+          "name": "avatar_url",
+          "columnName": "avatar_url",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 500
+        },
+        {
+          "id": "languages_school_db.students.cpf",
+          "name": "cpf",
+          "columnName": "cpf",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 11
+        },
+        {
+          "id": "languages_school_db.students.created_at",
+          "name": "created_at",
+          "columnName": "created_at",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.created_by",
+          "name": "created_by",
+          "columnName": "created_by",
+          "type": "int",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.date_of_birth",
+          "name": "date_of_birth",
+          "columnName": "date_of_birth",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.email",
+          "name": "email",
+          "columnName": "email",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.students.first_name",
+          "name": "first_name",
+          "columnName": "first_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.students.gender",
+          "name": "gender",
+          "columnName": "gender",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 1
+        },
+        {
+          "id": "languages_school_db.students.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.students.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.last_name",
+          "name": "last_name",
+          "columnName": "last_name",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 45
+        },
+        {
+          "id": "languages_school_db.students.name",
+          "name": "name",
+          "columnName": "name",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 90
+        },
+        {
+          "id": "languages_school_db.students.password",
+          "name": "password",
+          "columnName": "password",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 128
+        },
+        {
+          "id": "languages_school_db.students.phone",
+          "name": "phone",
+          "columnName": "phone",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 11
+        },
+        {
+          "id": "languages_school_db.students.updated_at",
+          "name": "updated_at",
+          "columnName": "updated_at",
+          "type": "datetime",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.updated_by",
+          "name": "updated_by",
+          "columnName": "updated_by",
+          "type": "int",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students.user",
+          "name": "user",
+          "columnName": "user",
+          "type": "varchar",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 128
+        },
+        {
+          "name": "adresses",
+          "type": "adresses",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "studentsToadresses",
+          "relationFromFields": [
+            "adresses_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "records_of_students",
+          "type": "records_of_students",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "records_of_studentsTostudents",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "registrations",
+          "type": "registrations",
+          "isRequired": false,
+          "kind": "object",
+          "relationName": "registrationsTostudents",
+          "relationFromFields": [],
+          "relationToFields": [],
+          "isList": true,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.students.cpf",
+          "fields": [
+            "cpf"
+          ]
+        },
+        {
+          "name": "languages_school_db.students.email",
+          "fields": [
+            "email"
+          ]
+        },
+        {
+          "name": "languages_school_db.students.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.students.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.students.user",
+          "fields": [
+            "user"
+          ]
+        }
+      ]
+    },
+    "students_has_classrooms": {
+      "id": "languages_school_db.students_has_classrooms",
+      "schemaName": "languages_school_db",
+      "tableName": "students_has_classrooms",
+      "fields": [
+        {
+          "id": "languages_school_db.students_has_classrooms.classrooms_id",
+          "name": "classrooms_id",
+          "columnName": "classrooms_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students_has_classrooms.id",
+          "name": "id",
+          "columnName": "id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": {
+            "identifier": "languages_school_db.students_has_classrooms.id",
+            "increment": 1,
+            "start": 1
+          },
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.students_has_classrooms.registrations_id",
+          "name": "registrations_id",
+          "columnName": "registrations_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "classrooms",
+          "type": "classrooms",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "students_has_classroomsToclassrooms",
+          "relationFromFields": [
+            "classrooms_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "registrations",
+          "type": "registrations",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "students_has_classroomsToregistrations",
+          "relationFromFields": [
+            "registrations_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.students_has_classrooms.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.students_has_classrooms.id",
+          "fields": [
+            "id"
+          ]
+        },
+        {
+          "name": "languages_school_db.students_has_classrooms.registrations_id",
+          "fields": [
+            "registrations_id"
+          ]
+        }
+      ]
+    },
+    "tasks": {
+      "id": "languages_school_db.tasks",
+      "schemaName": "languages_school_db",
+      "tableName": "tasks",
+      "fields": [
+        {
+          "id": "languages_school_db.tasks.date",
+          "name": "date",
+          "columnName": "date",
+          "type": "datetime",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": true,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.tasks.lessons_id",
+          "name": "lessons_id",
+          "columnName": "lessons_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.tasks.question",
+          "name": "question",
+          "columnName": "question",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 1000
+        },
+        {
+          "id": "languages_school_db.tasks.registrations_id",
+          "name": "registrations_id",
+          "columnName": "registrations_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.tasks.response",
+          "name": "response",
+          "columnName": "response",
+          "type": "varchar",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": 1000
+        },
+        {
+          "id": "languages_school_db.tasks.score_obtained",
+          "name": "score_obtained",
+          "columnName": "score_obtained",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.tasks.scores_id",
+          "name": "scores_id",
+          "columnName": "scores_id",
+          "type": "int",
+          "isRequired": true,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": true,
+          "maxLength": null
+        },
+        {
+          "id": "languages_school_db.tasks.total_score",
+          "name": "total_score",
+          "columnName": "total_score",
+          "type": "float",
+          "isRequired": false,
+          "kind": "scalar",
+          "isList": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false,
+          "isId": false,
+          "maxLength": null
+        },
+        {
+          "name": "lessons",
+          "type": "lessons",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "tasksTolessons",
+          "relationFromFields": [
+            "lessons_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        },
+        {
+          "name": "registrations",
+          "type": "registrations",
+          "isRequired": true,
+          "kind": "object",
+          "relationName": "tasksToregistrations",
+          "relationFromFields": [
+            "registrations_id"
+          ],
+          "relationToFields": [
+            "id"
+          ],
+          "isList": false,
+          "isId": false,
+          "isGenerated": false,
+          "sequence": false,
+          "hasDefaultValue": false
+        }
+      ],
+      "uniqueConstraints": [
+        {
+          "name": "languages_school_db.tasks.scores_id",
+          "fields": [
+            "scores_id"
+          ]
+        }
+      ]
+    }
+  },
+  "enums": {}
+}

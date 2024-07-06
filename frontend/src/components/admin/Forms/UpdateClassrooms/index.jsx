@@ -13,31 +13,29 @@ export function UpdateClassrooms() {
   if (!books || !courses) return <p>Carregando...</p>
 
   return (
-    <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(updateClassroom)} className='grid grid-cols-12 gap-2'>
-        <div className='col-span-4'>
-          <div className='col-span-4'>
-            <Label>Curso</Label>
-            <Select {...register('course')} onValueChange={(value) => setValue('course', value)} value={currentCourse?.toString()}>
-              <SelectTrigger>
-                <SelectValue placeholder="Curso" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {
-                    courses?.map((course) => {
-                      return <SelectItem key={course.id} value={course.id.toString()}>{course.name}</SelectItem>
-                    })
-                  }
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            {errors.course && <p className='text-sm text-red-500'>{errors.course.message}</p>}
-          </div>
+    <div className='mt-10 flex flex-col w-[800px]'>
+      <form onSubmit={handleSubmit(updateClassroom)} className='grid grid-cols-8 gap-2'>
+        <div className='col-span-4 gap-1 flex flex-col'>
+          <Label>Curso</Label>
+          <Select {...register('course', { valueAsNumber: true })} onValueChange={(value) => setValue('course', value)} value={currentCourse?.toString()}>
+            <SelectTrigger>
+              <SelectValue placeholder="Curso" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {
+                  courses?.map((course) => {
+                    return <SelectItem key={course.id} value={course.id.toString()}>{course.name}</SelectItem>
+                  })
+                }
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          {errors.course && <p className='text-sm text-red-500'>{errors.course.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Livro</Label>
-          <Select {...register('book')} onValueChange={(value) => setValue('book', value)} value={currentBook?.toString()}>
+          <Select {...register('book', { valueAsNumber: true })} onValueChange={(value) => setValue('book', value)} value={currentBook?.toString()}>
             <SelectTrigger>
               <SelectValue placeholder="Book" />
             </SelectTrigger>
@@ -54,7 +52,7 @@ export function UpdateClassrooms() {
           </Select>
           {errors.book && <p className='text-sm text-red-500'>{errors.book.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Dia</Label>
           <Select {...register('date')} onValueChange={(value) => setValue('date', value)} value={currentDate}>
             <SelectTrigger>
@@ -72,16 +70,17 @@ export function UpdateClassrooms() {
           </Select>
           {errors.date && <p className='text-sm text-red-500'>{errors.date.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Hora</Label>
           <Input type="time" {...register("hour")} className="justify-" />
           {errors.hour && <p className='text-sm text-red-500'>{errors.hour.message}</p>}
         </div>
-
-        <Button type="submit" variant="default" className="mt-5">
-          <Save className='w-4 h-4 mr-2' />
-          Salvar
-        </Button>
+        <div className='col-span-8 grid items-center justify-center'>
+          <Button type="submit" variant="default" className="mt-5">
+            <Save className='w-4 h-4 mr-2' />
+            Salvar
+          </Button>
+        </div>
       </form >
     </div >
   );

@@ -72,10 +72,9 @@ function PaginationSection({
 
   const renderPages = () => {
     const renderedPages = activePages.map((page, idx) => (
-      < PaginationItem
+      <PaginationItem
         key={idx}
-        className={currentPage == page ? "rounded-md" : ""}
-      >
+        className={currentPage == page ? "rounded-md" : ""}>
         <PaginationLink isActive={searchParams.get('page') == page} onClick={() => setSearchParams((state) => {
           state.set('page', page)
           return state
@@ -94,6 +93,7 @@ function PaginationSection({
             state.set('page', activePages[0] - 1)
             return state
           })}
+          className="hover:cursor-pointer hover:bg-slate-100 dark:hover:bg-[#1E293B] hover:rounded-md"
         />
       );
     }
@@ -107,6 +107,7 @@ function PaginationSection({
             state.set('page', activePages[activePages.length - 1] + 1)
             return state
           })}
+          className="hover:cursor-pointer hover:bg-slate-100 dark:hover:bg-[#1E293B] hover:rounded-md"
         />
       );
     }

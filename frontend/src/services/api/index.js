@@ -1,20 +1,13 @@
 import axios from "axios";
-import { storage } from "../auth";
+import { storage } from "../firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 
 const api = {
 	auth: {
 		signIn: async (user, password) => {
-			return await axios
-				.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/auth/${user}/${password}`)
-				.then((res) => {
-					return res.data;
-				})
-				.catch((err) => {
-					toast.error(err.response.data.message);
-					return null;
-				});
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/auth/${user}/${password}`);
+			return response.data;
 		},
 	},
 
@@ -88,6 +81,16 @@ const api = {
 			return response.data;
 		},
 
+		UpdateRegistrationsTime: async (time) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registrationstime`, time);
+			return response.data;
+		},
+
+		GetRegistrationsTime: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/registrationstime`);
+			return response.data;
+		},
+
 		UpdateBook: async (data) => {
 			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/book`, data);
 			return response.data;
@@ -108,11 +111,8 @@ const api = {
 			return response.data;
 		},
 
-		HandleClassroom: async (classroomId, registrationId) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/handleclassroom`, {
-				classroomId,
-				registrationId,
-			});
+		HandleClassroom: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/handleclassroom`, data);
 			return response.data;
 		},
 
@@ -150,12 +150,8 @@ const api = {
 			return response.data;
 		},
 
-		HandleLockRegistration: async (registrationId, studentId, description) => {
-			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lock/registration`, {
-				registrationId,
-				studentId,
-				description,
-			});
+		UpdateLockRegistration: async (data) => {
+			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/lock/registration`, data);
 			return response.data;
 		},
 
@@ -298,6 +294,16 @@ const api = {
 
 		UpdateStudent: async (data) => {
 			const response = await axios.put(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/student`, data);
+			return response.data;
+		},
+
+		GetStudentCpfs: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/studentscpfs`);
+			return response.data;
+		},
+
+		GetProfessionalsCpfs: async () => {
+			const response = await axios.get(`${import.meta.env.VITE_REACT_BASE_API_URL}/adm/professionalscpfs`);
 			return response.data;
 		},
 

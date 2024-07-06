@@ -11,13 +11,13 @@ export function CreateClassrooms() {
   const { handleSubmit, createClassroom, errors, register, setValue, books, courses, currentCourse } = useFormCreateClassrooms()
 
   return (
-    <div className='mt-10 flex flex-col'>
-      <form onSubmit={handleSubmit(createClassroom)} className='grid grid-cols-12 gap-2'>
-        <div className='col-span-4'>
+    <div className='mt-10 flex flex-col w-[800px]'>
+      <form onSubmit={handleSubmit(createClassroom)} className='grid grid-cols-8 gap-2'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Curso</Label>
           <Select {...register('course')} onValueChange={(value) => setValue('course', value)}>
             <SelectTrigger>
-              <SelectValue placeholder="Curso" />
+              <SelectValue placeholder="Selecione" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -31,11 +31,11 @@ export function CreateClassrooms() {
           </Select>
           {errors.course && <p className='text-sm text-red-500'>{errors.course.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Livro</Label>
           <Select {...register('book')} onValueChange={(value) => setValue('book', value)} disabled={!currentCourse}>
             <SelectTrigger>
-              <SelectValue placeholder={!currentCourse ? "Primeiro selecione o curso" : "Book"} />
+              <SelectValue placeholder={!currentCourse ? "Primeiro selecione o curso" : "Selecione"} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -53,7 +53,7 @@ export function CreateClassrooms() {
           </Select>
           {errors.book && <p className='text-sm text-red-500'>{errors.book.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Dia</Label>
           <Select {...register('date')} onValueChange={(value) => setValue('date', value)}>
             <SelectTrigger>
@@ -71,16 +71,18 @@ export function CreateClassrooms() {
           </Select>
           {errors.date && <p className='text-sm text-red-500'>{errors.date.message}</p>}
         </div>
-        <div className='col-span-4'>
+        <div className='col-span-4 gap-1 flex flex-col'>
           <Label>Hora</Label>
           <Input type="time" {...register("hour")} />
           {errors.hour && <p className='text-sm text-red-500'>{errors.hour.message}</p>}
         </div>
 
-        <Button type="submit" variant="default" className="mt-5">
-          <PlusCircle className='w-4 h-4 mr-2' />
-          Cadastrar
-        </Button>
+        <div className='col-span-8 grid items-center justify-center'>
+          <Button type="submit" variant="default" className="mt-5">
+            <PlusCircle className='w-4 h-4 mr-2' />
+            Cadastrar
+          </Button>
+        </div>
       </form >
     </div >
   );
