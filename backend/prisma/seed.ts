@@ -70,10 +70,10 @@ const main = async () => {
   await prisma.$executeRaw`insert into role(id, name) values (2, 'Secretário');`;
 
   console.log("Criando o usuário admin...");
-  await prisma.$executeRaw`insert into professionals(cpf, name, first_name, last_name, email, phone, gender, date_of_birth, admin, role_id, user, password, adresses_id) values ('00000000000', "teste", 'Teste', 'teste', 'teste@school.com', '00000000000', 'M', '2000-09-7', 1, 1, "teste", "$2b$06$m416xpOaQ5qjUYzfPyjHLO6gpV/8S3tPjxjze9FwtYAAqrKsnsTmi", 2);`;
+  await prisma.$executeRaw`INSERT INTO professionals (cpf, name, first_name, last_name, email, phone, gender, date_of_birth, admin, role_id, "user", password, adresses_id) VALUES ('00000000000', 'teste', 'Teste', 'teste', 'teste@school.com', '00000000000', 'M', '2000-09-07', true, 1, 'teste', '$2b$06$m416xpOaQ5qjUYzfPyjHLO6gpV/8S3tPjxjze9FwtYAAqrKsnsTmi', 2);`;
 
   console.log("Criando configurações iniciais...");
-  await prisma.$executeRaw`INSERT INTO configs(id, registrations_time) VALUES (1, 6);`;
+  await prisma.$executeRaw`INSERT INTO configs (id, registrations_time) VALUES (1, 6);`;
 
   console.log("Database seeded successfully!");
 

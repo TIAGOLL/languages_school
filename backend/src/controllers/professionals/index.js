@@ -972,9 +972,11 @@ const professionals = {
               where: {
                 active: true,
                 name: {
+                  mode: "insensitive",
                   contains: req.query.name,
                 },
                 email: {
+                  mode: "insensitive",
                   contains: req.query.email,
                 },
               },
@@ -986,11 +988,14 @@ const professionals = {
                   },
                 },
               },
-              orderBy: {
-                registrations: {
-                  _count: "desc",
+              orderBy: [
+                {
+                  registrations: {
+                    _count: "desc",
+                  },
                 },
-              },
+                { name: "asc", }
+              ],
             })
             .catch((error) => {
               console.error(error.message);
@@ -1032,11 +1037,14 @@ const professionals = {
               },
               records_of_students: true,
             },
-            orderBy: {
-              registrations: {
-                _count: "desc",
+            orderBy: [
+              {
+                registrations: {
+                  _count: "desc",
+                },
               },
-            },
+              { name: "asc", }
+            ],
           });
           return { students };
         }
